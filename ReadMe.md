@@ -26,11 +26,13 @@ $ ./start.sh
 Username: user
 Password: user
 ```
-Obs: Maybe will be necessary give permissions to current user to run ./start.sh.
-
+Obs: 
+* Maybe will be necessary give permissions to current user to run ./start.sh.
 ```sh
 $ chmod +x ./start.sh
 ```
+* If you get some error to run, check if the following port are already in use: 
+  [3000, 4000, 8000, 8080, 7070, 27017, 4566]
 # Documentation
 - [Appresentation](architecture/doc/Arch-Consolidation.ppt)
 - [Collection Postman](architecture/collection/TariffComparison.postman_collection.json)
