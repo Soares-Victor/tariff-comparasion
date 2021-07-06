@@ -21,7 +21,7 @@ $ cd tariff-comparasion/architecture/
 ```sh
 $ ./start.sh
 ```
-4. Open in your preffered browser: [User Interface](https://localhost:8000/ui-common)
+4. Open in your preffered browser: [User Interface](http://localhost:8000/ui-common)
 ```
 Username: user
 Password: user
