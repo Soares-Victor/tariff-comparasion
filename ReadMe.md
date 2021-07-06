@@ -31,6 +31,10 @@ Obs: Maybe will be necessary give permissions to current user to run ./start.sh.
 ```sh
 $ chmod +x ./start.sh
 ```
+# Documentation
+- [Appresentation](architecture/doc/Arch-Consolidation.ppt)
+- [Collection Postman](architecture/collection/TariffComparison.postman_collection.json)
+
 # Tecnologies
 #### Architecture
 - Kubernetes
