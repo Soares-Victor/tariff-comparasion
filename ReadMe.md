@@ -15,7 +15,7 @@ $ git clone https://github.com/Soares-Victor/tariff-comparasion.git
 ```
 2. Change Directory:
 ```sh
-$ cd architecture/
+$ cd tariff-comparasion/architecture/
 ```
 3. Start Script:
 ```sh
