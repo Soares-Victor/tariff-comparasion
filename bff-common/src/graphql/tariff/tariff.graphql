@@ -1,0 +1,67 @@
+type Product {
+    _id: String
+    tariffName: String
+    baseCostMonth: Float
+    costKwh: Float
+    rule: String
+}
+
+input ProductInput {
+    tariffName: String
+    baseCostMonth: Float
+    costKwh: Float
+    rule: String
+}
+
+input CalculateInput {
+    kwhYear: Float
+}
+
+input FileProcessInput {
+    name: String
+    base64: String
+}
+
+type Mutation {
+    createOneProduct(productModel: ProductInput): String
+    updateOneProduct(id: String, productModel: ProductInput): String
+    deleteOneProduct(id: String): String
+
+    calculateCostYear(calculateModel: CalculateInput): TotalCosts
+    uploadFileToProcess(fileProcessModel: FileProcessInput): String
+}
+
+type Query {
+    listAllProduct: [Product]
+    listAllCalculationCost: [CalculationProcessed]
+    startProcessing: String
+}
+
+type CalculationProcessed {
+    _id: String
+    person: Person
+    dateProcessed: String
+    installNumber: String
+    totalCosts: TotalCosts
+}
+
+type Person {
+    firstName: String
+    lastName: String
+}
+
+type TotalCosts {
+    kwhYear: Float
+    products: [ProductsTotalYear]
+}
+
+type ProductsTotalYear {
+    name: String
+    totalYear: Products
+}
+
+type Products {
+    baseCostsYear: String
+    kwhCostsYear: String
+    totalCosts: Float
+}

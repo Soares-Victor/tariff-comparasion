@@ -1,0 +1,24 @@
+h1 {
+    font-size: 20pt;
+    color: #545454;
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+    font-family: Chandas, sans-serif;
+}
+
+.main {
+    position: absolute;
+    left: 300px;
+    width: 70%;
+    height: 600px;
+    top: 30px;
+
+    padding: 3px;
+    margin: 3px;
+
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px lightgray;
+
+    font-family: 'Roboto', sans-serif;
+}

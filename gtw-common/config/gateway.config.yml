@@ -1,0 +1,77 @@
+http:
+  port: 7070
+admin:
+  port: 9876
+  host: localhost
+apiEndpoints:
+  api-ms-tariff-comparison-product-create:
+    host: '*'
+    paths: '/product/create'
+    methods: [ 'POST' ]
+  api-ms-tariff-comparison-product-update:
+    host: '*'
+    paths: '/product/update/id/*'
+    methods: [ 'PUT' ]
+  api-ms-tariff-comparison-product-delete:
+    host: '*'
+    paths: '/product/delete/id/*'
+    methods: [ 'DELETE' ]
+  api-ms-tariff-comparison-product-listall:
+    host: '*'
+    paths: '/product/listall'
+    methods: [ 'GET' ]
+
+  api-ms-tariff-comparison-costs-listall:
+    host: '*'
+    paths: '/costs/calculation/listall'
+    methods: [ 'GET' ]
+  api-ms-tariff-comparison-costs-startprocess:
+    host: '*'
+    paths: '/costs/process/start'
+    methods: [ 'GET' ]
+  api-ms-tariff-comparison-costs-calculate:
+    host: '*'
+    paths: '/costs/calculate'
+    methods: [ 'POST' ]
+  api-ms-tariff-comparison-costs-upload:
+    host: '*'
+    paths: '/costs/upload'
+    methods: [ 'POST' ]
+
+
+serviceEndpoints:
+  ms-tariff-comparison:
+    url: 'http://localhost:3000/ms-tariff-comparison'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+  - keycloak-protect
+
+#pipelines:
+#  ms-tariff:
+#    apiEndpoints:
+#      - api-ms-tariff-comparison-product-listall
+pipelines:
+  ms-tariff-comparison-pipeline:
+    apiEndpoints:
+      - api-ms-tariff-comparison-product-create
+      - api-ms-tariff-comparison-product-update
+      - api-ms-tariff-comparison-product-delete
+      - api-ms-tariff-comparison-product-listall
+      - api-ms-tariff-comparison-costs-listall
+      - api-ms-tariff-comparison-costs-startprocess
+      - api-ms-tariff-comparison-costs-calculate
+      - api-ms-tariff-comparison-costs-upload
+    policies:
+      - keycloak-protect:
+        - action:
+            role: Write
+      - proxy:
+        - action:
+            serviceEndpoint: ms-tariff-comparison

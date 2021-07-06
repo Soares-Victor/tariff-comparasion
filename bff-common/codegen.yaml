@@ -1,0 +1,14 @@
+schema: ./src/graphql/app.module.ts # offline generation
+overwrite: true
+require:
+  - ts-node/register/transpile-only # required when using TS-Node
+  - reflect-metadata  # required when using Decorators/Annotations
+  - graphql-import-node # required when using .graphql files 
+generates:
+  ./src/generated/graphql-types.ts:
+    plugins:
+      - typescript
+    config:
+      declarationKind:
+        type: 'class'
+      contextType: @graphql-modules/core#ModuleContext

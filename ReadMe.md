@@ -2,27 +2,32 @@
 
 This project calcule Tariffs over multiples products, beyond upload files to batch processing.
 # How to Run Locally
-##  Pre Requisites
+## Pre Requisites
+
 * docker: [Install Docker CLI](https://docs.docker.com/get-docker/)
 * docker-compose: [Install Docker Compose](https://docs.docker.com/compose/install/)
-
+ 
 ## Getting Started
 
-- Clone repository:
+1. Clone repository:
 ```sh
-$ git clone ...
+$ git clone https://github.com/Soares-Victor/tariff-comparasion.git
 ```
-
-- Change Directory:
+2. Change Directory:
 ```sh
 $ cd architecture/
 ```
-- Start Script:
+3. Start Script:
 ```sh
 $ ./start.sh
 ```
-Obs:
-Maybe will be necessary give permissions to current user to run start script.
+4. Open in your preffered browser: [User Interface](https://localhost:8000/ui-common)
+```
+Username: user
+Password: user
+```
+Obs: Maybe will be necessary give permissions to current user to run ./start.sh.
+
 ```sh
 $ chmod +x ./start.sh
 ```
@@ -63,16 +68,5 @@ $ chmod +x ./start.sh
 - Keycloak
 - Authentication
 ## Overview
-
 Quick architecture overview.
-
-```mermaid
-graph LR
-A[User Interface] -- Validate User and Password --> B((Keycloak))
-A -- Send Token --> C(Backend for Frontend)
-C -- Send Token --> D
-B -- Authenticated --> A
-D -- Is Token Ok --> B
-B -- Token Validated --> D(Gateway)
-D -- Rest Endpoints Authenticated --> E(Microservices)
-```
+![Overview](architecture/doc/Overview.png)

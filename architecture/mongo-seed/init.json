@@ -1,0 +1,14 @@
+[
+  {
+    "tariffName": "Packaged Electricity Tariff",
+    "baseCostMonth": 800,
+    "costKwh": 0.30,
+    "rule": "packaged"
+  },
+  {
+    "tariffName": "Basic Electricity Tariff",
+    "baseCostMonth": 5,
+    "costKwh": 0.22,
+    "rule": "basic"
+  }
+]

@@ -1,0 +1,16 @@
+trigger:
+  branches:
+    include:
+      - "master"
+      - "main"
+      - "RELEASE/*"
+
+resources:
+  repositories:
+    - repository: self
+    - repository: infra
+      name: infra
+      type: git
+
+extends:
+  template: code-pipelines/dockerhub/ui-nodejs.yml@infra

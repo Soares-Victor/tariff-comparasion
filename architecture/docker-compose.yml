@@ -1,0 +1,52 @@
+version: '3.1'
+
+services:
+
+  mongodb:
+    image: mongo
+    container_name: "mongodb"
+    restart: always
+    ports:
+      - "27017:27017"
+
+  mongo-seed:
+    build: ./mongo-seed
+    links:
+      - mongodb
+
+  localstack:
+    container_name: "localstack_main"
+    image: localstack/localstack
+    network_mode: bridge
+    ports:
+      - "4566-4583:4566-4583"
+    environment:
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=us-east-1
+      - EDGE_PORT=4566
+      - DEBUG=1
+    volumes:
+      - "${TEMPDIR:-/tmp/localstack}:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  keycloak:
+    image: jboss/keycloak
+    volumes:
+      - ./keycloak/realm_common.json:/tmp/my_realm.json
+    environment:
+      KEYCLOAK_IMPORT: '/tmp/my_realm.json'
+      JAVA_OPTS_APPEND: "-Dkeycloak.profile.feature.upload_scripts=enabled"
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - 8080:8080
+
+    #EXPORT A COMPLETE REALM
+#    docker exec -it <CONTAINER ID> /opt/jboss/keycloak/bin/standalone.sh \
+#    -Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export \
+#    -Dkeycloak.migration.provider=singleFile \
+#    -Dkeycloak.migration.realmName=Common \
+#    -Dkeycloak.migration.usersExportStrategy=REALM_FILE \
+#    -Dkeycloak.migration.file=/tmp/realm_common.json
+    #COPY FROM CONTAINER TO LOCALHOST
+    #docker cp <CONTAINER ID>:/tmp/realm_common.json .

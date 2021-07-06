@@ -1,0 +1,31 @@
+db:
+  redis:
+    emulate: true
+    namespace: EG
+
+crypto:
+  cipherKey: sensitiveKey
+  algorithm: aes256
+  saltRounds: 10
+
+session:
+  secret: keyboard cat
+  resave: false
+  saveUninitialized: false
+accessTokens:
+  timeToExpiry: 7200000
+refreshTokens:
+  timeToExpiry: 7200000
+authorizationCodes:
+  timeToExpiry: 300000
+
+plugins:
+  express-gateway-keycloak:
+    package: express-gateway-keycloak
+    keycloakConfig:
+      realm: Common
+      auth-server-url: "http://localhost:8080/auth"
+      ssl-required: none
+      bearer-only: true
+      resource: gtw-local
+      confidential-port: 0

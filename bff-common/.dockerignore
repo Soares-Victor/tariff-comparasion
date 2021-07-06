@@ -1,0 +1,9 @@
+node_modules
+kubernetes
+npm-debug.log
+.vscode
+scripts
+.gitignore
+README.md
+Dockerfile
+dist/
