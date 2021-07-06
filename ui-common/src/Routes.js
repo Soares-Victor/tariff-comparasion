@@ -21,7 +21,7 @@ function Routes() {
                 <Layout setLocale={setLocale}/>
             </IntlProvider>
             <Switch>
-                <PrivateRoute component={Home} path={`${process.env.PUBLIC_URL}/home`} exact={true} />
+                <PrivateRoute component={Home} path={`${process.env.PUBLIC_URL}/`} exact={true} />
                 <PrivateRoute component={About} path={`${process.env.PUBLIC_URL}/about`} exact={true} />
                 <PrivateRoute component={CostCalculate} path={`${process.env.PUBLIC_URL}/costs/calculate`} exact={true} />
                 <PrivateRoute component={CostUploadFile} path={`${process.env.PUBLIC_URL}/costs/upload`} exact={true} />

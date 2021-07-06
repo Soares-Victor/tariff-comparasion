@@ -36,7 +36,7 @@ const Aside = ({image, collapsed, rtl, toggled, handleToggleSidebar}) => {
 
                 <Menu iconShape="circle">
                     <MenuItem icon={<FaTachometerAlt/>}>
-                        <Link to={`${process.env.PUBLIC_URL}/home`}>
+                        <Link to={`${process.env.PUBLIC_URL}/`}>
                             {intl.formatMessage({id: 'dashboard'})}
                         </Link>
                     </MenuItem>
@@ -86,7 +86,7 @@ const Aside = ({image, collapsed, rtl, toggled, handleToggleSidebar}) => {
                         padding: '20px 24px',
                     }}>
                     <a
-                        href="https://github.com/Soares-Victor"
+                        href="https://github.com/Soares-Victor/tariff-comparasion.git"
                         target="_blank"
                         className="sidebar-btn"
                         rel="noopener noreferrer">

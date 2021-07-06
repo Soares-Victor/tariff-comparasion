@@ -7,7 +7,7 @@ export default {
         collapsed: 'Collapsed',
         rtl: 'RTL',
         image: 'Background image',
-        viewSource: "Victor's Github",
+        viewSource: "Github Project",
 
         aboutMenu: "About",
         tariffComparison: 'Tariff Comparison',
