@@ -10,13 +10,12 @@ exports.findAllProduct = async () => {
 }
 
 exports.createProduct = async (productModel) => {
-    const product = new Product({
+    return (await Product.create({
         tariffName: productModel.tariffName,
         baseCostMonth: productModel.baseCostMonth,
         costKwh: productModel.costKwh,
         rule: productModel.rule
-    })
-    return await product.save();
+    }));
 }
 
 exports.update = async (id, productModel) => {

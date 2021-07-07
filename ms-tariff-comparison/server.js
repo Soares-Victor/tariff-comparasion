@@ -1,9 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const dotEnv = require('dotenv')
-const dbConfig = require('./config/database.config')
+const dbConfig = require('./app/src/config/database.config')
 const mongoose = require('mongoose')
-const constants = require('./app/utils/constants')
+const constants = require('./app/src/utils/constants')
 
 mongoose.Promise = global.Promise
 
@@ -29,8 +29,8 @@ app.get(process.env.ROOT_PATH, (req, res) => {
     res.json({message: constants.aboutTariffComparison})
 })
 
-require('./app/routes/costs.route')(app);
-require('./app/routes/product.route')(app);
+require('./app/src/routes/costs.route')(app);
+require('./app/src/routes/product.route')(app);
 
 
 app.listen(process.env.PORT, () => {

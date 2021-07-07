@@ -99,6 +99,7 @@ exports.processAllFiles = async () => {
                             })
                     })
             })
+            return 'Processed!';
         }).catch(reason => {
             throw reason
         })

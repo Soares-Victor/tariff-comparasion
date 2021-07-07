@@ -1,6 +1,6 @@
 const fs = require('fs')
 const aws = require('aws-sdk')
-const configAws = require('../../config/aws.config')
+const configAws = require('../config/aws.config')
 const dotenv = require('dotenv')
 
 dotenv.config()
