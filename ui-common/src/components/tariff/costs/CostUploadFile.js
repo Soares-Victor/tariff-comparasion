@@ -54,7 +54,7 @@ function CostUploadFile() {
                 <span style={{ fontSize: '15pt'}}>
                     Obs.
                 </span>
-                To upload a file, please make sure that is in JSONL (each line is a object) format, like the example below.
+                To upload a file, please make sure that is in JSONL (each line is an object) format, like the example below.
             </p>
             <p style={{color: "blue"}}>file-name.jsonl</p>
             <div style={{border: "1px solid lightGray", borderRadius: "4px",backgroundColor: "whitesmoke", textAlign: "center", padding: "20px"}}>
