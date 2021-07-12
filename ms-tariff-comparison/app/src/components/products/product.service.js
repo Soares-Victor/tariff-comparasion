@@ -1,5 +1,5 @@
 require('dotenv').config()
-const Product = require('../model/product.model')
+const Product = require('./product.model')
 
 exports.deleteById = async (id) => {
     return Product.findByIdAndRemove(id);

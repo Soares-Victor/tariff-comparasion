@@ -1,16 +1,13 @@
+require('dotenv').config()
 const fs = require('fs')
 const aws = require('aws-sdk')
-const configAws = require('../config/aws.config')
-const dotenv = require('dotenv')
-
-dotenv.config()
+const configAws = require('./aws.config')
 const s3 = new aws.S3({endpoint: process.env.AWS_S3_ENDPOINT, params:configAws});
 
 exports.uploadFileToProcess = async (fileModel) => {
     fs.writeFile(fileModel.name, fileModel.base64, {encoding: 'base64'}, function (err) {
         if (err) throw err;
     })
-
     return fs.readFile(fileModel.name, (async (err, data) => {
         if (err) throw err;
         const params = {

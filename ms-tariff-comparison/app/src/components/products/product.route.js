@@ -1,4 +1,4 @@
-const controller = require('../controllers/product.contoller')
+const controller = require('./product.contoller')
 require('dotenv').config();
 
 module.exports = (app) => {

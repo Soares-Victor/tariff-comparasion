@@ -1,4 +1,4 @@
-const service = require('../services/product.service')
+const service = require('./product.service')
 
 exports.createProduct = (req, res) => {
     service.createProduct(req.body)

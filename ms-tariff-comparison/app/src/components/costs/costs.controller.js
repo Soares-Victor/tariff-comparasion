@@ -1,5 +1,5 @@
-const service = require('../services/costs.service')
-const s3Service = require('../services/amazonS3.service')
+const service = require('./costs.service')
+const s3Service = require('../amazon/amazonS3.service')
 
 exports.calculateCostsByYear = async (req, res) => {
     return await service.calculateCostsByYear(req.body.kwhYear)

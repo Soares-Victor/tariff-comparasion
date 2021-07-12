@@ -1,9 +1,8 @@
 require('dotenv').config()
-const Calculation = require('../model/calculation.model')
-const Product = require('../model/product.model')
-const s3Service = require('./amazonS3.service')
+const Calculation = require('../calculation/calculation.model')
+const Product = require('../products/product.model')
+const s3Service = require('../amazon/amazonS3.service')
 const cron = require('node-cron')
-const constants = require('../utils/constants')
 
 cron.schedule("* * * * *", () => {
     this.processAllFiles()
@@ -46,8 +45,8 @@ function getCostsBasicOrDefault(product, kwhYear) {
 }
 
 function getCostsPackaged(kwhYear, product) {
-    let baseCostsYear = constants.lessThan4000KwhYear;
-    let kwhCostsYear = constants.lessThan4000KwhYear;
+    let baseCostsYear = 'Less than 4000 Kwh/Year or equal';
+    let kwhCostsYear = 'Less than 4000 Kwh/Year or equal';
     let total = 800;
 
     if (kwhYear > 4000) {
