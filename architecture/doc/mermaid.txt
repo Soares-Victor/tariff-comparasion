@@ -1,0 +1,19 @@
+graph TD
+    U[User Interface]
+    BFF[Backend for Frontend]
+    GTW[Express Gateway]
+    K((Keycloak))
+    MS1[MS TARIF COMPARISON]
+    MSN[MICROSERVICE N]
+
+    U --> |Validate User And Password| K
+    K --> |Token Authenticated| U
+    U --> |Send Token Authenticated| BFF
+    BFF -->|Send Token in Authenticated | GTW
+    
+
+    GTW --> |Validate Token| K
+    
+
+    GTW --> |Route Authenticated to Endpoint| MS1
+    GTW --> |Route Authenticated to Endpoint| MSN
