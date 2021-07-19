@@ -25,6 +25,7 @@ exports.uploadFile = async (fileModel) => {
 };
 
 exports.calculateCostsByYear = async (kwhYear) => {
+  if (!kwhYear) throw new Error("KwYear is required!");
   return await Product.find()
     .then((products) => {
       const consumption = {
@@ -43,6 +44,8 @@ exports.calculateCostsByYear = async (kwhYear) => {
           1 :
           ((b.totalYear.totalCosts > a.totalYear.totalCosts) ? -1 : 0));
       return consumption;
+    }).catch(() => {
+      throw new Error("Error to calculate costs per year");
     });
 };
 
@@ -107,18 +110,25 @@ exports.processAllFiles = async () => {
                       },
                       totalCosts: cost,
                     });
-                    calculation.save();
+                    calculation.save()
+                      .catch(() => {
+                        throw new Error("Cannot save calculation to mongodb");
+                      });
                     s3Service.deleteFileById(fileName)
                       .then((value) => value)
-                      .catch((reason) => {
-                        throw reason;
+                      .catch(() => {
+                        throw new Error("Cannot delete file from bucket");
                       });
+                  }).catch(() => {
+                    throw new Error("Cannot calculate costs by year");
                   });
               });
+          }).catch(() => {
+            throw new Error("Cannot download file to process");
           });
       });
-      return "Processed!";
-    }).catch((reason) => {
-      throw reason;
+      return "Processing started!";
+    }).catch(() => {
+      throw new Error("Cannot list all files to process!");
     });
 };
