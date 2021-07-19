@@ -1,26 +1,21 @@
 const service = require("./product.service");
 
-exports.createProduct = (req, res) => {
-  service.createProduct(req.body)
-    .then((value) => res.send("Product created!"))
-    .catch((reason) => res.status(500).message("Error: " + reason));
-};
-
-exports.findAllProduct = (req, res) => {
-  service.findAllProduct()
+exports.createProduct = async (req, res) => {
+  return await service.createProduct(req.body)
     .then((value) => res.send(value))
-    .catch((reason) => res.status(500).message("Error: " + reason));
+    .catch((reason) => res.status(500).send(reason.message));
 };
 
-exports.deleteById = (req, res) => {
-  service.deleteById(req.params.id)
-    .then((r) => {
-      if (!r) {
-        return res.send(`Id ${req.params.id} not found!`);
-      }
-      res.send(`Id ${req.params.id} deleted!`);
-    })
-    .catch((reason) => res.status(500).send("Error: " + reason));
+exports.findAllProduct = async (req, res) => {
+  return await service.findAllProduct()
+    .then((value) => res.send(value))
+    .catch((reason) => res.status(500).send(reason.message));
+};
+
+exports.deleteById = async (req, res) => {
+  return await service.deleteById(req.params.id)
+    .then((value) => res.send(value))
+    .catch((reason) => res.status(500).send(reason.message));
 };
 
 exports.updateById = async (req, res) => {
@@ -30,5 +25,5 @@ exports.updateById = async (req, res) => {
         return res.status(404).message(`Id ${req.params.id} not found!`);
       }
       res.send(`Product ${req.params.id} updated!`);
-    }).catch((reason) => res.status(500).send("Error: " + reason));
+    }).catch((reason) => res.status(500).send(reason.message));
 };
