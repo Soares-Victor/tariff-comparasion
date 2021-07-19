@@ -1,15 +1,15 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const CalculationModel = mongoose.Schema({
-    installNumber: String,
-    dateProcessed: String,
-    person: {
-        firstName: String,
-        lastName: String
-    },
-    totalCosts: {}
+  installNumber: String,
+  dateProcessed: String,
+  person: {
+    firstName: String,
+    lastName: String,
+  },
+  totalCosts: {},
 }, {
-    timestamp: true
-})
+  timestamp: true,
+});
 
-module.exports = mongoose.model('Calculation', CalculationModel);
+module.exports = mongoose.model("Calculation", CalculationModel);

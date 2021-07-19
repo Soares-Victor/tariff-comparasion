@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const ProductModel = mongoose.Schema({
-    tariffName: String,
-    baseCostMonth: Number,
-    costKwh: Number,
-    rule: String
+  tariffName: String,
+  baseCostMonth: Number,
+  costKwh: Number,
+  rule: String,
 }, {
-    timestamp: true
+  timestamp: true,
 });
 
-module.exports  = mongoose.model('Product', ProductModel);
+module.exports = mongoose.model("Product", ProductModel);

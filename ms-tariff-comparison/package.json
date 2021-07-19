@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "lint": "eslint --fix ./app",
+    "build": "npm run lint",
     "test": "jest"
   },
   "keywords": [],
@@ -20,6 +22,8 @@
     "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
+    "eslint": "^7.31.0",
+    "eslint-config-google": "^0.14.0",
     "jest": "^27.0.6"
   }
 }
