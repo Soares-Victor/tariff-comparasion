@@ -1,5 +1,4 @@
 const service = require('./costs.service')
-const s3Service = require('../amazon/amazonS3.service')
 
 exports.calculateCostsByYear = async (req, res) => {
     return await service.calculateCostsByYear(req.body.kwhYear)
@@ -8,8 +7,8 @@ exports.calculateCostsByYear = async (req, res) => {
 }
 
 exports.uploadFileToProcess = async (req, res) => {
-    return await s3Service.uploadFileToProcess(req.body)
-        .then(value => {res.send('File uploaded!')})
+    return await service.uploadFile(req.body)
+        .then(value => {res.send(value)})
         .catch(reason => res.status(500).send('Error: ' + reason));
 }
 

@@ -8,6 +8,16 @@ cron.schedule("* * * * *", () => {
     this.processAllFiles()
 }, {})
 
+exports.uploadFile = async (fileModel) => {
+    const ext = fileModel.name.substr(fileModel.name.lastIndexOf('.') + 1);
+    if (ext !== 'jsonl' || !ext) throw 'Invalid Format. JSONL only allowed!';
+    else if (!fileModel.base64) throw 'Content file not defined!';
+    else if (Buffer.from(fileModel.base64).length > 3000) throw 'File too large. Max size: 3MB';
+    return s3Service.uploadFileToProcess(fileModel)
+            .then(() => 'Uploaded!')
+            .catch(() => {throw 'Cannot upload file to process!'});
+}
+
 exports.calculateCostsByYear = async (kwhYear) => {
     return await Product.find()
         .then(products => {
