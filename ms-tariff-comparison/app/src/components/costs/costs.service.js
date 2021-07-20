@@ -51,6 +51,8 @@ exports.calculateCostsByYear = async (kwhYear) => {
       products.forEach((p) => {
         const product = {
           name: p.tariffName,
+          description: p.description,
+          charger: p.month ? "Month" : "Annual",
           totalYear: calculateTotal(p, kwhYear),
         };
         consumption.products.push(product);
@@ -66,40 +68,35 @@ exports.calculateCostsByYear = async (kwhYear) => {
 };
 
 const calculateTotal = (product, kwhYear) => {
-  if (product.rule === "basic" || product.rule !== "packaged") {
-    return getCostsBasicOrDefault(product, kwhYear);
+  let baseCostsYear = 0;
+  let kwhCostYear = 0;
+  const totalYear = {};
+
+  if (product.month) {
+    baseCostsYear = product.values.baseCost * 12;
+    kwhCostYear = product.values.kwhCost * kwhYear;
+    totalYear.baseCostsYear = baseCostsYear;
+    totalYear.kwhCostsYear = kwhCostYear;
+    totalYear.totalCosts = baseCostsYear + kwhCostYear;
+  } else {
+    if (kwhYear > product.values.maxConsumption) {
+      const exceeded = kwhYear - product.values.maxConsumption;
+      baseCostsYear = product.values.baseCost;
+      kwhCostYear = product.values.kwhCost * exceeded;
+      totalYear.baseCostsYear = baseCostsYear;
+      totalYear.kwhCostsYear = kwhCostYear;
+      totalYear.totalCosts = baseCostsYear + kwhCostYear;
+    } else {
+      const baseTotalMsg =
+          `Using less then:${product.values.maxConsumption} KWH/Year. Charge annual tariff: ${product.values.baseCost}`;
+      totalYear.baseCostsYear = baseTotalMsg;
+      totalYear.kwhCostsYear = baseTotalMsg;
+      totalYear.totalCosts = product.values.baseCost;
+    }
   }
-  return getCostsPackaged(kwhYear, product);
+
+  return totalYear;
 };
-
-function getCostsBasicOrDefault(product, kwhYear) {
-  const baseCostsYear = product.baseCostMonth * 12;
-  const kwhCostsYear = product.costKwh * kwhYear;
-  return {
-    baseCostsYear: baseCostsYear,
-    kwhCostsYear: kwhCostsYear,
-    totalCosts: baseCostsYear + kwhCostsYear,
-  };
-}
-
-function getCostsPackaged(kwhYear, product) {
-  let baseCostsYear = "Less than 4000 Kwh/Year or equal";
-  let kwhCostsYear = "Less than 4000 Kwh/Year or equal";
-  let total = 800;
-
-  if (kwhYear > 4000) {
-    const exceeded = kwhYear - 4000;
-    baseCostsYear = product.baseCostMonth;
-    kwhCostsYear = product.costKwh * exceeded;
-    total = total + kwhCostsYear;
-  }
-
-  return {
-    baseCostsYear: baseCostsYear,
-    kwhCostsYear: kwhCostsYear,
-    totalCosts: total,
-  };
-}
 
 exports.listAllCalculation = async () => {
   return Calculation.find();

@@ -2,9 +2,13 @@ const mongoose = require("mongoose");
 
 const ProductModel = mongoose.Schema({
   tariffName: String,
-  baseCostMonth: Number,
-  costKwh: Number,
-  rule: String,
+  description: String,
+  month: Boolean,
+  values: {
+    baseCost: Number,
+    kwhCost: Number,
+    maxConsumption: Number,
+  },
 }, {
   timestamp: true,
 });

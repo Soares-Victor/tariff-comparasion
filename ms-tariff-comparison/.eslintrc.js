@@ -15,6 +15,7 @@ module.exports = {
     "quotes": ["error", "double"],
     "indent": ["error", 2],
     "new-cap": [2, {"capIsNewExceptions": ["Schema"]}],
+    "max-len": ["error", { "code": 120 }],
     "require-jsdoc": ["error", {
       "require": {
         "FunctionDeclaration": false,

@@ -18,48 +18,50 @@ exports.findAllProduct = async () => {
 };
 
 exports.createProduct = async (productModel) => {
-  if (!productModel.tariffName) {
-    throw new Error("Tariff Name is a required field!");
+  if (isSetRequiredFields(productModel)) {
+    return (await Product.create({
+      tariffName: productModel.tariffName,
+      description: productModel.description,
+      month: productModel.month,
+      values: {
+        baseCost: productModel.values.baseCost,
+        kwhCost: productModel.values.kwhCost,
+        maxConsumption: productModel.values.maxConsumption,
+      },
+    }).then(() => "Product created!")
+      .catch(() => {
+        throw new Error("Error to save Product!");
+      }));
   }
-  if (!productModel.baseCostMonth) {
-    throw new Error("Base Cost Month is a required field!");
-  }
-  if (!productModel.costKwh) {
-    throw new Error("Cost KWH is a required field!");
-  }
-  return (await Product.create({
-    tariffName: productModel.tariffName,
-    baseCostMonth: productModel.baseCostMonth,
-    costKwh: productModel.costKwh,
-    rule: productModel.rule,
-  }).then(() => "Product created!")
-    .catch(() => {
-      throw new Error("Error to save Product!");
-    }));
 };
 
 exports.update = async (id, productModel) => {
-  if (!id) {
-    throw new Error("Id is a required field!");
+  if (isSetRequiredFields(productModel)) {
+    return Product.findOneAndUpdate(id, {
+      tariffName: productModel.tariffName,
+      description: productModel.description,
+      month: productModel.month,
+      values: {
+        baseCost: productModel.values.baseCost,
+        kwhCost: productModel.values.kwhCost,
+        maxConsumption: productModel.values.maxConsumption,
+      },
+    }, {new: true})
+      .then(() => "Product created!")
+      .catch(() => {
+        throw new Error("Error to find and update!");
+      });
   }
-  if (!productModel.tariffName) {
-    throw new Error("Tariff Name is a required field!");
-  }
-  if (!productModel.baseCostMonth) {
-    throw new Error("Base Cost Month is a required field!");
-  }
-  if (!productModel.costKwh) {
-    throw new Error("Cost KWH is a required field!");
-  }
-  return Product.findOneAndUpdate(id, {
-    tariffName: productModel.tariffName,
-    baseCostMonth: productModel.baseCostMonth,
-    costKwh: productModel.costKwh,
-    rule: productModel.rule,
-  }, {new: true})
-    .then(() => "Product created!")
-    .catch(() => {
-      throw new Error("Error to find and update!");
-    });
 };
 
+function isSetRequiredFields(productModel) {
+  if (!productModel.tariffName) throw new Error("Tariff Name is a required field!");
+  else if (!productModel.description) throw new Error("Description is a required field!");
+  else if (productModel.month === null) throw new Error("Month is a required field!");
+  else if (!productModel.values.baseCost) throw new Error("Base Cost is a required field!");
+  else if (!productModel.values.kwhCost) throw new Error("Cost per KWH is a required field!");
+  else if (!productModel.month && !productModel.values.maxConsumption) {
+    throw new Error("Max consumption KWH is a required field when is a year charge!");
+  }
+  return true;
+}
