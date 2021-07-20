@@ -4,7 +4,7 @@ const Product = require("../products/product.model");
 const s3Service = require("../amazon/amazonS3.service");
 const cron = require("node-cron");
 
-cron.schedule("2,4,5 * * * *", () => {
+cron.schedule("*/5 * * * *", () => {
   this.processAllFiles();
 }, {});
 
