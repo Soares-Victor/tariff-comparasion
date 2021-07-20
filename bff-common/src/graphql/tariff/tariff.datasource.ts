@@ -66,4 +66,22 @@ export default class TariffDatasource extends RESTDataSource {
             .catch(reason => {throw reason});
     }
 
+    async listAllFilesProcess(): Promise<any> {
+        return await this.get('/costs/file/toprocess/listall')
+            .then(value => value)
+            .catch(reason => {throw reason});
+    }
+
+    async deleteFilesProcess(files): Promise<any> {
+        return await this.delete('/costs/file/toprocess/delete', {}, {body: files})
+            .then(value => value)
+            .catch(reason => {throw reason});
+    }
+
+    async deleteCalcs(ids): Promise<any> {
+        return await this.delete('/costs/delete', {}, {body: ids})
+            .then(value => value)
+            .catch(reason => {throw reason});
+    }
+
 }

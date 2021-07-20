@@ -1,16 +1,48 @@
+type Mutation {
+    createOneProduct(productModel: ProductInput): String
+    updateOneProduct(id: String, productModel: ProductInput): String
+    deleteOneProduct(id: String): String
+
+    calculateCostYear(calculateModel: CalculateInput): TotalCosts
+    uploadFileToProcess(fileProcessModel: FileProcessInput): String
+
+    deleteFilesToProcess(ids: [String]): String
+    deleteCalculations(ids: [String]): String
+
+}
+
+type Query {
+    listAllProduct: [Product]
+    listAllCalculationCost: [CalculationProcessed]
+    listAllFilesToProcess: [String]
+    startProcessing: String
+}
+
 type Product {
     _id: String
     tariffName: String
-    baseCostMonth: Float
-    costKwh: Float
-    rule: String
+    description: String
+    month: Boolean
+    values: Values
+}
+
+type Values {
+    baseCost: Float
+    kwhCost: Float
+    maxConsumption: Float
 }
 
 input ProductInput {
     tariffName: String
-    baseCostMonth: Float
-    costKwh: Float
-    rule: String
+    description: String
+    month: Boolean
+    values: ValuesInput
+}
+
+input ValuesInput {
+    baseCost: Float
+    kwhCost: Float
+    maxConsumption: Float
 }
 
 input CalculateInput {
@@ -20,21 +52,6 @@ input CalculateInput {
 input FileProcessInput {
     name: String
     base64: String
-}
-
-type Mutation {
-    createOneProduct(productModel: ProductInput): String
-    updateOneProduct(id: String, productModel: ProductInput): String
-    deleteOneProduct(id: String): String
-
-    calculateCostYear(calculateModel: CalculateInput): TotalCosts
-    uploadFileToProcess(fileProcessModel: FileProcessInput): String
-}
-
-type Query {
-    listAllProduct: [Product]
-    listAllCalculationCost: [CalculationProcessed]
-    startProcessing: String
 }
 
 type CalculationProcessed {
@@ -57,6 +74,8 @@ type TotalCosts {
 
 type ProductsTotalYear {
     name: String
+    description: String
+    charger: String
     totalYear: Products
 }
 

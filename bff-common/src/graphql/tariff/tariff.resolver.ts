@@ -5,14 +5,15 @@ export default {
         listAllProduct: async(root, args, { injector }) => {
             return await injector.get(TariffDatasource).listAllProducts();
         },
-
         listAllCalculationCost: async(root, args, { injector }) => {
             return await injector.get(TariffDatasource).listAllCalculation();
         },
-
         startProcessing: async(root, args, { injector }) => {
             return await injector.get(TariffDatasource).startProcess();
-        }
+        },
+        listAllFilesToProcess: async(root, args, { injector }) => {
+            return await injector.get(TariffDatasource).listAllFilesProcess();
+        },
     },
     Mutation: {
         createOneProduct: async(root, args, { injector }) => {
@@ -29,6 +30,12 @@ export default {
         },
         uploadFileToProcess: async(root, args, { injector }) => {
             return await injector.get(TariffDatasource).uploadFileConsumption(args.fileProcessModel);
-        }
+        },
+        deleteFilesToProcess: async(root, args, { injector }) => {
+            return await injector.get(TariffDatasource).deleteFilesProcess(args.ids);
+        },
+        deleteCalculations: async(root, args, { injector }) => {
+            return await injector.get(TariffDatasource).deleteCalcs(args.ids);
+        },
     }
 }
