@@ -8,6 +8,22 @@ cron.schedule("*/5 * * * *", () => {
   this.processAllFiles();
 }, {});
 
+exports.listAllFilesToProcess = async () => {
+  return await s3Service.listAllToProcess()
+    .then((value) => value)
+    .catch(() => {
+      throw new Error("Cannot list all files to process");
+    });
+};
+
+exports.deleteFilesById = async (filesName) => {
+  return await s3Service.deleteFiles(filesName)
+    .then(() => "Deleted!")
+    .catch(() => {
+      throw new Error("Cannot delete files!");
+    });
+};
+
 exports.deleteCalculations = async (ids) => {
   if (!ids.length) {
     throw new Error("Empty id list to delete!");

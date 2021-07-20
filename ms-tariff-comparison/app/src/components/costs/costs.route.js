@@ -10,6 +10,12 @@ module.exports = (app) => {
   app.post(process.env.ROOT_PATH + pathCosts + "/upload",
     controller.uploadFileToProcess);
 
+  app.get(process.env.ROOT_PATH + pathCosts + "/file/toprocess/listall",
+    controller.listAllToProcess);
+
+  app.delete(process.env.ROOT_PATH + pathCosts + "/file/toprocess/delete",
+    controller.deleteFilesById);
+
   app.get(process.env.ROOT_PATH + pathCosts + "/calculation/listall",
     controller.getAllCalculation);
 

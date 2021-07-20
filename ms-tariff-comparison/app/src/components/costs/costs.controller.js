@@ -1,5 +1,17 @@
 const service = require("./costs.service");
 
+exports.listAllToProcess = async (req, res) => {
+  return await service.listAllFilesToProcess()
+    .then((value) => res.send(value))
+    .catch((reason) => res.status(500).send(reason.message));
+};
+
+exports.deleteFilesById = async (req, res) => {
+  return await service.deleteFilesById(req.body)
+    .then((value) => res.send(value))
+    .catch((reason) => res.status(500).send(reason.message));
+};
+
 exports.deleteCalculations = async (req, res) => {
   return await service.deleteCalculations(req.body)
     .then((value) => res.send(value))
