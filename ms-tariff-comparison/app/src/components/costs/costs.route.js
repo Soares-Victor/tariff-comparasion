@@ -15,4 +15,7 @@ module.exports = (app) => {
 
   app.get(process.env.ROOT_PATH + pathCosts + "/process/start",
     controller.startProcessing);
+
+  app.delete(process.env.ROOT_PATH + pathCosts + "/delete",
+    controller.deleteCalculations);
 };

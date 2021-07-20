@@ -4,9 +4,25 @@ const Product = require("../products/product.model");
 const s3Service = require("../amazon/amazonS3.service");
 const cron = require("node-cron");
 
-cron.schedule("* * * * *", () => {
+cron.schedule("2,4,5 * * * *", () => {
   this.processAllFiles();
 }, {});
+
+exports.deleteCalculations = async (ids) => {
+  if (!ids.length) {
+    throw new Error("Empty id list to delete!");
+  }
+
+  return await Calculation.deleteMany({_id: ids})
+    .then((value) => {
+      if (value.deletedCount === 0) {
+        throw new Error("No id found to delete!");
+      }
+      return "Calculations deleted!";
+    }).catch((reason) => {
+      throw new Error(reason);
+    });
+};
 
 exports.uploadFile = async (fileModel) => {
   const ext = fileModel.name.substr(fileModel.name.lastIndexOf(".") + 1);
