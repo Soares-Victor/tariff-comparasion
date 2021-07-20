@@ -37,6 +37,18 @@ apiEndpoints:
     host: '*'
     paths: '/costs/upload'
     methods: [ 'POST' ]
+  api-ms-tariff-comparison-costs-file-toprocess-listall:
+    host: '*'
+    paths: '/costs/file/toprocess/listall'
+    methods: [ 'GET' ]
+  api-ms-tariff-comparison-costs-calculate-delete:
+    host: '*'
+    paths: '/costs/delete'
+    methods: [ 'DELETE' ]
+  api-ms-tariff-comparison-costs-file-toprocess-delete:
+    host: '*'
+    paths: '/costs/file/toprocess/delete'
+    methods: [ 'DELETE' ]
 
 
 serviceEndpoints:
@@ -53,10 +65,6 @@ policies:
   - rate-limit
   - keycloak-protect
 
-#pipelines:
-#  ms-tariff:
-#    apiEndpoints:
-#      - api-ms-tariff-comparison-product-listall
 pipelines:
   ms-tariff-comparison-pipeline:
     apiEndpoints:
@@ -68,6 +76,9 @@ pipelines:
       - api-ms-tariff-comparison-costs-startprocess
       - api-ms-tariff-comparison-costs-calculate
       - api-ms-tariff-comparison-costs-upload
+      - api-ms-tariff-comparison-costs-file-toprocess-listall
+      - api-ms-tariff-comparison-costs-calculate-delete
+      - api-ms-tariff-comparison-costs-file-toprocess-delete
     policies:
       - keycloak-protect:
         - action:
