@@ -39,6 +39,8 @@ function CostCalculate() {
                     <thead>
                     <tr>
                         <th>Product Name</th>
+                        <th>Product Description</th>
+                        <th>Charger</th>
                         <th>Base Costs Year</th>
                         <th>KWH Costs Year</th>
                         <th>Total Costs Year</th>
@@ -49,6 +51,8 @@ function CostCalculate() {
                     totalCosts.calculateCostYear.products.map((value) =>
                         <tr key={value.name}>
                             <td key={value.name}>{value.name}</td>
+                            <td key={value.description}>{value.description}</td>
+                            <td key={value.charger}>{value.charger}</td>
                             <td key={value.totalYear.baseCostsYear}>{value.totalYear.baseCostsYear}</td>
                             <td key={value.totalYear.kwhCostsYear}>{value.totalYear.kwhCostsYear}</td>
                             <td key={value.totalYear.totalCosts}>{value.totalYear.totalCosts}</td>

@@ -21,4 +21,6 @@ h1 {
     box-shadow: 5px 5px 5px lightgray;
 
     font-family: 'Roboto', sans-serif;
+    font-size: 10pt;
+    text-align: center;
 }

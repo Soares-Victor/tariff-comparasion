@@ -11,6 +11,7 @@ import CostListAllCalculations from "./components/tariff/costs/CostListAllCalcul
 import ProductsManager from "./components/tariff/products/ProductsManager";
 import Home from "./Home";
 import About from "./components/about/About";
+import CostListAllToProcessFile from "./components/tariff/costs/CostListAllToProcessFile";
 
 
 function Routes() {
@@ -25,6 +26,7 @@ function Routes() {
                 <PrivateRoute component={About} path={`${process.env.PUBLIC_URL}/about`} exact={true} />
                 <PrivateRoute component={CostCalculate} path={`${process.env.PUBLIC_URL}/costs/calculate`} exact={true} />
                 <PrivateRoute component={CostUploadFile} path={`${process.env.PUBLIC_URL}/costs/upload`} exact={true} />
+                <PrivateRoute component={CostListAllToProcessFile} path={`${process.env.PUBLIC_URL}/costs/files/listall`} exact={true} />
                 <PrivateRoute component={CostListAllCalculations} path={`${process.env.PUBLIC_URL}/costs/calculation/listall`} exact={true} />
                 <PrivateRoute component={ProductsManager} path={`${process.env.PUBLIC_URL}/product`} exact={true} />
 

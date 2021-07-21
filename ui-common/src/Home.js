@@ -14,7 +14,7 @@ function Home() {
                     <Card.Subtitle className="mb-2 text-muted">Operation Costs</Card.Subtitle>
                     <Card.Text>
                         Inside this menu you can simulate and compare a cost of kwh per year to another products.
-                        Beyond upload files to process and list all files processed.
+                        Beyond upload and check files to process.
                     </Card.Text>
                     <Card.Link href="#">
                         <Link to={`${process.env.PUBLIC_URL}/costs/calculate`}>
@@ -24,6 +24,11 @@ function Home() {
                     <Card.Link href="#">
                         <Link to={`${process.env.PUBLIC_URL}/costs/upload`}>
                             Upload
+                        </Link>
+                    </Card.Link>
+                    <Card.Link href="#">
+                        <Link to={`${process.env.PUBLIC_URL}/costs/files/listall`}>
+                            List All Files to Process
                         </Link>
                     </Card.Link>
                     <Card.Link href="#">

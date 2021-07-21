@@ -1,9 +1,17 @@
 import gql from "graphql-tag";
 
+export const QUERY_LIST_ALL_FILES_TO_PROCESS = gql`
+    {
+        query: listAllFilesToProcess
+    }
+`;
+
 export const QUERY_LIST_ALL_PRODUCT = gql`
     {
         query: listAllProduct {
-            _id, tariffName, baseCostMonth, costKwh, rule
+            _id, tariffName, description, month, values {
+                baseCost, kwhCost, maxConsumption
+            }
         }
     }
 `;
@@ -13,7 +21,7 @@ export const QUERY_LIST_ALL_CALCULATION = gql`
         query: listAllCalculationCost {
             _id, dateProcessed, installNumber, person {firstName, lastName},totalCosts{
                 kwhYear, products{
-                    name, totalYear {
+                    name, description, charger, totalYear {
                         baseCostsYear, kwhCostsYear, totalCosts
                     }
                 }
@@ -46,14 +54,26 @@ export const MUTATION_DELETE_PRODUCT = gql`
     }
 `;
 
+export const MUTATION_DELETE_FILE_TO_PROCESS = gql`
+    mutation ($ids: [String]) {
+        deleteFilesToProcess(ids: $ids)
+    }
+`;
+
+export const MUTATION_DELETE_CALCULATIONS = gql`
+    mutation ($ids: [String]) {
+        deleteCalculations(ids: $ids)
+    }
+`;
+
 export const MUTATION_CALCULATE_COSTS_YEAR = gql`
     mutation ($calculateModel: CalculateInput) {
         calculateCostYear(calculateModel: $calculateModel)
         {kwhYear, products{
-            name, totalYear {
+            name, description, charger, totalYear {
                 baseCostsYear, kwhCostsYear, totalCosts
-                }
             }
+        }
         }
     }
 `;

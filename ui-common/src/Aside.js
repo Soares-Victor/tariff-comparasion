@@ -55,6 +55,11 @@ const Aside = ({image, collapsed, rtl, toggled, handleToggleSidebar}) => {
                                 </Link>
                             </MenuItem>
                             <MenuItem>
+                                <Link to={`${process.env.PUBLIC_URL}/costs/files/listall`}>
+                                    {intl.formatMessage({id: 'submenuCostsFileListAllToProcess'})}
+                                </Link>
+                            </MenuItem>
+                            <MenuItem>
                                 <Link to={`${process.env.PUBLIC_URL}/costs/calculation/listall`}>
                                     {intl.formatMessage({id: 'submenuCostsListAllCalculation'})}
                                 </Link>
