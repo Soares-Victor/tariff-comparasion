@@ -21,67 +21,89 @@ export default class TariffDatasource extends RESTDataSource {
     async createProductData (productModel): Promise<any> {
         return await this.post('/product/create', JSON.stringify(productModel))
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
     async listAllProducts(): Promise<any> {
         return await this.get('/product/listall')
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
     async updateProduct(id, productModel): Promise<any> {
         return await this.put(`/product/update/id/${id}`, JSON.stringify(productModel))
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
     async deleteProduct(id): Promise<any> {
         return await this.delete(`/product/delete/id/${id}`)
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
     async calculateCostsYear(kwhyear): Promise<any> {
         return await this.post('/costs/calculate', JSON.stringify(kwhyear))
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
     async uploadFileConsumption(fileModel): Promise<any> {
         return await this.post('/costs/upload', JSON.stringify(fileModel))
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
     async listAllCalculation(): Promise<any> {
         return await this.get('/costs/calculation/listall')
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
     async startProcess(): Promise<any> {
         return await this.get('/costs/process/start')
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
     async listAllFilesProcess(): Promise<any> {
         return await this.get('/costs/file/toprocess/listall')
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
     async deleteFilesProcess(files): Promise<any> {
         return await this.delete('/costs/file/toprocess/delete', {}, {body: files})
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
     async deleteCalcs(ids): Promise<any> {
         return await this.delete('/costs/delete', {}, {body: ids})
             .then(value => value)
-            .catch(reason => {throw reason});
+            .catch(reason => {
+                throw new Error(reason.extensions.response.body)
+            });
     }
 
 }
