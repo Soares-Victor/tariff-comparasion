@@ -157,36 +157,21 @@ function ProductsManager() {
                     <Modal.Title>Save Product</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-
-                    <Label htmlFor="id">ID</Label>
+                    {id &&
+                        <InputGroup className="mb-3">
+                            <FormControl value={id} disabled={true} id="id" aria-describedby="basic-addon3" />
+                        </InputGroup>
+                    }
                     <InputGroup className="mb-3">
-                        <FormControl value={id} disabled={true} id="id" aria-describedby="basic-addon3" />
-                    </InputGroup>
-
-                    <Label htmlFor="tariff-name">Tariff Name</Label>
-                    <InputGroup className="mb-3">
-                        <InputGroup.Text id="basic-addon3">
-                            Example: Packaged Annual
-                        </InputGroup.Text>
-                        <FormControl onChange={event => setTariffName(event.target.value)} value={tariffName} id="tariff-name" aria-describedby="basic-addon3" />
-                    </InputGroup>
-
-                    <Label htmlFor="description">Description</Label>
-                    <InputGroup className="mb-3">
-                        <InputGroup.Text id="basic-addon3">
-                            Example: Packaged Annual tariff
-                        </InputGroup.Text>
-                        <FormControl onChange={event => setDescription(event.target.value)} value={description} id="description" aria-describedby="basic-addon3" />
+                        <FormControl placeholder="Tariff Name" onChange={event => setTariffName(event.target.value)} value={tariffName} id="tariff-name" aria-describedby="basic-addon3" />
+                        <FormControl placeholder="Description Tariff" onChange={event => setDescription(event.target.value)} value={description} id="description" aria-describedby="basic-addon3" />
                     </InputGroup>
 
                     <InputGroup className="mb-3">
-
-                        <InputGroup.Text id="basic-addon3">Month</InputGroup.Text>
-                        <InputGroup.Radio name="package" onClick={() => setMonthYear("month")} checked={monthYear === 'month'}  />
-
-                        <InputGroup.Text id="basic-addon3">Annual</InputGroup.Text>
-                        <InputGroup.Radio name="package" onClick={() => setMonthYear("year")} checked={monthYear !== 'month'}/>
-
+                        <label htmlFor={"radio-month"}>Month</label>
+                        <input type={"radio"} id={"radio-month"} style={{ margin: '5px 5px 0px 5px'}} name="package" onClick={() => setMonthYear("month")} checked={monthYear === 'month'} />
+                        <label htmlFor={"radio-year"}>Annual</label>
+                        <input type={"radio"} id={"radio-year"} style={{ margin: '5px 5px 0px 5px'}} name="package" onClick={() => setMonthYear("year")} checked={monthYear !== 'month'}/>
                     </InputGroup>
 
                     <Label htmlFor="base-cost">Base Cost</Label>
