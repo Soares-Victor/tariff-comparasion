@@ -37,7 +37,7 @@ exports.createProduct = async (productModel) => {
 
 exports.update = async (id, productModel) => {
   if (isSetRequiredFields(productModel)) {
-    return Product.findOneAndUpdate(id, {
+    return Product.findByIdAndUpdate(id, {
       tariffName: productModel.tariffName,
       description: productModel.description,
       month: productModel.month,
@@ -46,8 +46,8 @@ exports.update = async (id, productModel) => {
         kwhCost: productModel.values.kwhCost,
         maxConsumption: productModel.values.maxConsumption,
       },
-    }, {new: true})
-      .then(() => "Product created!")
+    }, {new: true, useFindAndModify: false})
+      .then(() => "Product updated!")
       .catch(() => {
         throw new Error("Error to find and update!");
       });
