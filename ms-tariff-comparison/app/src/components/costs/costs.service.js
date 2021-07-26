@@ -41,18 +41,21 @@ exports.deleteCalculations = async (ids) => {
 };
 
 exports.uploadFile = async (fileModel) => {
-  const ext = fileModel.name.substr(fileModel.name.lastIndexOf(".") + 1);
-  if (ext !== "jsonl" || !ext) {
-    throw new Error("Invalid Format. JSONL only allowed!");
-  } else if (!fileModel.base64) {
-    throw new Error("Content file not defined!");
-  } else if (Buffer.from(fileModel.base64).length > 3000) {
-    throw new Error("File too large. Max size: 3MB");
-  }
-  return s3Service.uploadFileToProcess(fileModel)
-    .then(() => "Uploaded!")
-    .catch(() => {
-      throw new Error("Cannot upload file to process!");
+  return Promise.all(fileModel)
+    .then((values) => {
+      values.forEach((file) => {
+        if (file.name.substr(file.name.lastIndexOf(".") + 1) !== "jsonl") {
+          throw new Error(`Invalid Format. JSONL only allowed!`);
+        } else if (!file.base64) {
+          throw new Error(`Content file not defined!`);
+        } else if (Buffer.from(file.base64).length > 3000) {
+          throw new Error(`File too large. Max size: 3MB`);
+        }
+      });
+      values.forEach((file) => {
+        s3Service.uploadFileToProcess(file);
+      });
+      return `Files Uploaded!`;
     });
 };
 
