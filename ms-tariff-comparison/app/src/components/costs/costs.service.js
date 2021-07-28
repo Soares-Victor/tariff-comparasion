@@ -45,17 +45,17 @@ exports.uploadFile = async (fileModel) => {
     .then((values) => {
       values.forEach((file) => {
         if (file.name.substr(file.name.lastIndexOf(".") + 1) !== "jsonl") {
-          throw new Error(`Invalid Format. JSONL only allowed!`);
+          throw new Error("Invalid Format. JSONL only allowed!");
         } else if (!file.base64) {
-          throw new Error(`Content file not defined!`);
+          throw new Error("Content file not defined!");
         } else if (Buffer.from(file.base64).length > 3000) {
-          throw new Error(`File too large. Max size: 3MB`);
+          throw new Error("File too large. Max size: 3MB");
         }
       });
       values.forEach((file) => {
         s3Service.uploadFileToProcess(file);
       });
-      return `Files Uploaded!`;
+      return "Files Uploaded!";
     });
 };
 

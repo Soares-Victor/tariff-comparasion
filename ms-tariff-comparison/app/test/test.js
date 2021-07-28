@@ -1,3 +1,4 @@
+require("dotenv").config();
 const costService = require("../src/components/costs/costs.service");
 const productsService = require("../src/components/products/product.service");
 const s3Service = require("../src/components/amazon/amazonS3.service");
@@ -12,78 +13,39 @@ const s3 = new aws.S3({
 const Product = require("../src/components/products/product.model");
 const Calculation = require("../src/components/calculation/calculation.model");
 
-describe("service amazon", () => {
-  beforeAll(async () => {
-    jest.mock("../src/components/amazon/amazonS3.service");
-    jest.mock("fs");
-    jest.mock("aws-sdk");
-    fs.writeFile = jest.fn()
-      .mockResolvedValue({});
-    fs.readFile = jest.fn()
-      .mockResolvedValue(mocks.downloadFileToProcess["Body"]);
-    s3.upload = jest.fn()
-      .mockResolvedValue({});
-    s3.listObjects = jest.fn()
-      .mockResolvedValue(mocks.listAllFileNames);
-    s3.getObject = jest.fn()
-      .mockResolvedValue(mocks.downloadFileToProcess);
-    s3.deleteObject = jest.fn()
-      .mockResolvedValue({});
-  });
+jest.useFakeTimers();
 
-  afterAll(async (done) => {
-    done();
-  });
-
-  it("should upload file to process", async () => {
-    return await s3Service.uploadFileToProcess(mocks.uploadFileToProcess)
-      .then((value) => expect(value).toBeDefined());
-  });
-
-  it("should delete file by id", async () => {
-    return await s3Service.deleteFileById("file.jsonl")
-      .then((value) => expect(value).toBeDefined());
-  });
-
-  it("should list all to process", async () => {
-    return await s3Service.listAllToProcess()
-      .then((value) => expect(value).toBeDefined());
-  });
-
-  it("should not download file to process", async () => {
-    return await s3Service.downloadFileToProcess(mocks.listAllFileNames[0])
-      .catch((reason) => expect(reason).toBeDefined());
-  });
-});
+beforeAll(() => initMock());
 
 describe("service costs", () => {
-  beforeAll(async () => {
-    jest.mock("../src/components/costs/costs.service");
-    jest.mock("../src/components/amazon/amazonS3.service");
-    Product.find = jest.fn()
-      .mockResolvedValue(mocks.productFindAll);
-    Calculation.find = jest.fn()
-      .mockResolvedValue(mocks.listAllCalculation);
-    s3Service.listAllToProcess = jest.fn()
-      .mockResolvedValue(mocks.listAllFileNames);
-    s3Service.downloadFileToProcess = jest.fn()
-      .mockResolvedValue(mocks.downloadFileToProcess);
-    s3Service.deleteFileById = jest.fn()
-      .mockResolvedValue(mocks.deleteFileToProcess);
+  it("should delete calculations", async () => {
+    return await costService.deleteCalculations(["1", "2"])
+      .then((value) => expect(value).toBe("Calculations deleted!"));
   });
 
-  afterAll(async (done) => {
-    done();
+  it("should upload file", async () => {
+    return await costService.uploadFile([mocks.uploadFileToProcess])
+      .then((value) => expect(value).toBe("Files Uploaded!"));
+  });
+
+  it("should list all files to process", async () => {
+    return await costService.listAllFilesToProcess()
+      .then((value) => expect(value).toBe(mocks.listAllFileNames));
+  });
+
+  it("should delete files by id", async () => {
+    return await costService.deleteFilesById(["file1.jsonl"])
+      .then((value) => expect(value).toBe("Deleted!"));
   });
 
   it("should calculate costs", async () => {
     return await costService.calculateCostsByYear(4500)
-      .then((value) => expect(value).toEqual(mocks.mockCalculateCost));
+      .then((value) => expect(value).toBeDefined());
   });
 
   it("should process all files", async () => {
     return await costService.processAllFiles()
-      .then((value) => expect(value).toEqual("Processed!"));
+      .then((value) => expect(value).toEqual("Processing started!"));
   });
 
   it("should list all calculation", async () => {
@@ -93,19 +55,6 @@ describe("service costs", () => {
 });
 
 describe("service products", () => {
-  beforeAll(async () => {
-    jest.mock("../src/components/products/product.service");
-    jest.mock("../src/components/amazon/amazonS3.service");
-    Product.create = jest.fn().mockResolvedValue({});
-    Product.findOneAndUpdate = jest.fn().mockResolvedValue({});
-    Product.find = jest.fn().mockResolvedValue(mocks.productFindAll);
-    Product.findByIdAndRemove = jest.fn().mockResolvedValue({});
-  });
-
-  afterAll(async (done) => {
-    done();
-  });
-
   it("should create new product", async () => {
     return await productsService.createProduct(mocks.createNewProduct)
       .then((value) => expect(value).toBeDefined());
@@ -126,3 +75,47 @@ describe("service products", () => {
       .then((value) => expect(value).toBeDefined());
   });
 });
+
+const initMock = () => {
+  jest.mock("../src/components/amazon/amazonS3.service");
+  jest.mock("fs");
+  jest.mock("aws-sdk");
+  jest.mock("../src/components/costs/costs.service");
+  jest.mock("../src/components/amazon/amazonS3.service");
+  jest.mock("../src/components/products/product.service");
+  jest.mock("../src/components/amazon/amazonS3.service");
+
+  fs.writeFile = jest.fn()
+    .mockResolvedValue({});
+  fs.readFile = jest.fn()
+    .mockResolvedValue(mocks.downloadFileToProcess["Body"]);
+  s3.upload = jest.fn()
+    .mockResolvedValue({});
+  s3.listObjects = jest.fn()
+    .mockResolvedValue({});
+  s3.getObject = jest.fn()
+    .mockResolvedValue(mocks.downloadFileToProcess);
+  s3.deleteObject = jest.fn()
+    .mockResolvedValue({});
+  s3Service.uploadFileToProcess = jest.fn()
+    .mockResolvedValue({});
+  s3Service.deleteFileById = jest.fn()
+    .mockResolvedValue({});
+  s3Service.uploadFileToProcess = jest.fn()
+    .mockResolvedValue({});
+  s3Service.listAllToProcess = jest.fn()
+    .mockResolvedValue(mocks.listAllFileNames);
+  s3Service.downloadFileToProcess = jest.fn()
+    .mockResolvedValue(mocks.downloadFileToProcess);
+  s3Service.deleteFileById = jest.fn()
+    .mockResolvedValue(mocks.deleteFileToProcess);
+  s3Service.deleteFiles = jest.fn()
+    .mockResolvedValue({});
+
+  Product.create = jest.fn().mockResolvedValue({});
+  Product.findOneAndUpdate = jest.fn().mockResolvedValue({});
+  Product.find = jest.fn().mockResolvedValue(mocks.productFindAll);
+  Product.findByIdAndRemove = jest.fn().mockResolvedValue({});
+  Calculation.find = jest.fn().mockResolvedValue(mocks.listAllCalculation);
+  Calculation.deleteMany = jest.fn().mockResolvedValue({});
+};
