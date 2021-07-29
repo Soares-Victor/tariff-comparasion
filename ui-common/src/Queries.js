@@ -79,7 +79,7 @@ export const MUTATION_CALCULATE_COSTS_YEAR = gql`
 `;
 
 export const MUTATION_UPLOAD_FILE = gql`
-    mutation ($fileProcessModel: FileProcessInput) {
+    mutation ($fileProcessModel: [FileProcessInput]) {
         uploadFileToProcess(fileProcessModel: $fileProcessModel)
     }
 `;

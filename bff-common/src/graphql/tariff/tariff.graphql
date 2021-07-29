@@ -4,7 +4,7 @@ type Mutation {
     deleteOneProduct(id: String): String
 
     calculateCostYear(calculateModel: CalculateInput): TotalCosts
-    uploadFileToProcess(fileProcessModel: FileProcessInput): String
+    uploadFileToProcess(fileProcessModel: [FileProcessInput]): String
 
     deleteFilesToProcess(ids: [String]): String
     deleteCalculations(ids: [String]): String
