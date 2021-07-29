@@ -8,8 +8,8 @@ exports.mockCalculateCost = {
       "totalYear": {
         "baseCostsYear": 800,
         "kwhCostsYear": 150,
-        "totalCosts": 950
-      }
+        "totalCosts": 950,
+      },
     },
     {
       "name": "Basic Month",
@@ -18,10 +18,10 @@ exports.mockCalculateCost = {
       "totalYear": {
         "baseCostsYear": 60,
         "kwhCostsYear": 990,
-        "totalCosts": 1050
-      }
-    }
-  ]
+        "totalCosts": 1050,
+      },
+    },
+  ],
 };
 exports.productFindAll = [
   {

@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "npm run lint && node app.js",
+    "start": "node app.js",
     "lint": "eslint --fix ./app",
     "build": "npm run lint",
     "test": "jest --forceExit"
