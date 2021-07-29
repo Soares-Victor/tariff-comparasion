@@ -40,7 +40,7 @@ describe("service costs", () => {
 
   it("should calculate costs", async () => {
     return await costService.calculateCostsByYear(4500)
-      .then((value) => expect(value).toBeDefined());
+      .then((value) => expect(value).toEqual(mocks.mockCalculateCost));
   });
 
   it("should process all files", async () => {
@@ -57,7 +57,7 @@ describe("service costs", () => {
 describe("service products", () => {
   it("should create new product", async () => {
     return await productsService.createProduct(mocks.createNewProduct)
-      .then((value) => expect(value).toBeDefined());
+      .then((value) => expect(value).toEqual("Product created!"));
   });
 
   it("should list all products", async () => {
@@ -67,12 +67,12 @@ describe("service products", () => {
 
   it("should delete one product", async () => {
     return await productsService.deleteById(1)
-      .then((value) => expect(value).toBeDefined());
+      .then((value) => expect(value).toContain("Product deleted"));
   });
 
   it("should update a product", async () => {
     return await productsService.update(1, mocks.createNewProduct)
-      .then((value) => expect(value).toBeDefined());
+      .then((value) => expect(value).toEqual("Product updated!"));
   });
 });
 

@@ -2,22 +2,26 @@ exports.mockCalculateCost = {
   "kwhYear": 4500,
   "products": [
     {
-      "name": "Packaged Electricity Tariff",
+      "name": "Packaged Annual",
+      "description": "Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)",
+      "charger": "Annual",
       "totalYear": {
         "baseCostsYear": 800,
         "kwhCostsYear": 150,
-        "totalCosts": 950,
-      },
+        "totalCosts": 950
+      }
     },
     {
-      "name": "Basic Electricity Tariff",
+      "name": "Basic Month",
+      "description": "Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)",
+      "charger": "Month",
       "totalYear": {
         "baseCostsYear": 60,
         "kwhCostsYear": 990,
-        "totalCosts": 1050,
-      },
-    },
-  ],
+        "totalCosts": 1050
+      }
+    }
+  ]
 };
 exports.productFindAll = [
   {
