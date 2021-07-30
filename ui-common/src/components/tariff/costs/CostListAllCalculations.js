@@ -43,7 +43,7 @@ function CostListAllCalculations() {
             <div id={'table'}>
                 {alert &&
                     <div id={"hide"} onAnimationEnd={() => window.location.reload()}>
-                        <Alert variant='primary'>{alert}</Alert>
+                        <Alert variant='primary'>{`${alert} - Reloading...`}</Alert>
                     </div>
                 }
                 <Table striped bordered hover size="sm" responsive>

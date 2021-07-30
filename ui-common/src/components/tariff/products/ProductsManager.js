@@ -25,6 +25,7 @@ function ProductsManager() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [alert, setAlert] = useState(false);
+    const [alertModal, setAlertModal] = useState(false);
 
     const [id, setId] = useState("");
     const [tariffName, setTariffName] = useState("");
@@ -58,10 +59,10 @@ function ProductsManager() {
         if (!id) {
             save({variables: {productModel: product}})
                 .then(value => {
-                    setAlert(value.data.createOneProduct)
+                    setAlert(value.data.createOneProduct);
                     handleClose();
                 })
-                .catch(reason => setAlert(reason.message));
+                .catch(reason => setAlertModal(reason.message));
         }
         else {
             update({variables: {id: id, productModel: product}})
@@ -69,7 +70,7 @@ function ProductsManager() {
                     setAlert(value.data.updateOneProduct)
                     handleClose();
                 })
-                .catch(reason => setAlert(reason.message))
+                .catch(reason => setAlertModal(reason.message))
         }
     }
 
@@ -95,7 +96,7 @@ function ProductsManager() {
                 <div id={'table'}>
                     {alert &&
                         <div id={"hide"} onAnimationEnd={() => window.location.reload()}>
-                            <Alert variant='primary'>{alert}</Alert>
+                            <Alert variant='primary'>{`${alert} - Reloading...`}</Alert>
                         </div>
                     }
                     <Table striped bordered hover size="sm">
@@ -198,8 +199,12 @@ function ProductsManager() {
                     </Button>
                     <Button variant="primary" onClick={saveProduct}>Save Changes</Button>
                 </Modal.Footer>
+                {alertModal &&
+                    <div>
+                        <Alert variant='primary'>{alertModal}</Alert>
+                    </div>
+                }
             </Modal>
-
         </div>
     );
 }

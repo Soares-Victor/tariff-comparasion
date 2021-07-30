@@ -52,7 +52,7 @@ function CostUploadFile() {
             <h1>Cost Upload</h1>
             {alert &&
                 <div id={"hide"} onAnimationEnd={() => window.location.reload()}>
-                    <Alert variant='primary'>{alert}</Alert>
+                    <Alert variant='primary'>{`${alert} - Reloading...`}</Alert>
                 </div>
             }
             <input type="file" multiple onChange={event => setFile(event.target["files"])}/>
