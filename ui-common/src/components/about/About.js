@@ -8,10 +8,10 @@ function About() {
                 <li>Fix new styles</li>
                 <li>Upload Multiples Files to Process</li>
                 <li>Management Products</li>
+                <li>Icon favicon</li>
             </ul>
             <h2>Coming soon</h2>
             <ul>
-                <li>Icon favicon</li>
                 <li>New home page - Cards</li>
                 <li>Summary about comparison</li>
                 <li>New comparison by percentage</li>
