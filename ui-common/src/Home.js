@@ -54,7 +54,7 @@ function Home() {
                 </Card.Body>
             </Card>
 
-            <div style={{textAlign: "center", marginTop: "10px",borderTop: "1px solid lightGray"}}>
+            <div style={{textAlign: "center", marginTop: "100px",borderTop: "1px solid lightGray", clear: "both"}}>
                 <a href="#">
                     <Link to={`${process.env.PUBLIC_URL}/about`}>
                         About
