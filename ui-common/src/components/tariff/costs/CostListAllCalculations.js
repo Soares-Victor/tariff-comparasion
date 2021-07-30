@@ -1,15 +1,18 @@
 import {withApollo} from "@apollo/client/react/hoc";
-import '../../../styles/bootstrap.min.css'
-import '../../../styles/Tabble.css'
-import {Button, Table} from "react-bootstrap";
+import '../../../styles/bootstrap.min.css';
+import '../../../styles/Tabble.css';
+import '../../../styles/Alerts.css';
+import {Alert, Button, Table} from "react-bootstrap";
 import {useMutation, useQuery} from "@apollo/client";
 import {MUTATION_DELETE_CALCULATIONS, QUERY_LIST_ALL_CALCULATION, QUERY_START_PROCESSING} from "../../../Queries";
+import {useState} from "react";
 
 function CostListAllCalculations() {
 
     const listAllCalculation = useQuery(QUERY_LIST_ALL_CALCULATION);
     const startProcessing = useQuery(QUERY_START_PROCESSING);
-    const [mutationDeleteCalculations] = useMutation(MUTATION_DELETE_CALCULATIONS)
+    const [mutationDeleteCalculations] = useMutation(MUTATION_DELETE_CALCULATIONS);
+    const [alert, setAlert] = useState(false);
 
     const selectUnselectAllCalculations = (selected) => {
         let elementsByClassName = document.getElementsByClassName('ids-to-delete-calcs');
@@ -22,32 +25,27 @@ function CostListAllCalculations() {
         let idsToDelete = [];
         let elements = document.getElementsByClassName('ids-to-delete-calcs');
         for (let i = 0; i < elements.length; i++) {
-            if (elements[i]["checked"]){
-                idsToDelete.push(elements[i].id)
-            }
+            if (elements[i]["checked"]) idsToDelete.push(elements[i].id)
         }
         mutationDeleteCalculations({variables:{ids: idsToDelete}})
-            .then(value => {
-                alert(value.data.deleteCalculations)
-                window.location.reload();
-            })
-            .catch(reason => {
-                alert(reason)
-            });
+            .then(value => setAlert(value.data.deleteCalculations))
+            .catch(reason => setAlert(reason.message));
     }
 
     return (
         <div className={'main'}>
             <h1>Cost List All</h1>
 
-            <Button variant="outline-success" onClick={event => {
-                alert(startProcessing.data.query);
-                window.location.reload();
-            }} size="lg" block>
+            <Button variant="outline-success" onClick={() => setAlert(startProcessing.data.query)} size="lg" block>
                 Start Processing
             </Button><br/>
 
             <div id={'table'}>
+                {alert &&
+                    <div id={"hide"} onAnimationEnd={() => window.location.reload()}>
+                        <Alert variant='primary'>{alert}</Alert>
+                    </div>
+                }
                 <Table striped bordered hover size="sm" responsive>
                     <thead>
                     <tr>

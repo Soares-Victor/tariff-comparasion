@@ -1,15 +1,18 @@
 import {withApollo} from "@apollo/client/react/hoc";
-import '../../../styles/bootstrap.min.css'
-import '../../../styles/Tabble.css'
-import {Button, InputGroup, Table} from "react-bootstrap";
+import '../../../styles/bootstrap.min.css';
+import '../../../styles/Tabble.css';
+import '../../../styles/Alerts.css';
+import {Alert, Button, Table} from "react-bootstrap";
 import {useMutation, useQuery} from "@apollo/client";
 import {MUTATION_DELETE_FILE_TO_PROCESS, QUERY_LIST_ALL_FILES_TO_PROCESS} from "../../../Queries";
 import {CgRemove} from "react-icons/all";
+import {useState} from "react";
 
 function CostListAllToProcessFile() {
 
-    const listAllFilesToProcess = useQuery(QUERY_LIST_ALL_FILES_TO_PROCESS)
+    const listAllFilesToProcess = useQuery(QUERY_LIST_ALL_FILES_TO_PROCESS);
     const [mutationDeleteFiles] = useMutation(MUTATION_DELETE_FILE_TO_PROCESS);
+    const [alert, setAlert] = useState(false);
 
     const deleteFiles = (id) => {
         if (!id) {
@@ -23,23 +26,13 @@ function CostListAllToProcessFile() {
                 if (document.getElementById(ids[i])["checked"]) idsToProcess.push(ids[i]);
             }
             mutationDeleteFiles({variables: {ids: idsToProcess}})
-                .then(value => {
-                    alert(value.data.deleteFilesToProcess)
-                    window.location.reload();
-                })
-                .catch(reason => {
-                    alert(reason)
-                });
+                .then(value => setAlert(value.data.deleteFilesToProcess))
+                .catch(reason => setAlert(reason.message));
         }
         else {
             mutationDeleteFiles({variables: {ids: [id]}})
-                .then(value => {
-                    alert(value.data.deleteFilesToProcess)
-                    window.location.reload();
-                })
-                .catch(reason => {
-                    alert(reason)
-                });
+                .then(value => setAlert(value.data.deleteFilesToProcess))
+                .catch(reason => setAlert(reason.message));
         }
     }
 
@@ -47,10 +40,15 @@ function CostListAllToProcessFile() {
         <h1>List All Files to Process</h1>
 
         <div id={'table'}>
+            {alert &&
+                <div id={"hide"} onAnimationEnd={() => window.location.reload()}>
+                    <Alert variant='primary'>{alert}</Alert>
+                </div>
+            }
             <Table striped bordered hover size="sm" responsive>
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>#</th>
                         <th>File Name</th>
                         <th>Delete</th>
                     </tr>

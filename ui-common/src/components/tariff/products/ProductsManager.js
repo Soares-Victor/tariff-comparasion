@@ -1,7 +1,8 @@
 import {withApollo} from "@apollo/client/react/hoc";
 import '../../../styles/bootstrap.min.css';
-import '../../../styles/Tabble.css'
-import {Button, FormControl, InputGroup, Modal, Table} from "react-bootstrap";
+import '../../../styles/Tabble.css';
+import '../../../styles/Alerts.css';
+import {Alert, Button, FormControl, InputGroup, Modal, Table} from "react-bootstrap";
 import {useMutation, useQuery} from "@apollo/client";
 import {
     MUTATION_CREATE_PRODUCT,
@@ -23,6 +24,7 @@ function ProductsManager() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [alert, setAlert] = useState(false);
 
     const [id, setId] = useState("");
     const [tariffName, setTariffName] = useState("");
@@ -56,40 +58,27 @@ function ProductsManager() {
         if (!id) {
             save({variables: {productModel: product}})
                 .then(value => {
-                    alert(value.data.createOneProduct)
-                    window.location.reload();
+                    setAlert(value.data.createOneProduct)
                     handleClose();
                 })
-                .catch(reason => {
-                    alert(reason)
-                });
+                .catch(reason => setAlert(reason.message));
         }
         else {
             update({variables: {id: id, productModel: product}})
                 .then(value => {
-                    alert(value.data.updateOneProduct)
-                    window.location.reload();
+                    setAlert(value.data.updateOneProduct)
                     handleClose();
                 })
-                .catch(reason => {
-                    alert(reason)
-                })
+                .catch(reason => setAlert(reason.message))
         }
     }
 
     const deleteOne = (id) => {
         if (window.confirm("Do you want to delete the product id: \n" + id + "\n?")){
             deleteProduct({variables: {id: id}})
-                .then(value => {
-                    alert(value.data.deleteOneProduct)
-                })
-                .catch(reason => {
-                    alert(reason)
-                })
-                .finally(() => {
-                    window.location.reload();
-                    handleClose();
-                })
+                .then(value => setAlert(value.data.deleteOneProduct))
+                .catch(reason => setAlert(reason.message))
+                .finally(() => handleClose())
         }
     }
 
@@ -97,13 +86,18 @@ function ProductsManager() {
         <div className={'main'}>
             <h1>Management All Products</h1>
 
-            <Button variant="outline-success" onClick={event => {
+            <Button variant="outline-success" onClick={() => {
                 cleanFields();
                 handleShow();
             }} size="lg" block>
                 Create new Product
             </Button><br/>
                 <div id={'table'}>
+                    {alert &&
+                        <div id={"hide"} onAnimationEnd={() => window.location.reload()}>
+                            <Alert variant='primary'>{alert}</Alert>
+                        </div>
+                    }
                     <Table striped bordered hover size="sm">
                         <thead>
                         <tr>
@@ -128,7 +122,7 @@ function ProductsManager() {
                                 <th>{product.values.kwhCost}</th>
                                 <th>{product.values.maxConsumption}</th>
                                 <th>
-                                    <a href="#" onClick={event => {
+                                    <a href="#" onClick={() => {
                                         cleanFields();
                                         setId(product._id)
                                         setTariffName(product.tariffName);
@@ -142,7 +136,7 @@ function ProductsManager() {
                                     </a>
                                 </th>
                                 <th>
-                                    <a href="#" onClick={event => {
+                                    <a href="#" onClick={() => {
                                             deleteOne(product._id);
                                         }}><CgRemove color="red" size={25}/>
                                     </a>

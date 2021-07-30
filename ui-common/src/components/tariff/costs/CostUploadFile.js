@@ -1,7 +1,8 @@
 import {withApollo} from "@apollo/client/react/hoc";
-import '../../../styles/bootstrap.min.css'
-import '../../../styles/Tabble.css'
-import {Button} from "react-bootstrap";
+import '../../../styles/bootstrap.min.css';
+import '../../../styles/Tabble.css';
+import '../../../styles/Alerts.css';
+import {Alert, Button} from "react-bootstrap";
 import {useState} from "react";
 import {useMutation} from "@apollo/client";
 import {MUTATION_UPLOAD_FILE} from "../../../Queries";
@@ -9,7 +10,8 @@ import {MUTATION_UPLOAD_FILE} from "../../../Queries";
 function CostUploadFile() {
 
     const [file, setFile] = useState(false);
-    const [upload] = useMutation(MUTATION_UPLOAD_FILE)
+    const [upload] = useMutation(MUTATION_UPLOAD_FILE);
+    const [alert, setAlert] = useState(false);
 
     const convertBase64 = (f) => {
         return new Promise((resolve, reject) => {
@@ -37,14 +39,8 @@ function CostUploadFile() {
 
         }
         await upload({variables: {fileProcessModel: files}})
-            .then(value => {
-                alert(value.data.uploadFileToProcess);
-                window.location.reload();
-            })
-            .catch(reason => {
-                alert(reason)
-                window.location.reload();
-            });
+            .then(value => setAlert(value.data.uploadFileToProcess))
+            .catch(reason => setAlert(reason.message));
     }
 
     const contentFileExample =
@@ -54,6 +50,11 @@ function CostUploadFile() {
     return (
         <div className={'main'}>
             <h1>Cost Upload</h1>
+            {alert &&
+                <div id={"hide"} onAnimationEnd={() => window.location.reload()}>
+                    <Alert variant='primary'>{alert}</Alert>
+                </div>
+            }
             <input type="file" multiple onChange={event => setFile(event.target["files"])}/>
             {file &&
                 <Button variant="outline-success" size="lg" onClick={uploadFile}>Upload</Button>

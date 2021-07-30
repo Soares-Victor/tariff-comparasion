@@ -1,7 +1,8 @@
 import {withApollo} from "@apollo/client/react/hoc";
-import '../../../styles/bootstrap.min.css'
-import '../../../styles/Tabble.css'
-import {Button, FormControl, InputGroup, Table} from "react-bootstrap";
+import '../../../styles/bootstrap.min.css';
+import '../../../styles/Tabble.css';
+import '../../../styles/Alerts.css';
+import {Alert, Button, FormControl, InputGroup, Table} from "react-bootstrap";
 import {useMutation} from "@apollo/client";
 import {MUTATION_CALCULATE_COSTS_YEAR} from "../../../Queries";
 import {useState} from "react";
@@ -11,6 +12,7 @@ function CostCalculate() {
     let kwhYearUsed = 0;
     const [totalCosts, setTotalCosts] = useState(false);
     const[calculateCost] = useMutation(MUTATION_CALCULATE_COSTS_YEAR)
+    const [alert, setAlert] = useState(false);
 
     return (
         <div className={'main'}>
@@ -26,15 +28,18 @@ function CostCalculate() {
                     <Button onClick={event => {
                         event.preventDefault();
                         calculateCost({variables: {"calculateModel": {"kwhYear": parseFloat(kwhYearUsed.value)}}})
-                            .then(data => {
-                                setTotalCosts(data.data)
-                            })
-                            .catch(reason => {alert(reason)})
+                            .then(data => setTotalCosts(data.data))
+                            .catch(reason => setAlert(reason.message))
                     }} variant="success">Calculate</Button>
                 </InputGroup.Append>
             </InputGroup>
 
             <div id={'table'}>
+                {alert &&
+                    <div id={"hide"} onAnimationEnd={() => window.location.reload()}>
+                        <Alert variant='primary'>{alert}</Alert>
+                    </div>
+                }
                 <Table striped bordered hover size="sm">
                     <thead>
                     <tr>
