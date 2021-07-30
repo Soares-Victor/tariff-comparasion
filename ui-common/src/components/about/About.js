@@ -12,6 +12,7 @@ function About() {
             </ul>
             <h2>Coming soon</h2>
             <ul>
+                <li>New dashboard V2</li>
                 <li>New home page - Cards</li>
                 <li>Summary about comparison</li>
                 <li>New comparison by percentage</li>
