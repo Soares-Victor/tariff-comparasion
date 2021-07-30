@@ -1,13 +1,13 @@
 {
   "name": "ms-tariff-comparison",
-  "version": "1.0.0",
+  "version": "1.1.0-SNAPSHOT",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "npm run lint && node app.js",
+    "start": "node app.js",
     "lint": "eslint --fix ./app",
     "build": "npm run lint",
-    "test": "jest"
+    "test": "jest --forceExit"
   },
   "keywords": [],
   "author": "",

@@ -23,7 +23,7 @@ function About() {
                 <li>All stack deployed to cloud and CI/CD</li>
             </ul>
             <h3>Version</h3>
-            <p>1.0.1-SNAPSHOT</p>
+            <p>1.1.0-SNAPSHOT</p>
         </div>
     )
 }

@@ -26,9 +26,9 @@ module.exports = {
   coverageDirectory: "coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  coveragePathIgnorePatterns: [
+    "/node_modules/", "./app/src/components/amazon", "./app/test", "/*.route.js", "/*.controller.js"
+  ],
 
   // Indicates which provider should be used to instrument code for coverage
   // coverageProvider: "babel",
@@ -153,7 +153,7 @@ module.exports = {
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
-  //   "/node_modules/"
+  //   "/node_modules/", "./app/src/components/amazon"
   // ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files

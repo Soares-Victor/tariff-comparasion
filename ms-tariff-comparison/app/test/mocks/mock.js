@@ -2,7 +2,9 @@ exports.mockCalculateCost = {
   "kwhYear": 4500,
   "products": [
     {
-      "name": "Packaged Electricity Tariff",
+      "name": "Packaged Annual",
+      "description": "Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)",
+      "charger": "Annual",
       "totalYear": {
         "baseCostsYear": 800,
         "kwhCostsYear": 150,
@@ -10,7 +12,9 @@ exports.mockCalculateCost = {
       },
     },
     {
-      "name": "Basic Electricity Tariff",
+      "name": "Basic Month",
+      "description": "Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)",
+      "charger": "Month",
       "totalYear": {
         "baseCostsYear": 60,
         "kwhCostsYear": 990,
@@ -21,18 +25,24 @@ exports.mockCalculateCost = {
 };
 exports.productFindAll = [
   {
-    "_id": "60e4b0a7d680628585ec9363",
-    "tariffName": "Packaged Electricity Tariff",
-    "baseCostMonth": 800,
-    "costKwh": 0.3,
-    "rule": "packaged",
+    "tariffName": "Basic Month",
+    "description": "Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)",
+    "month": true,
+    "values": {
+      "baseCost": 5,
+      "kwhCost": 0.22,
+      "maxConsumption": null,
+    },
   },
   {
-    "_id": "60e4b0a7d680628585ec9364",
-    "tariffName": "Basic Electricity Tariff",
-    "baseCostMonth": 5,
-    "costKwh": 0.22,
-    "rule": "basic",
+    "tariffName": "Packaged Annual",
+    "description": "Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)",
+    "month": false,
+    "values": {
+      "baseCost": 800,
+      "kwhCost": 0.30,
+      "maxConsumption": 4000,
+    },
   },
 ];
 exports.listAllCalculation = [
@@ -71,10 +81,14 @@ exports.listAllCalculation = [
 exports.listAllFileNames = ["calculationToProcess.jsonl", "file2.jsonl"];
 exports.deleteFileToProcess = {};
 exports.createNewProduct = {
-  "tariffName": "Packaged Electricity Tariff",
-  "baseCostMonth": 800,
-  "costKwh": 0.30,
-  "rule": "packaged",
+  "tariffName": "Packaged Annual",
+  "description": "Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)",
+  "month": false,
+  "values": {
+    "baseCost": 800,
+    "kwhCost": 0.30,
+    "maxConsumption": 4000,
+  },
 };
 exports.productSave = {};
 exports.uploadFileToProcess = {

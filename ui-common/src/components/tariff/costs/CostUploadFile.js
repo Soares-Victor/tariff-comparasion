@@ -25,9 +25,18 @@ function CostUploadFile() {
     }
 
     const uploadFile = async () => {
-        const base64 = await convertBase64(file);
-        let fileContentBase64 = await base64.toString().substring(base64.toString().indexOf(",") + 1);
-        await upload({variables: {fileProcessModel: {name: file.name, base64: fileContentBase64}}})
+        let files = []
+        for (let i = 0; i < file.length; i++) {
+            const fBase64 = await convertBase64(file[i]);
+            const fileContentB64 = fBase64.toString().substring(fBase64.toString().indexOf(",") + 1);
+            const fName = file[i].name
+            files.push({
+                name: fName,
+                base64: fileContentB64
+            });
+
+        }
+        await upload({variables: {fileProcessModel: files}})
             .then(value => {
                 alert(value.data.uploadFileToProcess);
                 window.location.reload();
@@ -35,7 +44,7 @@ function CostUploadFile() {
             .catch(reason => {
                 alert(reason)
                 window.location.reload();
-            })
+            });
     }
 
     const contentFileExample =
@@ -45,7 +54,7 @@ function CostUploadFile() {
     return (
         <div className={'main'}>
             <h1>Cost Upload</h1>
-            <input type="file" onChange={event => setFile(event.target.files[0])}/>
+            <input type="file" multiple onChange={event => setFile(event.target["files"])}/>
             {file &&
                 <Button variant="outline-success" size="lg" onClick={uploadFile}>Upload</Button>
             }
