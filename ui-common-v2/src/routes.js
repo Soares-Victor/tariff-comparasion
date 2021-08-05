@@ -6,6 +6,7 @@ import Notifications from "views/Notifications.js";
 import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
+import Products from "./views/services/Products";
 
 var routes = [
   {
@@ -13,6 +14,13 @@ var routes = [
     name: "Dashboard",
     icon: "tim-icons icon-chart-pie-36",
     component: Dashboard,
+    layout: process.env.PUBLIC_URL,
+  },
+  {
+    path: `/products`,
+    name: "Products",
+    icon: "tim-icons icon-app",
+    component: Products,
     layout: process.env.PUBLIC_URL,
   },
   {
