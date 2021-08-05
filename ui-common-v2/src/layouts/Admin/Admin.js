@@ -93,7 +93,7 @@ function Admin(props) {
             <Sidebar
               routes={routes}
               logo={{
-                outterLink: "#",
+                innerLink: `${process.env.PUBLIC_URL}/dashboard`,
                 text: "UI Common",
                 imgSrc: logo,
               }}
