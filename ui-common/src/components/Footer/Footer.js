@@ -20,7 +20,7 @@ function Footer() {
           © {new Date().getFullYear()} made with{" "}
           <i className="tim-icons icon-heart-2" /> by{" "}
           <a
-            href="#"
+            href="https://www.linkedin.com/in/victor-soares-81292673/"
             target="_blank"
           >
             Victor Soares
