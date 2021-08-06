@@ -86,7 +86,7 @@ function CostListAllFilesToProcess(props) {
                                         </td>
                                         <td key={id}>{id}</td>
                                         <td>
-                                            <a href="#" onClick={() => deleteFiles(id)}><i className="tim-icons icon-trash-simple" /></a>
+                                            <a href={"#"} onClick={() => deleteFiles(id)}><i className="tim-icons icon-trash-simple" /></a>
                                         </td>
                                     </tr>
                                 )}

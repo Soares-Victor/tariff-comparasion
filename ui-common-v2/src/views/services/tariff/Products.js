@@ -153,7 +153,7 @@ function Products(props) {
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="#" onClick={() => {
+                                            <a href={"#"} onClick={() => {
                                                 deleteOne(product._id);
                                             }}><i className="tim-icons icon-trash-simple" />
                                             </a>

@@ -1,6 +1,6 @@
 import {withApollo} from "@apollo/client/react/hoc";
 import NotificationAlert from "react-notification-alert";
-import {Button, Card, CardBody, CardHeader, CardTitle, Col, Form, FormGroup, Input, Row} from "reactstrap";
+import {Button, Card, CardBody, CardHeader, CardTitle, Col, Form, Input, Row} from "reactstrap";
 import React, {useState} from "react";
 import {MUTATION_UPLOAD_FILE} from "../../../queries";
 import {useMutation} from "@apollo/client";
@@ -63,7 +63,6 @@ function CostUploadFileToProcess(props) {
             <div className="react-notification-alert-container">
                 <NotificationAlert ref={notificationAlertRef} />
             </div>
-
             <Row>
                 <Col md="12">
                     <Card className="card-plain">
