@@ -64,34 +64,34 @@ function Products(props) {
         if (!id) {
             save({variables: {productModel: product}})
                 .then(value => {
-                    notify(value.data.createOneProduct);
+                    notify(value.data.createOneProduct, "success");
                 })
-                .catch(reason => notify(reason.message));
+                .catch(reason => notify(reason.message, "danger"));
         }
         else {
             update({variables: {id: id, productModel: product}})
                 .then(value => {
-                    notify(value.data.updateOneProduct)
+                    notify(value.data.updateOneProduct, "success")
                 })
-                .catch(reason => notify(reason.message));
+                .catch(reason => notify(reason.message, "danger"));
         }
     }
 
     const deleteOne = (id) => {
         if (window.confirm("Do you want to delete the product id: \n" + id + "\n?")){
             deleteProduct({variables: {id: id}})
-                .then(value => notify(value.data.deleteOneProduct))
-                .catch(reason => notify(reason.message));
+                .then(value => notify(value.data.deleteOneProduct, "success"))
+                .catch(reason => notify(reason.message, "danger"));
         }
     }
 
-    const notify = (message) => {
+    const notify = (message, type) => {
         notificationAlertRef.current.notificationAlert({
             place: "tc",
             message: (
                 <div><div>{message}</div></div>
             ),
-            type: "info",
+            type: !type ? "info" : type,
             icon: "tim-icons icon-bell-55",
             autoDismiss: 7,
         });

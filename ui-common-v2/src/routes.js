@@ -7,6 +7,7 @@ import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
 import Products from "./views/services/tariff/Products";
+import CostCalculate from "./views/services/costs/CostCalculate";
 
 var routes = [
   {
@@ -23,6 +24,14 @@ var routes = [
     component: Products,
     layout: process.env.PUBLIC_URL,
   },
+    {
+    path: `/costs-calculate`,
+    name: "Costs Calculate",
+    icon: "tim-icons icon-money-coins",
+    component: CostCalculate,
+    layout: process.env.PUBLIC_URL,
+  },
+
   {
     path: `/icons`,
     name: "Icons",
