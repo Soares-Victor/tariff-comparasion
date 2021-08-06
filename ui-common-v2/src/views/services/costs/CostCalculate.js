@@ -34,7 +34,7 @@ function CostCalculate(props) {
                 <Col md="12">
                     <Card className="card-plain">
                         <CardHeader>
-                            <CardTitle tag="h4">Products</CardTitle>
+                            <CardTitle tag="h4">Calculate</CardTitle>
                             <p className="category">Costs Calculate</p>
                         </CardHeader>
                         <CardBody>

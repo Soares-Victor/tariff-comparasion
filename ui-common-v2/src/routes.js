@@ -8,6 +8,7 @@ import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
 import Products from "./views/services/tariff/Products";
 import CostCalculate from "./views/services/costs/CostCalculate";
+import CostUploadFileToProcess from "./views/services/costs/CostUploadFileToProcess";
 
 var routes = [
   {
@@ -24,14 +25,20 @@ var routes = [
     component: Products,
     layout: process.env.PUBLIC_URL,
   },
-    {
+  {
     path: `/costs-calculate`,
     name: "Costs Calculate",
     icon: "tim-icons icon-money-coins",
     component: CostCalculate,
     layout: process.env.PUBLIC_URL,
   },
-
+  {
+    path: `/upload-file-toprocess`,
+    name: "Upload File",
+    icon: "tim-icons icon-cloud-upload-94",
+    component: CostUploadFileToProcess,
+    layout: process.env.PUBLIC_URL,
+  },
   {
     path: `/icons`,
     name: "Icons",
