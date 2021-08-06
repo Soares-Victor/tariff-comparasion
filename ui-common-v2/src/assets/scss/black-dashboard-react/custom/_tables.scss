@@ -156,8 +156,10 @@
 }
 
 .table-responsive{
-  overflow: scroll;
-  padding-bottom: 10px;
+  max-height: 450px;
+  width: 100% !important;
+  overflow: auto;
+  display:inline-block;
 }
 
 #tables .table-responsive{
