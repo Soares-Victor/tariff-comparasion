@@ -6,7 +6,7 @@ import Notifications from "views/Notifications.js";
 import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
-import Products from "./views/services/Products";
+import Products from "./views/services/tariff/Products";
 
 var routes = [
   {
