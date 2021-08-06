@@ -9,6 +9,7 @@ import UserProfile from "views/UserProfile.js";
 import Products from "./views/services/tariff/Products";
 import CostCalculate from "./views/services/costs/CostCalculate";
 import CostUploadFileToProcess from "./views/services/costs/CostUploadFileToProcess";
+import CostListAllFilesToProcess from "./views/services/costs/CostListAllFilesToProcess";
 
 var routes = [
   {
@@ -37,6 +38,13 @@ var routes = [
     name: "Upload File",
     icon: "tim-icons icon-cloud-upload-94",
     component: CostUploadFileToProcess,
+    layout: process.env.PUBLIC_URL,
+  },
+  {
+    path: `/listall-file-toprocess`,
+    name: "Files to Process",
+    icon: "tim-icons icon-single-copy-04",
+    component: CostListAllFilesToProcess,
     layout: process.env.PUBLIC_URL,
   },
   {
