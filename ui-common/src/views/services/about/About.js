@@ -16,15 +16,16 @@ function About() {
                             <ul>
                                 <li>New dashboard V2</li>
                                 <li>New dashboard of calculations</li>
+                                <li>Upload calculations when starts the stack</li>
                                 <li>Microservice - Log all requests</li>
                             </ul>
                             <h2>Coming soon</h2>
                             <ul>
-                                <li>New home page - Dashboard</li>
+                                <li>Chat</li>
+                                <li>Edit information of current user</li>
+                                <li>Save user preference settings</li>
                                 <li>Summary about comparison</li>
-                                <li>New comparison by percentage</li>
                                 <li>All Menus find by</li>
-                                <li>All menus delete all</li>
                                 <li>All stack deployed to cloud and CI/CD</li>
                             </ul>
                             <h3>Version</h3>
