@@ -1,25 +1,25 @@
-# UI File
+# UI Common
 
-User Interface File
+User Interface Common
 
 ## How To Run
 
 
-1. Change Directory 
+1. Change Directory
 ```sh
-$ cd ui-react-file/
+$ cd ui-common/
 ```
 
 
-2. Build 
+2. Build
 ```sh
 $ npm run build
 ```
 
 
-3. Run 
+3. Run
 ```sh
 $ npm run start
 ```
 
-4. All the requests are listening on 3000 port. [http://localhost:3000/file-ui]
+4. All the requests are listening on 3000 port. [http://localhost:8000/ui-common]

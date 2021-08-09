@@ -1,11 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+
+import AdminLayout from "layouts/Admin/Admin.js";
+
+import "assets/scss/black-dashboard-react.scss";
+import "assets/demo/demo.css";
+import "assets/css/nucleo-icons.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
+import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
+import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
+
 import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
 import {createUploadLink} from "apollo-upload-client";
 import Keycloak from "keycloak-js";
 import {setContext} from "@apollo/client/link/context";
-import Routes from "./Routes";
 
 
 const httpLink = createUploadLink({
@@ -46,14 +56,23 @@ keycloak.init({ onLoad: initKeycloak.onLoad }).then((auth)=> {
         localStorage.setItem('token', keycloak.token);
         clientApollo = connectBff();
     }
+
     ReactDOM.render(
-        <React.StrictMode>
-            <ApolloProvider client={clientApollo}>
-                <Routes />
-            </ApolloProvider>
-        </React.StrictMode>,
-        document.getElementById('root')
+        <ThemeContextWrapper>
+            <BackgroundColorWrapper>
+                <ApolloProvider client={clientApollo}>
+                    <BrowserRouter>
+                        <Switch>
+                            <Route path={process.env.PUBLIC_URL} render={(props) => <AdminLayout {...props} />} />
+                            <Redirect from="/" to={`${process.env.PUBLIC_URL}/dashboard`} />
+                        </Switch>
+                    </BrowserRouter>
+                </ApolloProvider>
+            </BackgroundColorWrapper>
+        </ThemeContextWrapper>,
+        document.getElementById("root")
     );
+
     setTimeout(() => {
         keycloak.updateToken(70).then((refreshed) => {
             if (refreshed) {
@@ -65,6 +84,5 @@ keycloak.init({ onLoad: initKeycloak.onLoad }).then((auth)=> {
         }).catch(() => {
             console.error('Failed to refresh token');
         });
-    }, 60000)
+    }, 20000)
 });
-reportWebVitals();
