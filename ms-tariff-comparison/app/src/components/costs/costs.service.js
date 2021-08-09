@@ -3,9 +3,12 @@ const Calculation = require("../calculation/calculation.model");
 const Product = require("../products/product.model");
 const s3Service = require("../amazon/amazonS3.service");
 const cron = require("node-cron");
+const logger = require("../../logger/logger");
 
 cron.schedule("*/5 * * * *", () => {
-  this.processAllFiles();
+  this.processAllFiles()
+    .then((value) => logger.info(value))
+    .catch((reason) => logger.error(reason.message));
 }, {});
 
 exports.listAllFilesToProcess = async () => {
