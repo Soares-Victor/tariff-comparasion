@@ -1,7 +1,7 @@
 import {Card, CardBody, CardHeader, CardTitle, Col, Row} from "reactstrap";
 import React from "react";
 
-function About(props) {
+function About() {
     return(
         <div className="content">
             <Row>
@@ -15,6 +15,8 @@ function About(props) {
                             <h2>Last updates</h2>
                             <ul>
                                 <li>New dashboard V2</li>
+                                <li>New dashboard of calculations</li>
+                                <li>Microservice - Log all requests</li>
                             </ul>
                             <h2>Coming soon</h2>
                             <ul>

@@ -5,7 +5,7 @@ import React from "react";
 import {MUTATION_DELETE_CALCULATIONS, QUERY_LIST_ALL_CALCULATION, QUERY_START_PROCESSING} from "../../../queries";
 import {useMutation, useQuery} from "@apollo/client";
 
-function CostListAllCalculation(props) {
+function CostListAllCalculation() {
 
     const listAllCalculation = useQuery(QUERY_LIST_ALL_CALCULATION);
     const startProcessing = useQuery(QUERY_START_PROCESSING);
@@ -94,11 +94,11 @@ function CostListAllCalculation(props) {
                                 <Button
                                     className="btn-fill" color="primary"
                                     type="submit"
-                                    onClick={event => notify(startProcessing.data.query, "success")}>
+                                    onClick={() => notify(startProcessing.data.query, "success")}>
                                     Start Processing
                                 </Button>
                                 <Button onClick={deleteCalculations} className="btn-fill" color="danger" type="submit">
-                                    Delete files selected
+                                    Delete Calculations Selected
                                 </Button>
                             </CardFooter>
                         </CardBody>
