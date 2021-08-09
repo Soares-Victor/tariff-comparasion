@@ -39,7 +39,7 @@ const server = new ApolloServer({
     schema,
     validationRules: [depthLimit(7)],
     context: ({ req }) => {
-        this.TOKEN_HEADER = req.headers.authorization;
+        TOKEN_HEADER = req.headers.authorization;
         // get token from http headers
         let user;
         if (req.headers && req.headers.authentication) {
