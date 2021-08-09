@@ -82,81 +82,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "KeyCloak Recovery Token - Gateway (Frontend)",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"pm.globals.set(\"TOKEN_FILES_KEYCLOAK\", jsonData.access_token);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "client_id",
-									"value": "gtw-local",
-									"type": "text"
-								},
-								{
-									"key": "username",
-									"value": "user",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "user",
-									"type": "text"
-								},
-								{
-									"key": "grant_type",
-									"value": "password",
-									"type": "text"
-								},
-								{
-									"key": "client_secret",
-									"value": "e919045b-1791-4426-9998-442f7ed61a0d",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:8080/auth/realms/Common/protocol/openid-connect/token",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"realms",
-								"Common",
-								"protocol",
-								"openid-connect",
-								"token"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -173,7 +98,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"tariffName\": \"Packaged Electricity Tariff\",\n    \"baseCostMonth\": 800,\n    \"costKwh\": 0.30,\n    \"rule\": \"packaged\"\n}",
+									"raw": "{\n    \"tariffName\": \"Packaged Annual\",\n    \"description\": \"Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)\",\n    \"month\": false,\n    \"values\": {\n        \"baseCost\": 800,\n        \"kwhCost\": 0.30,\n        \"maxConsumption\": 4000\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -194,7 +119,128 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Basic",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"tariffName\": \"Basic Month\",\n    \"description\": \"Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)\",\n    \"month\": true,\n    \"values\": {\n        \"baseCost\": 5,\n        \"kwhCost\": 0.22,\n        \"maxConsumption\": null\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/ms-tariff-comparison/product/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"ms-tariff-comparison",
+												"product",
+												"create"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "html",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/html; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "16"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"10-jp0ftjkKgqR5QUNv4OSdv528CK4\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 20 Jul 2021 16:57:12 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "Product created!"
+								},
+								{
+									"name": "Packaged",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"tariffName\": \"Packaged Annual\",\n    \"description\": \"Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)\",\n    \"month\": false,\n    \"values\": {\n        \"baseCost\": 800,\n        \"kwhCost\": 0.30,\n        \"maxConsumption\": 4000\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/ms-tariff-comparison/product/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"ms-tariff-comparison",
+												"product",
+												"create"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "html",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/html; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "16"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"10-jp0ftjkKgqR5QUNv4OSdv528CK4\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 20 Jul 2021 16:57:12 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "Product created!"
+								}
+							]
 						},
 						{
 							"name": "List All Products",
@@ -224,7 +270,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"tariffName\": \"Basic Tariff\",\n    \"baseCostMonth\": 5,\n    \"costKwh\": 0.22,\n    \"rule\": \"basic\"\n}",
+									"raw": "{\n    \"tariffName\": \"Basic Month\",\n    \"description\": \"Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)\",\n    \"month\": true,\n    \"values\": {\n        \"baseCost\": 5,\n        \"kwhCost\": 0.22,\n        \"maxConsumption\": null\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -232,7 +278,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3000/ms-tariff-comparison/product/update/id/60df1775213ae8a545e3e783",
+									"raw": "http://localhost:3000/ms-tariff-comparison/product/update/id/60f7055cdc61e7ce6d6ca4b6",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -243,7 +289,7 @@
 										"product",
 										"update",
 										"id",
-										"60df1775213ae8a545e3e783"
+										"60f7055cdc61e7ce6d6ca4b6"
 									]
 								}
 							},
@@ -255,7 +301,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3000/ms-tariff-comparison/product/delete/id/60e3694e6e9059c244769c39",
+									"raw": "http://localhost:3000/ms-tariff-comparison/product/delete/id/60f70068c99b27c4c14480d0",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -266,7 +312,7 @@
 										"product",
 										"delete",
 										"id",
-										"60e3694e6e9059c244769c39"
+										"60f70068c99b27c4c14480d0"
 									]
 								}
 							},
@@ -284,7 +330,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"kwhYear\": 4500\n}",
+									"raw": "{\n    \"kwhYear\": 3500\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -360,6 +406,91 @@
 							"response": []
 						},
 						{
+							"name": "List All Files to Process",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/ms-tariff-comparison/costs/file/toprocess/listall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"ms-tariff-comparison",
+										"costs",
+										"file",
+										"toprocess",
+										"listall"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Files to Process",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\"calculationToProcess.jsonl\"]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/ms-tariff-comparison/costs/file/toprocess/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"ms-tariff-comparison",
+										"costs",
+										"file",
+										"toprocess",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Calculations",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\"60f6db79d4f21e6b39668db8\", \"60f6db79d4f21e6b39668dba\"]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/ms-tariff-comparison/costs/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"ms-tariff-comparison",
+										"costs",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Start Processing",
 							"request": {
 								"method": "GET",
@@ -404,7 +535,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"tariffName\": \"Packaged Electricity Tariff\",\n    \"baseCostMonth\": 800,\n    \"costKwh\": 0.30,\n    \"rule\": \"packaged\"\n}",
+									"raw": "{\n    \"tariffName\": \"Packaged Annual\",\n    \"description\": \"Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)\",\n    \"month\": false,\n    \"values\": {\n        \"baseCost\": 800,\n        \"kwhCost\": 0.30,\n        \"maxConsumption\": 4000\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -424,7 +555,115 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Basic",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{TOKEN_FILES_KEYCLOAK}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"tariffName\": \"Basic Month\",\n    \"description\": \"Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)\",\n    \"month\": true,\n    \"values\": {\n        \"baseCost\": 5,\n        \"kwhCost\": 0.22,\n        \"maxConsumption\": null\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:7070/product/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "7070",
+											"path": [
+												"product",
+												"create"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "Packaged",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{TOKEN_FILES_KEYCLOAK}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"tariffName\": \"Packaged Annual\",\n    \"description\": \"Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)\",\n    \"month\": false,\n    \"values\": {\n        \"baseCost\": 800,\n        \"kwhCost\": 0.30,\n        \"maxConsumption\": 4000\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:7070/product/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "7070",
+											"path": [
+												"product",
+												"create"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "html",
+									"header": [
+										{
+											"key": "x-powered-by",
+											"value": "Express"
+										},
+										{
+											"key": "content-type",
+											"value": "text/html; charset=utf-8"
+										},
+										{
+											"key": "content-length",
+											"value": "16"
+										},
+										{
+											"key": "etag",
+											"value": "W/\"10-jp0ftjkKgqR5QUNv4OSdv528CK4\""
+										},
+										{
+											"key": "date",
+											"value": "Tue, 20 Jul 2021 18:26:57 GMT"
+										},
+										{
+											"key": "connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "keep-alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "Product created!"
+								}
+							]
 						},
 						{
 							"name": "List All Products",
@@ -465,7 +704,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"tariffName\": \"Basic Tariff\",\n    \"baseCostMonth\": 5,\n    \"costKwh\": 0.22,\n    \"rule\": \"basic\"\n}",
+									"raw": "{\n    \"tariffName\": \"Basic Month 5\",\n    \"description\": \"Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)\",\n    \"month\": true,\n    \"values\": {\n        \"baseCost\": 5,\n        \"kwhCost\": 0.22,\n        \"maxConsumption\": null\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -473,7 +712,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:7070/product/update/id/60df21da87f9dda3fa6882d3",
+									"raw": "http://localhost:7070/product/update/id/60f709261fe3810416eb09ef",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -483,7 +722,7 @@
 										"product",
 										"update",
 										"id",
-										"60df21da87f9dda3fa6882d3"
+										"60f709261fe3810416eb09ef"
 									]
 								}
 							},
@@ -501,7 +740,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:7070/product/delete/id/60df21da87f9dda3fa6882d3",
+									"raw": "http://localhost:7070/product/delete/id/60f709261fe3810416eb09ef",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -511,7 +750,7 @@
 										"product",
 										"delete",
 										"id",
-										"60df21da87f9dda3fa6882d3"
+										"60f709261fe3810416eb09ef"
 									]
 								}
 							},
@@ -593,6 +832,78 @@
 							"response": []
 						},
 						{
+							"name": "Delete Calculations",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN_FILES_KEYCLOAK}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\"60f70a0789f083d64b16843a\", \"60f6db79d4f21e6b39668dba\"]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7070/costs/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7070",
+									"path": [
+										"costs",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Files to Process",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN_FILES_KEYCLOAK}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\"calculationToProcess.jsonl\"]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:7070/costs/file/toprocess/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7070",
+									"path": [
+										"costs",
+										"file",
+										"toprocess",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "List All Calculation",
 							"request": {
 								"method": "GET",
@@ -645,6 +956,34 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "List All Files to Process",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN_FILES_KEYCLOAK}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:7070/costs/file/toprocess/listall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "7070",
+									"path": [
+										"costs",
+										"file",
+										"toprocess",
+										"listall"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -670,7 +1009,40 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "{\n  query: listAllProduct {\n        _id, tariffName, baseCostMonth, costKwh, rule\n      }\n}",
+										"query": "{\n  query: listAllProduct {\n        _id, tariffName, description, month, values {\n            baseCost, kwhCost, maxConsumption\n        }\n      }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/bff-common/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"bff-common",
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List All Files to Process",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN_FILES_KEYCLOAK}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "{\n  query: listAllFilesToProcess\n}",
 										"variables": ""
 									}
 								},
@@ -703,7 +1075,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "{\n  query: listAllCalculationCost {\n    _id, dateProcessed, installNumber, person {firstName, lastName},totalCosts{\n      kwhYear, products{ \n          name, totalYear {\n              baseCostsYear, kwhCostsYear, totalCosts\n          }\n      }\n    }\n  }\n}",
+										"query": "{\n  query: listAllCalculationCost {\n    _id, dateProcessed, installNumber, person {firstName, lastName},totalCosts{\n      kwhYear, products{ \n          name, description, charger, totalYear {\n              baseCostsYear, kwhCostsYear, totalCosts\n          }\n      }\n    }\n  }\n}",
 										"variables": ""
 									}
 								},
@@ -774,7 +1146,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation {\n  createOneProduct(productModel: {\n    tariffName:\"Medium\" ,\n    baseCostMonth: 7.0,\n    costKwh: 0.34,\n    rule: \"medium\"\n  }) \n}",
+										"query": "mutation {\n  createOneProduct(productModel: {\n    tariffName:\"Test\" ,\n    description: \"Description Test\",\n    month: false,\n    values: {\n        baseCost: 900, \n        kwhCost: 0.40,\n        maxConsumption: 4500\n    }\n  }) \n}",
 										"variables": ""
 									}
 								},
@@ -807,7 +1179,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation {\n  updateOneProduct(id: \"60df6ddc81b4900012356f84\", productModel: {\n    tariffName:\"Test\" ,\n    baseCostMonth: 10.0,\n    costKwh: 0.70,\n    rule: \"advanced\"\n  })\n}",
+										"query": "mutation {\n  updateOneProduct(id: \"60f709261fe3810416eb09f0\", productModel: {\n    tariffName:\"Test\" ,\n    description: \"Description Test\",\n    month: false,\n    values: {\n        baseCost: 900, \n        kwhCost: 0.40,\n        maxConsumption: 4500\n    }\n  })\n}",
 										"variables": ""
 									}
 								},
@@ -840,7 +1212,73 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation{\n  deleteOneProduct(id: \"60e36d67d69613c6a1f4afdc\")\n}",
+										"query": "mutation{\n  deleteOneProduct(id: \"60f709261fe3810416eb09f0\")\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/bff-common/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"bff-common",
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete File To Process",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN_FILES_KEYCLOAK}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation{\n  deleteFilesToProcess(ids: [\"calculationToProcess.jsonl\"])\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/bff-common/graphql",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"bff-common",
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Calculations",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{TOKEN_FILES_KEYCLOAK}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation{\n  deleteCalculations(ids: [\"60f70a0789f083d64b16843c\"])\n}",
 										"variables": ""
 									}
 								},
@@ -873,7 +1311,7 @@
 								"body": {
 									"mode": "graphql",
 									"graphql": {
-										"query": "mutation{\n  calculateCostYear(calculateModel: {kwhYear: 4500}){kwhYear, products{ \n          name, totalYear {\n              baseCostsYear, kwhCostsYear, totalCosts\n          }\n      }\n    }\n}",
+										"query": "mutation{\n  calculateCostYear(calculateModel: {kwhYear: 4500}){kwhYear, products{ \n          name, description, charger, totalYear {\n              baseCostsYear, kwhCostsYear, totalCosts\n          }\n      }\n    }\n}",
 										"variables": ""
 									}
 								},
