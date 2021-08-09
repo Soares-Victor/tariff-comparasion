@@ -24,8 +24,7 @@ function Footer() {
             target="_blank"
           >
             Victor Soares
-          </a>{" "}
-          for a better web.
+          </a>{" "}.
         </div>
       </Container>
     </footer>

@@ -5,6 +5,7 @@ const dbConfig = require('./config/database.config')
 const mongoose = require('mongoose');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./config/swagger.json');
+const logger = require('./app/src/logger/logger')
 
 mongoose.Promise = global.Promise
 
@@ -19,10 +20,9 @@ mongoose.connect(dbConfig.url, {
     useUnifiedTopology: true,
     useNewUrlParser: true
 }).then(() => {
-    console.log('Successfully connected to the database')
+    logger.info('Successfully connected to the database');
 }).catch(reason => {
-    console.log('Cannot connect to database: ' + reason);
-    process.exit();
+    logger.error('Cannot connect to database: ' + reason);
 })
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -36,5 +36,5 @@ require('./app/src/components/products/product.route')(app);
 
 
 app.listen(process.env.PORT, () => {
-    console.log('Server is listening on port: ' + process.env.PORT);
+    logger.info('Server is listening on port: ' + process.env.PORT);
 });
