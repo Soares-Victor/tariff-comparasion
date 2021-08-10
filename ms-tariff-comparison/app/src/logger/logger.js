@@ -10,16 +10,21 @@ const logger = winston.createLogger({
       }),
       printf(info => `${info.timestamp} ${info.level.toUpperCase()}: ${info.message}`)
   ),
-  transports: [
-    new winston.transports.File({filename: "error.log", level: "error"}),
-    new winston.transports.File({filename: "combined.log"}),
-  ],
+  transports: [],
 });
 
 if (process.env.NODE_ENV !== "production") {
   logger.add(new winston.transports.Console({
-    handleExceptions: true
+    handleExceptions: true,
   }));
+}
+else {
+  logger.add(
+      new winston.transports.File({filename: "combined.log"})
+  );
+  logger.add(
+      new winston.transports.File({filename: "error.log", level: "error"}),
+  );
 }
 
 module.exports = logger;
