@@ -6,10 +6,10 @@ exports.getAccount = async (username, client) => {
     .then((value) => {
       if (value) {
         return awsService.downloadUserPhotoByFileName(value.photoId)
-            .then(file => {
-              value['_doc'].photoBase64 = file.Body.toString("base64");
-              return value;
-            }).catch(() => value);
+          .then((file) => {
+            value["_doc"].photoBase64 = file.Body.toString("base64");
+            return value;
+          }).catch(() => value);
       }
       return `Account ${username} not found!`;
     })
@@ -30,14 +30,14 @@ exports.saveAccount = async (accountReq) => {
         if (!value) {
           return Account.create(prepareAccount(accountReq))
             .then(() => "Account created!")
-            .catch(() => {
-              throw new Error("Error to update account!");
+            .catch((reason) => {
+              throw reason;
             });
         }
         return "Account updated!";
       })
       .catch(() => {
-        throw new Error("Error to update account!");
+        throw new Error("Error to save account!");
       });
   }
 };
