@@ -50,10 +50,21 @@ apiEndpoints:
     paths: '/costs/file/toprocess/delete'
     methods: [ 'DELETE' ]
 
+  api-ms-user-get-account:
+    host: '*'
+    paths: '/account/client/*/me/*'
+    methods: [ 'GET' ]
+  api-ms-user-create-account:
+    host: '*'
+    paths: '/account'
+    methods: [ 'POST' ]
+
 
 serviceEndpoints:
   ms-tariff-comparison:
     url: 'http://localhost:3000/ms-tariff-comparison'
+  ms-user:
+    url: 'http://localhost:3001/ms-user'
 policies:
   - basic-auth
   - cors
@@ -86,3 +97,15 @@ pipelines:
       - proxy:
         - action:
             serviceEndpoint: ms-tariff-comparison
+
+  ms-user:
+    apiEndpoints:
+      - api-ms-user-get-account
+      - api-ms-user-create-account
+    policies:
+      - keycloak-protect:
+        - action:
+            role: Write
+      - proxy:
+        - action:
+            serviceEndpoint: ms-user
