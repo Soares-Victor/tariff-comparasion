@@ -23,6 +23,7 @@ function UserProfile() {
     const [addressNumber, setAddressNumber] = useState("");
     const [addressStreet, setAddressStreet] = useState("");
     const [addressZipCode, setAddressZipCode] = useState("");
+    const [photoUserBase64, setPhotoUserBase64] = useState("");
 
     const notificationAlertRef = React.useRef(null);
 
@@ -38,7 +39,12 @@ function UserProfile() {
         });
     };
 
-    function saveAccount() {
+    function isSomeFieldChanged() {
+        return !!(email || firstName || lastName || phone || aboutMe || linkedinLink || facebookLink || addressCity ||
+            addressCountry || addressNumber || addressStreet || addressZipCode || photoUserBase64);
+    }
+
+    function getAccount() {
         let address = {};
         let addressToSave = data.data.getLoggedAccount.address;
         if (addressToSave || addressCity || addressCountry || addressNumber || addressStreet || addressZipCode) {
@@ -50,7 +56,7 @@ function UserProfile() {
                 zipCode: addressZipCode ? addressZipCode : ((addressToSave && addressToSave.zipCode) ? addressToSave.zipCode : ""),
             }
         }
-        let account = {
+        return {
             client: data.data.getLoggedAccount.client || localStorage.getItem('realm'),
             username: data.data.getLoggedAccount.user || localStorage.getItem('user'),
             email: email || data.data.getLoggedAccount.email,
@@ -60,12 +66,28 @@ function UserProfile() {
             aboutMe: aboutMe || data.data.getLoggedAccount.aboutMe,
             linkedinLink: linkedinLink || data.data.getLoggedAccount.linkedinLink,
             facebookLink: facebookLink || data.data.getLoggedAccount.facebookLink,
+            photoBase64: photoUserBase64 || "",
             address: address
-        }
+        };
+    }
 
-        saveAccountMutation({variables: {accountModel: account}})
+    function saveAccount() {
+        saveAccountMutation({variables: {accountModel: getAccount()}})
             .then(value => notify(value.data.saveAccount, "success"))
             .catch(reason => notify(reason.message, "danger"))
+    }
+
+    const convertBase64 = (f) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(f)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
     }
 
     if (data.loading || data.error || !data.data.getLoggedAccount) return <></>;
@@ -245,13 +267,16 @@ function UserProfile() {
                             </Form>
                         </CardBody>
                         <CardFooter>
-                            <Button
-                                className="btn-fill"
-                                color="primary"
-                                type="submit"
-                                onClick={() => saveAccount()}>
-                                Save
-                            </Button>
+                            {isSomeFieldChanged() &&
+                                <Button
+                                    className="btn-fill"
+                                    color="primary"
+                                    type="submit"
+                                    onClick={() => saveAccount()}>
+                                    Save
+                                </Button>
+                            }
+
                         </CardFooter>
                     </Card>
                 </Col>
@@ -264,12 +289,30 @@ function UserProfile() {
                                 <div className="block block-two" />
                                 <div className="block block-three" />
                                 <div className="block block-four" />
+                                <Button className="btn-icon btn-simple" onClick={() => {
+                                    document.getElementById("img-input").click();
+                                }}>
+                                    <i className="tim-icons icon-pencil"/>
+                                </Button>
+                                <br/>
+                                <input id="img-input" onChange={event => {
+                                    convertBase64(event.target.files[0])
+                                        .then(fBase64 => {
+                                            setPhotoUserBase64(fBase64.toString().substring(fBase64.toString().indexOf(",") + 1));
+                                        })
+                                        .catch(reason => {notify(reason.message, "danger")});
+                                }} style={{display: "none"}} type="file"/>
                                 <img
                                     alt="..."
                                     className="avatar"
-                                    src={data.data.getLoggedAccount.photoBase64 ?
+                                    src={photoUserBase64 ? `data:image/png;base64,${photoUserBase64}` :
+                                        (data.data.getLoggedAccount.photoBase64 ?
                                         `data:image/png;base64,${data.data.getLoggedAccount.photoBase64}` :
-                                        require("assets/img/anime3.png").default}
+                                        require("assets/img/anime3.png").default)}
+                                    onLoad={() => {
+                                        if (photoUserBase64 && photoUserBase64 !== data.data.getLoggedAccount.photoBase64)
+                                            saveAccount();
+                                    }}
                                 />
                                 <h5 className="title">
                                     {(data.data.getLoggedAccount.firstName || firstName)
