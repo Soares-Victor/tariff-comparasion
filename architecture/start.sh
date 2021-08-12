@@ -7,8 +7,8 @@ docker-compose up -d
 sleep 10
 aws-docker --endpoint-url=http://localhost:4566 s3 mb s3://projectsysvictor-tariff-toprocess
 aws-docker --endpoint-url=http://localhost:4566 s3 mb s3://projectsysvictor-user-photos
-#docker build -t ui-common ../ui-common
-#docker run -it -d --network host ui-common
+docker build -t ui-common ../ui-common
+docker run -it -d --network host ui-common
 docker build -t ms-tariff-comparison ../ms-tariff-comparison
 docker run -it -d --network host ms-tariff-comparison
 docker build -t ms-user ../ms-user
