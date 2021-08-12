@@ -1,5 +1,23 @@
 import gql from "graphql-tag";
 
+export const QUERY_GET_LOGGED_USER = gql`
+
+    query($client: String!, $user: String!) {
+        getLoggedAccount(client: $client, user: $user){
+            _id, username, client, firstName, lastName, email, phone, photoBase64, photoId, address {
+                street, city, number, zipCode, country,
+            }
+        }
+    }
+
+`;
+
+export const MUTATION_SAVE_ACCOUNT = gql`
+    mutation($accountModel: AccountInput) {
+        saveAccount(accountModel: $accountModel)
+    }
+`;
+
 export const QUERY_LIST_ALL_FILES_TO_PROCESS = gql`
     {
         query: listAllFilesToProcess

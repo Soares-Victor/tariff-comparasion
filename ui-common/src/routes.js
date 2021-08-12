@@ -6,6 +6,7 @@ import CostUploadFileToProcess from "./views/services/costs/CostUploadFileToProc
 import CostListAllFilesToProcess from "./views/services/costs/CostListAllFilesToProcess";
 import CostListAllCalculation from "./views/services/costs/CostListAllCalculation";
 import About from "./views/services/about/About";
+import UserProfile from "./views/services/user/UserProfile";
 
 var routes = [
   {
@@ -48,6 +49,13 @@ var routes = [
     name: "Check All Calculations",
     icon: "tim-icons icon-chart-bar-32",
     component: CostListAllCalculation,
+    layout: process.env.PUBLIC_URL,
+  },
+  {
+    path: `/user-profile`,
+    name: "User Profile",
+    icon: "tim-icons icon-single-02",
+    component: UserProfile,
     layout: process.env.PUBLIC_URL,
   },
   {
