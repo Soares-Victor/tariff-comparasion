@@ -15,6 +15,9 @@ function UserProfile() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [phone, setPhone] = useState("");
+    const [aboutMe, setAboutMe] = useState("");
+    const [linkedinLink, setLinkedinLink] = useState("");
+    const [facebookLink, setFacebookLink] = useState("");
     const [addressCity, setAddressCity] = useState("");
     const [addressCountry, setAddressCountry] = useState("");
     const [addressNumber, setAddressNumber] = useState("");
@@ -54,6 +57,9 @@ function UserProfile() {
             firstName: firstName || data.data.getLoggedAccount.firstName,
             lastName: lastName || data.data.getLoggedAccount.lastName,
             phone: phone || data.data.getLoggedAccount.phone,
+            aboutMe: aboutMe || data.data.getLoggedAccount.aboutMe,
+            linkedinLink: linkedinLink || data.data.getLoggedAccount.linkedinLink,
+            facebookLink: facebookLink || data.data.getLoggedAccount.facebookLink,
             address: address
         }
 
@@ -210,21 +216,32 @@ function UserProfile() {
                                         </FormGroup>
                                     </Col>
                                 </Row>
-                                {/*<Row>
-                                    <Col md="8">
+                                <Row>
+                                    <Col className="pr-md-1" md="6">
                                         <FormGroup>
-                                            <label>About Me</label>
+                                            <label>Linkedin Profile</label>
                                             <Input
-                                                cols="80"
-                                                defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in
-                            that two seat Lambo."
-                                                placeholder="Here can be your description"
+                                                placeholder="http://linkedin.com"
                                                 rows="4"
-                                                type="textarea"
+                                                type="text"
+                                                onChange={event => setLinkedinLink(event.target.value)}
+                                                defaultValue={data.data.getLoggedAccount.linkedinLink || ""}
                                             />
                                         </FormGroup>
                                     </Col>
-                                </Row>*/}
+                                    <Col className="pl-md-1" md="6">
+                                        <FormGroup>
+                                            <label>Facebook</label>
+                                            <Input
+                                                placeholder="http://facebook.com"
+                                                rows="4"
+                                                type="text"
+                                                onChange={event => setFacebookLink(event.target.value)}
+                                                defaultValue={data.data.getLoggedAccount.facebookLink || ""}
+                                            />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
                             </Form>
                         </CardBody>
                         <CardFooter>
@@ -252,26 +269,34 @@ function UserProfile() {
                                     className="avatar"
                                     src={require("assets/img/emilyz.jpg").default}
                                 />
-                                <h5 className="title">{firstName.concat(" ").concat(lastName)}</h5>
-                                <p className="description">Ceo/Co-Founder</p>
+                                <h5 className="title">
+                                    {(data.data.getLoggedAccount.firstName || firstName)
+                                        .concat(" ").concat(data.data.getLoggedAccount.lastName || lastName)}</h5>
                             </div>
-                            <div className="card-description">
-                                Do not be scared of the truth because we need to restart the
-                                human foundation in truth And I love you like Kanye loves
-                                Kanye I love Rick Owens’ bed design but the back is...
-                            </div>
+                            <FormGroup>
+                                <label>About Me</label>
+                                <Input
+                                    cols="80"
+                                    placeholder="Here can be your description"
+                                    rows="4"
+                                    type="textarea"
+                                    onChange={event => setAboutMe(event.target.value)}
+                                    defaultValue={data.data.getLoggedAccount.aboutMe || ""}
+                                />
+                            </FormGroup>
                         </CardBody>
                         <CardFooter>
                             <div className="button-container">
-                                <Button className="btn-icon btn-round" color="facebook">
-                                    <i className="fab fa-linkedin" />
-                                </Button>
-                                <Button className="btn-icon btn-round" color="twitter">
-                                    <i className="fab fa-twitter" />
-                                </Button>
-                                <Button className="btn-icon btn-round" color="google">
-                                    <i className="fab fa-google-plus" />
-                                </Button>
+                                {data.data.getLoggedAccount.linkedinLink &&
+                                    <Button className="btn-icon btn-round" color="linkedin" onClick={() => window.open(data.data.getLoggedAccount.linkedinLink, '_blank')}>
+                                        <i className="fab fa-linkedin" />
+                                    </Button>
+                                }
+                                {data.data.getLoggedAccount.facebookLink &&
+                                    <Button className="btn-icon btn-round" color="facebook" onClick={() => window.open(data.data.getLoggedAccount.facebookLink, '_blank')}>
+                                        <i className="fab fa-facebook" />
+                                    </Button>
+                                }
                             </div>
                         </CardFooter>
                     </Card>

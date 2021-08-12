@@ -52,6 +52,9 @@ function prepareAccount(accountReq) {
     email: accountReq.email,
     photoId: photoId,
     phone: accountReq.phone,
+    aboutMe: accountReq.aboutMe,
+    linkedinLink: accountReq.linkedinLink,
+    facebookLink: accountReq.facebookLink,
     address: {
       street: accountReq.address.street,
       city: accountReq.address.city,

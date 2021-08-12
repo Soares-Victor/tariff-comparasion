@@ -16,6 +16,9 @@ type AccountModel {
     phone: String
     photoBase64: String
     photoId: String
+    aboutMe: String
+    linkedinLink: String
+    facebookLink: String
     address: AddressModel
 }
 
@@ -35,6 +38,9 @@ input AccountInput {
     email: String
     phone: String
     photoBase64: String
+    aboutMe: String
+    linkedinLink: String
+    facebookLink: String
     address: AddressInput
 }
 

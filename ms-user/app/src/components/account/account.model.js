@@ -8,6 +8,9 @@ const AccountModel = mongoose.Schema({
   lastName: String,
   email: String,
   photoId: String,
+  aboutMe: String,
+  linkedinLink: String,
+  facebookLink: String,
   address: {
     street: String,
     city: String,
