@@ -310,8 +310,10 @@ function UserProfile() {
                                         `data:image/png;base64,${data.data.getLoggedAccount.photoBase64}` :
                                         require("assets/img/anime3.png").default)}
                                     onLoad={() => {
-                                        if (photoUserBase64 && photoUserBase64 !== data.data.getLoggedAccount.photoBase64)
+                                        if (photoUserBase64 && photoUserBase64 !== data.data.getLoggedAccount.photoBase64) {
+                                            window.location.reload();
                                             saveAccount();
+                                        }
                                     }}
                                 />
                                 <h5 className="title">
