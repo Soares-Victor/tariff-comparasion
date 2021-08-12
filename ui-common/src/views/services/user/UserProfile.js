@@ -267,7 +267,9 @@ function UserProfile() {
                                 <img
                                     alt="..."
                                     className="avatar"
-                                    src={require("assets/img/emilyz.jpg").default}
+                                    src={data.data.getLoggedAccount.photoBase64 ?
+                                        `data:image/png;base64,${data.data.getLoggedAccount.photoBase64}` :
+                                        require("assets/img/anime3.png").default}
                                 />
                                 <h5 className="title">
                                     {(data.data.getLoggedAccount.firstName || firstName)
