@@ -63,9 +63,9 @@ exports.uploadFile = async (fileModel) => {
       });
       return values;
     })
-      .catch(reason => {
-          throw reason;
-      })
+    .catch((reason) => {
+      throw reason;
+    });
 };
 
 exports.calculateCostsByYear = async (kwhYear) => {
@@ -128,10 +128,10 @@ const calculateTotal = (product, kwhYear) => {
 
 exports.listAllCalculation = async () => {
   return Calculation.find()
-      .then(value => value)
-      .catch(reason => {
-          throw new InternalServerError(reason.message)
-      });
+    .then((value) => value)
+    .catch((reason) => {
+      throw new InternalServerError(reason.message);
+    });
 };
 
 
