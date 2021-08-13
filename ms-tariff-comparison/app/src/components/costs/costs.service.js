@@ -4,6 +4,9 @@ const Product = require("../products/product.model");
 const s3Service = require("../amazon/amazonS3.service");
 const cron = require("node-cron");
 const logger = require("../../logger/logger");
+const InternalServerError = require("../../error/models/internalServerError");
+const BadRequestError = require("../../error/models/badRequestError");
+const NotFoundError = require("../../error/models/notFoundError");
 
 cron.schedule("*/5 * * * *", () => {
   this.processAllFiles()
@@ -15,31 +18,31 @@ exports.listAllFilesToProcess = async () => {
   return await s3Service.listAllToProcess()
     .then((value) => value)
     .catch(() => {
-      throw new Error("Cannot list all files to process");
+      throw new InternalServerError("Cannot list all files to process");
     });
 };
 
 exports.deleteFilesById = async (filesName) => {
   return await s3Service.deleteFiles(filesName)
-    .then(() => "Deleted!")
+    .then((value) => value)
     .catch(() => {
-      throw new Error("Cannot delete files!");
+      throw new NotFoundError("No files found to delete!");
     });
 };
 
 exports.deleteCalculations = async (ids) => {
   if (!ids.length) {
-    throw new Error("Empty id list to delete!");
+    throw new BadRequestError("Empty id list to delete!");
   }
 
   return await Calculation.deleteMany({_id: ids})
     .then((value) => {
       if (value.deletedCount === 0) {
-        throw new Error("No id found to delete!");
+        throw new NotFoundError("No id found to delete!");
       }
-      return "Calculations deleted!";
+      return value;
     }).catch((reason) => {
-      throw new Error(reason);
+      throw reason;
     });
 };
 
@@ -48,22 +51,25 @@ exports.uploadFile = async (fileModel) => {
     .then((values) => {
       values.forEach((file) => {
         if (file.name.substr(file.name.lastIndexOf(".") + 1) !== "jsonl") {
-          throw new Error("Invalid Format. JSONL only allowed!");
+          throw new BadRequestError("Invalid Format. JSONL only allowed!");
         } else if (!file.base64) {
-          throw new Error("Content file not defined!");
+          throw new BadRequestError("Content file not defined!");
         } else if (Buffer.from(file.base64).length > 3000) {
-          throw new Error("File too large. Max size: 3MB");
+          throw new BadRequestError("File too large. Max size: 3MB");
         }
       });
       values.forEach((file) => {
         s3Service.uploadFileToProcess(file);
       });
-      return "Files Uploaded!";
-    });
+      return values;
+    })
+      .catch(reason => {
+          throw reason;
+      })
 };
 
 exports.calculateCostsByYear = async (kwhYear) => {
-  if (!kwhYear) throw new Error("KwYear is required!");
+  if (!kwhYear) throw new BadRequestError("KwYear is required!");
   return await Product.find()
     .then((products) => {
       const consumption = {
@@ -84,8 +90,8 @@ exports.calculateCostsByYear = async (kwhYear) => {
           1 :
           ((b.totalYear.totalCosts > a.totalYear.totalCosts) ? -1 : 0));
       return consumption;
-    }).catch(() => {
-      throw new Error("Error to calculate costs per year");
+    }).catch((reason) => {
+      throw reason;
     });
 };
 
@@ -121,7 +127,11 @@ const calculateTotal = (product, kwhYear) => {
 };
 
 exports.listAllCalculation = async () => {
-  return Calculation.find();
+  return Calculation.find()
+      .then(value => value)
+      .catch(reason => {
+          throw new InternalServerError(reason.message)
+      });
 };
 
 
@@ -146,24 +156,24 @@ exports.processAllFiles = async () => {
                       totalCosts: cost,
                     });
                     calculation.save()
-                      .catch(() => {
-                        throw new Error("Cannot save calculation to mongodb");
+                      .catch((reason) => {
+                        throw new InternalServerError(reason.message);
                       });
                     s3Service.deleteFileById(fileName)
                       .then((value) => value)
-                      .catch(() => {
-                        throw new Error("Cannot delete file from bucket");
+                      .catch((reason) => {
+                        throw new InternalServerError(reason.message);
                       });
-                  }).catch(() => {
-                    throw new Error("Cannot calculate costs by year");
+                  }).catch((reason) => {
+                    throw reason;
                   });
               });
-          }).catch(() => {
-            throw new Error("Cannot download file to process");
+          }).catch((reason) => {
+            throw new InternalServerError(reason.message);
           });
       });
-      return "Processing started!";
-    }).catch(() => {
-      throw new Error("Cannot list all files to process!");
+      return fileNames;
+    }).catch((reason) => {
+      throw reason;
     });
 };

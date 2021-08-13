@@ -8,8 +8,8 @@ exports.listAllToProcess = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
 
@@ -20,8 +20,8 @@ exports.deleteFilesById = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
 
@@ -32,8 +32,8 @@ exports.deleteCalculations = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
 
@@ -44,8 +44,8 @@ exports.calculateCostsByYear = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
 
@@ -56,8 +56,8 @@ exports.uploadFileToProcess = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
 
@@ -68,8 +68,8 @@ exports.getAllCalculation = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
 
@@ -80,7 +80,7 @@ exports.startProcessing = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
