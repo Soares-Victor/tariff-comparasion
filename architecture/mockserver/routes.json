@@ -1,0 +1,6 @@
+{
+    "/ms-tariff-comparison/product/listall": "/product",
+    "/ms-tariff-comparison/product/create": "/product",
+    "/ms-tariff-comparison/product/update/id/:_id": "/product/:_id",
+    "/ms-tariff-comparison/product/delete/id/:_id": "/product/:_id"
+}

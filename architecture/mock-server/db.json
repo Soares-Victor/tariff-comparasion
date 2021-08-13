@@ -1,0 +1,62 @@
+{
+  "product": [
+    {
+      "values": {
+        "baseCost": 5,
+        "kwhCost": 0.22,
+        "maxConsumption": null
+      },
+      "_id": "61159cecc962cc505a9034a1",
+      "tariffName": "Basic Month",
+      "description": "Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)",
+      "month": true
+    },
+    {
+      "tariffName": "Packaged Annual",
+      "description": "Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)",
+      "month": false,
+      "values": {
+        "baseCost": 800,
+        "kwhCost": 0.3,
+        "maxConsumption": 4000
+      },
+      "id": 793998
+    },
+    {
+      "tariffName": "Packaged Annual",
+      "description": "Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)",
+      "month": false,
+      "values": {
+        "baseCost": 800,
+        "kwhCost": 0.3,
+        "maxConsumption": 4000
+      },
+      "id": 459422,
+      "_id": 459422
+    },
+    {
+      "tariffName": "Packaged Annual",
+      "description": "Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)",
+      "month": false,
+      "values": {
+        "baseCost": 800,
+        "kwhCost": 0.3,
+        "maxConsumption": 4000
+      },
+      "id": 653253,
+      "_id": 653253
+    },
+    {
+      "tariffName": "Packaged Annual",
+      "description": "Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)",
+      "month": false,
+      "values": {
+        "baseCost": 800,
+        "kwhCost": 0.3,
+        "maxConsumption": 4000
+      },
+      "id": 694929,
+      "_id": 694929
+    }
+  ]
+}
