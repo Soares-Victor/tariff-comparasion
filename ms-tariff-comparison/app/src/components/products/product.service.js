@@ -1,11 +1,17 @@
 require("dotenv").config();
 const Product = require("./product.model");
+const BadRequestError = require("../../error/models/badRequestError");
+const InternalServerError = require("../../error/models/internalServerError");
+const NotFoundError = require("../../error/models/notFoundError");
 
 exports.deleteById = async (id) => {
-  return await Product.findByIdAndRemove(id)
-    .then(() => "Product deleted: " + id)
-    .catch(() => {
-      throw new Error(id + " not found!");
+  return await Product.findByIdAndRemove(id, {useFindAndModify: false})
+    .then((value) => {
+      if (!value) throw new NotFoundError(`${id} product not found!`);
+      return value;
+    })
+    .catch((reason) => {
+      throw reason;
     });
 };
 
@@ -13,7 +19,7 @@ exports.findAllProduct = async () => {
   return await Product.find()
     .then((value) => value)
     .catch(() => {
-      throw new Error("Error to list all Products!");
+      throw new InternalServerError("Error to list all Products!");
     });
 };
 
@@ -28,9 +34,9 @@ exports.createProduct = async (productModel) => {
         kwhCost: productModel.values.kwhCost,
         maxConsumption: productModel.values.maxConsumption,
       },
-    }).then(() => "Product created!")
-      .catch(() => {
-        throw new Error("Error to save Product!");
+    }).then((value) => value)
+      .catch((reason) => {
+        throw reason;
       }));
   }
 };
@@ -47,21 +53,24 @@ exports.update = async (id, productModel) => {
         maxConsumption: productModel.values.maxConsumption,
       },
     }, {new: true, useFindAndModify: false})
-      .then(() => "Product updated!")
-      .catch(() => {
-        throw new Error("Error to find and update!");
+      .then((value) => {
+        if (!value) throw new NotFoundError(`Product ${id} not found!`);
+        return value;
+      })
+      .catch((reason) => {
+        throw reason;
       });
   }
 };
 
 function isSetRequiredFields(productModel) {
-  if (!productModel.tariffName) throw new Error("Tariff Name is a required field!");
-  else if (!productModel.description) throw new Error("Description is a required field!");
-  else if (productModel.month === null) throw new Error("Month is a required field!");
-  else if (!productModel.values.baseCost) throw new Error("Base Cost is a required field!");
-  else if (!productModel.values.kwhCost) throw new Error("Cost per KWH is a required field!");
+  if (!productModel.tariffName) throw new BadRequestError("Tariff Name is a required field!");
+  else if (!productModel.description) throw new BadRequestError("Description is a required field!");
+  else if (productModel.month === null) throw new BadRequestError("Month is a required field!");
+  else if (!productModel.values.baseCost) throw new BadRequestError("Base Cost is a required field!");
+  else if (!productModel.values.kwhCost) throw new BadRequestError("Cost per KWH is a required field!");
   else if (!productModel.month && !productModel.values.maxConsumption) {
-    throw new Error("Max consumption KWH is a required field when is a year charge!");
+    throw new BadRequestError("Max consumption KWH is a required field when is a year charge!");
   }
   return true;
 }
