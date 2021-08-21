@@ -1,5 +1,7 @@
 const Account = require("./account.model");
 const awsService = require("../amazon/amazonS3.service");
+const InternalServerError = require("../../error/models/internalServerError");
+const BadRequestError = require("../../error/models/badRequestError");
 
 exports.getAccount = async (username, client) => {
   return await Account.findOne({username: username.toLowerCase(), client: client.toLowerCase()})
@@ -11,10 +13,10 @@ exports.getAccount = async (username, client) => {
             return value;
           }).catch(() => value);
       }
-      return `Account ${username} not found!`;
+      throw new InternalServerError(`Cannot find account ${username} and ${client}`);
     })
-    .catch(() => {
-      throw new Error("Error to get account");
+    .catch((reason) => {
+      throw reason;
     });
 };
 
@@ -29,15 +31,15 @@ exports.saveAccount = async (accountReq) => {
         }
         if (!value) {
           return Account.create(prepareAccount(accountReq))
-            .then(() => "Account created!")
+            .then((value) => value)
             .catch((reason) => {
-              throw reason;
+              throw new InternalServerError(reason.message);
             });
         }
-        return "Account updated!";
+        return value;
       })
-      .catch(() => {
-        throw new Error("Error to save account!");
+      .catch((reason) => {
+        throw reason;
       });
   }
 };
@@ -67,15 +69,15 @@ function prepareAccount(accountReq) {
 
 function isSetRequiredFields(accountReq) {
   if (!accountReq.username) {
-    throw new Error("Username is a required field!");
+    throw new BadRequestError("Username is a required field!");
   } else if (!accountReq.client) {
-    throw new Error("Client is a required field!");
+    throw new BadRequestError("Client is a required field!");
   } else if (!accountReq.firstName) {
-    throw new Error("First Name is a required field!");
+    throw new BadRequestError("First Name is a required field!");
   } else if (!accountReq.lastName) {
-    throw new Error("Last Name is a required field!");
+    throw new BadRequestError("Last Name is a required field!");
   } else if (!accountReq.email) {
-    throw new Error("Email is a required field!");
+    throw new BadRequestError("Email is a required field!");
   }
   return true;
 }

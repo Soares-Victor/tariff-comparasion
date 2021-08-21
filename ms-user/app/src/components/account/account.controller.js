@@ -8,8 +8,8 @@ exports.saveAccount = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
 
@@ -20,7 +20,7 @@ exports.getAccount = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
