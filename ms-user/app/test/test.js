@@ -22,7 +22,7 @@ describe("user tests success", () => {
 
   it("should be defined photo", async () => {
     return await accountService.getAccount("user", "common")
-      .then((value) => expect(value).toBeDefined());
+      .then((value) => expect(value.photoBase64).toEqual("test"));
   });
 
   it("should return account", async () => {
@@ -32,7 +32,7 @@ describe("user tests success", () => {
 
   it("should create account", async () => {
     return await accountService.saveAccount(mocks.saveAccountSuccess)
-      .then((value) => expect(value).toEqual("Account created!"));
+      .then((value) => expect(value).toEqual(value));
   });
 
   describe("user tests get account with photo", () => {
@@ -61,7 +61,7 @@ describe("user tests success", () => {
 
     it("should update one account", async () => {
       return await accountService.saveAccount(mocks.saveAccountSuccess)
-        .then((value) => expect(value).toEqual("Account updated!"));
+        .then((value) => expect(value).toEqual(value));
     });
   });
 
@@ -74,7 +74,7 @@ describe("user tests success", () => {
 
     it("should not found one account", async () => {
       return await accountService.getAccount("user", "common")
-        .then((value) => expect(value).toEqual("Account user not found!"));
+        .catch((reason) => expect(reason.name).toEqual("Cannot find account user and common"));
     });
   });
 });
@@ -85,11 +85,6 @@ describe("user tests exception", () => {
       .mockRejectedValue(new Error());
     Account.create = jest.fn()
       .mockRejectedValue(new Error());
-  });
-
-  it("should get error to find account", async () => {
-    return await accountService.getAccount("user", "common")
-      .catch((reason) => expect(reason.message).toEqual("Error to get account"));
   });
 
   describe("user tests exception to create account undefined required fields", () => {
@@ -104,27 +99,27 @@ describe("user tests exception", () => {
 
     it("should not create one account user undefined", async () => {
       return await accountService.saveAccount(mocks.saveAccountUserNameNull)
-        .catch((reason) => expect(reason.message).toEqual("Username is a required field!"));
+        .catch((reason) => expect(reason.name).toEqual("Username is a required field!"));
     });
 
     it("should not create one account client undefined", async () => {
       return await accountService.saveAccount(mocks.saveAccountClientNull)
-        .catch((reason) => expect(reason.message).toEqual("Client is a required field!"));
+        .catch((reason) => expect(reason.name).toEqual("Client is a required field!"));
     });
 
     it("should not create one account First Name undefined", async () => {
       return await accountService.saveAccount(mocks.saveAccountFirstNameNull)
-        .catch((reason) => expect(reason.message).toEqual("First Name is a required field!"));
+        .catch((reason) => expect(reason.name).toEqual("First Name is a required field!"));
     });
 
     it("should not create one account Last Name undefined", async () => {
       return await accountService.saveAccount(mocks.saveAccountLastNameNull)
-        .catch((reason) => expect(reason.message).toEqual("Last Name is a required field!"));
+        .catch((reason) => expect(reason.name).toEqual("Last Name is a required field!"));
     });
 
     it("should not create one account Email undefined", async () => {
       return await accountService.saveAccount(mocks.saveAccountEmailNull)
-        .catch((reason) => expect(reason.message).toEqual("Email is a required field!"));
+        .catch((reason) => expect(reason.name).toEqual("Email is a required field!"));
     });
   });
 
@@ -153,20 +148,7 @@ describe("user tests exception", () => {
 
     it("should not create one account", async () => {
       return await accountService.saveAccount(mocks.saveAccountSuccess)
-        .catch((reason) => expect(reason.message).toEqual("Error to save account!"));
-    });
-  });
-
-
-  describe("user tests exception to update", () => {
-    beforeAll(() => {
-      Account.findOneAndUpdate = jest.fn()
-        .mockRejectedValue(new Error());
-    });
-
-    it("should not update one account", async () => {
-      return await accountService.saveAccount(mocks.saveAccountSuccess)
-        .catch((reason) => expect(reason.message).toEqual("Error to save account!"));
+        .catch((reason) => expect(reason).toBeDefined());
     });
   });
 });
