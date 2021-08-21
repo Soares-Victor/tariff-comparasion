@@ -15,7 +15,7 @@ describe("user tests success", () => {
     Account.findOne = jest.fn()
       .mockResolvedValue(mocks.getAccountSuccess);
     Account.create = jest.fn()
-      .mockResolvedValue({});
+      .mockResolvedValue(mocks.saveAccountSuccess);
     Account.findOneAndUpdate = jest.fn()
       .mockResolvedValue(null);
   });
@@ -32,7 +32,7 @@ describe("user tests success", () => {
 
   it("should create account", async () => {
     return await accountService.saveAccount(mocks.saveAccountSuccess)
-      .then((value) => expect(value).toEqual(value));
+      .then((value) => expect(value).toEqual(mocks.saveAccountSuccess));
   });
 
   describe("user tests get account with photo", () => {
@@ -56,12 +56,12 @@ describe("user tests success", () => {
   describe("user tests update account", () => {
     beforeAll(() => {
       Account.findOneAndUpdate = jest.fn()
-        .mockResolvedValue({});
+        .mockResolvedValue(mocks.saveAccountSuccess);
     });
 
     it("should update one account", async () => {
       return await accountService.saveAccount(mocks.saveAccountSuccess)
-        .then((value) => expect(value).toEqual(value));
+        .then((value) => expect(value).toEqual(mocks.saveAccountSuccess));
     });
   });
 
