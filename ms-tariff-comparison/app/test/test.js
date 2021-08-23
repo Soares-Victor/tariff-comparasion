@@ -12,6 +12,7 @@ const s3 = new aws.S3({
 });
 const Product = require("../src/components/products/product.model");
 const Calculation = require("../src/components/calculation/calculation.model");
+const BadRequestError = require("../src/error/models/badRequestError");
 
 jest.useFakeTimers();
 
@@ -24,12 +25,12 @@ describe("service costs", () => {
 
     it("should delete calculations", async () => {
       return await costService.deleteCalculations(["1", "2"])
-        .then((value) => expect(value).toBe("Calculations deleted!"));
+        .then((value) => expect(value).toBe(mocks.deleteCalculations));
     });
 
     it("should upload file", async () => {
       return await costService.uploadFile([mocks.uploadFileToProcess])
-        .then((value) => expect(value).toBe("Files Uploaded!"));
+        .then((value) => expect(value).toEqual([mocks.uploadFileToProcess]));
     });
 
     it("should list all files to process", async () => {
@@ -38,8 +39,8 @@ describe("service costs", () => {
     });
 
     it("should delete files by id", async () => {
-      return await costService.deleteFilesById(["file1.jsonl"])
-        .then((value) => expect(value).toBe("Deleted!"));
+      return await costService.deleteFilesById(["calculationToProcess.jsonl"])
+        .then((value) => expect(value.Deleted[0].Key).toBe("calculationToProcess.jsonl"));
     });
 
     it("should calculate costs", async () => {
@@ -49,7 +50,7 @@ describe("service costs", () => {
 
     it("should process all files", async () => {
       return await costService.processAllFiles()
-        .then((value) => expect(value).toEqual("Processing started!"));
+        .then((value) => expect(value).toEqual(["calculationToProcess.jsonl", "file2.jsonl"]));
     });
 
     it("should list all calculation", async () => {
@@ -65,37 +66,37 @@ describe("service costs", () => {
       const fileModel = mocks.uploadFileToProcess;
       fileModel.name = "file.pdf";
       return await costService.uploadFile([fileModel])
-        .catch((reason) => expect(reason.message).toEqual("Invalid Format. JSONL only allowed!"));
+        .catch((reason) => expect(reason.name).toEqual("Invalid Format. JSONL only allowed!"));
     });
 
     it("should not calculate costs per year", async () => {
       return await costService.calculateCostsByYear(4500)
-        .catch((reason) => expect(reason.message).toEqual("Error to calculate costs per year"));
+        .catch((reason) => expect(reason.name).toEqual("Error"));
     });
 
     it("should not delete file", async () => {
       return await costService.deleteFilesById("test.jsonl")
-        .catch((reason) => expect(reason.message).toEqual("Cannot delete files!"));
+        .catch((reason) => expect(reason.name).toEqual("No files found to delete!"));
     });
 
     it("should not delete empty list", async () => {
       return await costService.deleteCalculations([])
-        .catch((reason) => expect(reason.message).toEqual("Empty id list to delete!"));
+        .catch((reason) => expect(reason.name).toEqual("Empty id list to delete!"));
     });
 
     it("should not delete many", async () => {
       return await costService.deleteCalculations(["1", "2"])
-        .catch((reason) => expect(reason.message).toEqual("Error"));
+        .catch((reason) => expect(reason.name).toEqual("Error"));
     });
 
     it("should not process all file", async () => {
       return await costService.processAllFiles()
-        .catch((reason) => expect(reason.message).toEqual("Cannot list all files to process!"));
+        .catch((reason) => expect(reason.name).toEqual("Error"));
     });
 
     it("should not list all files to process", async () => {
       return await costService.listAllFilesToProcess()
-        .catch((reason) => expect(reason.message).toEqual("Cannot list all files to process"));
+        .catch((reason) => expect(reason.name).toEqual("Cannot list all files to process"));
     });
   });
 });
@@ -106,7 +107,7 @@ describe("service products", () => {
 
     it("should create new product", async () => {
       return await productsService.createProduct(mocks.createNewProduct)
-        .then((value) => expect(value).toEqual("Product created!"));
+        .then((value) => expect(value).toEqual(mocks.createNewProduct));
     });
 
     it("should list all products", async () => {
@@ -116,12 +117,12 @@ describe("service products", () => {
 
     it("should delete one product", async () => {
       return await productsService.deleteById(1)
-        .then((value) => expect(value).toContain("Product deleted"));
+        .then((value) => expect(value).toBe(mocks.deleteProduct));
     });
 
     it("should update a product", async () => {
       return await productsService.update(1, mocks.createNewProduct)
-        .then((value) => expect(value).toEqual("Product updated!"));
+        .then((value) => expect(value).toEqual(mocks.updateProduct));
     });
   });
 
@@ -130,26 +131,31 @@ describe("service products", () => {
 
     it("should not delete product by id", async () => {
       return await productsService.deleteById("1")
-        .catch((reason) => expect(reason.message).toEqual("1 not found!"));
+        .catch((reason) => expect(reason.name).toEqual(mocks.deleteProductNotFound.name));
     });
 
     it("should not list all products", async () => {
       return await productsService.findAllProduct()
-        .catch((reason) => expect(reason.message).toEqual("Error to list all Products!"));
+        .catch((reason) => expect(reason.name).toEqual("Error to list all Products!"));
+    });
+
+    it('should not update a product', async () => {
+      return await productsService.update("123", mocks.updateProductError)
+          .catch((reason) => expect(reason.name).toEqual("Error"));
     });
 
     it("should not save new product", async () => {
       return await productsService.createProduct(mocks.createNewProduct)
-        .catch((reason) => expect(reason.message).toEqual("Error to save Product!"));
+        .catch((reason) => expect(reason.name).toEqual("Error"));
     });
 
-    it("should not save new product", async () => {
+    it("should not save new product max consumption KWH", async () => {
       const product = mocks.createNewProduct;
       product.month = false;
       product.values.maxConsumption = null;
-      return await productsService.createProduct(mocks.createNewProduct)
-        .catch((reason) => expect(reason.message)
-          .toEqual("Max consumption KWH is a required field when is a year charge!"));
+      return await productsService.createProduct(product)
+        .catch((reason) => expect(reason.name)
+          .toBe("Max consumption KWH is a required field when is a year charge!"));
     });
   });
 });
@@ -190,14 +196,14 @@ const initMockSuccess = () => {
   s3Service.deleteFileById = jest.fn()
     .mockResolvedValue(mocks.deleteFileToProcess);
   s3Service.deleteFiles = jest.fn()
-    .mockResolvedValue({});
+    .mockResolvedValue(mocks.deleteFileToProcess);
 
-  Product.create = jest.fn().mockResolvedValue({});
-  Product.findOneAndUpdate = jest.fn().mockResolvedValue({});
+  Product.create = jest.fn().mockResolvedValue(mocks.createNewProduct);
+  Product.findOneAndUpdate = jest.fn().mockResolvedValue(mocks.updateProduct);
   Product.find = jest.fn().mockResolvedValue(mocks.productFindAll);
-  Product.findByIdAndRemove = jest.fn().mockResolvedValue({});
+  Product.findByIdAndRemove = jest.fn().mockResolvedValue(mocks.deleteProduct);
   Calculation.find = jest.fn().mockResolvedValue(mocks.listAllCalculation);
-  Calculation.deleteMany = jest.fn().mockResolvedValue({});
+  Calculation.deleteMany = jest.fn().mockResolvedValue(mocks.deleteCalculations);
 };
 
 const initMockException = () => {
@@ -229,7 +235,7 @@ const initMockException = () => {
   Product.create = jest.fn().mockRejectedValue(new Error());
   Product.findOneAndUpdate = jest.fn().mockRejectedValue(new Error());
   Product.find = jest.fn().mockRejectedValue(new Error());
-  Product.findByIdAndRemove = jest.fn().mockRejectedValue(new Error());
+  Product.findByIdAndRemove = jest.fn().mockRejectedValue(new BadRequestError("61168e77a87945762e687ded product not found!"));
   Calculation.find = jest.fn().mockRejectedValue(new Error());
   Calculation.deleteMany = jest.fn().mockRejectedValue(new Error());
   Calculation.save = jest.fn().mockResolvedValue(new Error());
