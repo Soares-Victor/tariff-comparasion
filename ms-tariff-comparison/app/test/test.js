@@ -1,5 +1,6 @@
 require("dotenv").config();
-const costService = require("../src/components/costs/costs.service");
+const fileService = require("../src/components/files/file.service");
+const calculationService = require("../src/components/calculations/calculation.service");
 const productsService = require("../src/components/products/product.service");
 const s3Service = require("../src/components/amazon/amazonS3.service");
 const mocks = require("./mocks/mock");
@@ -11,7 +12,7 @@ const s3 = new aws.S3({
   params: configAws,
 });
 const Product = require("../src/components/products/product.model");
-const Calculation = require("../src/components/calculation/calculation.model");
+const Calculation = require("../src/components/calculations/calculation.model");
 const BadRequestError = require("../src/error/models/badRequestError");
 
 jest.useFakeTimers();
@@ -19,42 +20,42 @@ jest.useFakeTimers();
 beforeAll(() => initMocksDefault());
 
 
-describe("service costs", () => {
+describe("service files", () => {
   describe("success", () => {
     beforeAll(() => initMockSuccess());
 
     it("should delete calculations", async () => {
-      return await costService.deleteCalculations(["1", "2"])
+      return await calculationService.deleteCalculations(["1", "2"])
         .then((value) => expect(value).toBe(mocks.deleteCalculations));
     });
 
     it("should upload file", async () => {
-      return await costService.uploadFile([mocks.uploadFileToProcess])
+      return await fileService.uploadFile([mocks.uploadFileToProcess])
         .then((value) => expect(value).toEqual([mocks.uploadFileToProcess]));
     });
 
     it("should list all files to process", async () => {
-      return await costService.listAllFilesToProcess()
+      return await fileService.listAllFilesToProcess()
         .then((value) => expect(value).toBe(mocks.listAllFileNames));
     });
 
     it("should delete files by id", async () => {
-      return await costService.deleteFilesById(["calculationToProcess.jsonl"])
+      return await fileService.deleteFilesById(["calculationToProcess.jsonl"])
         .then((value) => expect(value.Deleted[0].Key).toBe("calculationToProcess.jsonl"));
     });
 
-    it("should calculate costs", async () => {
-      return await costService.calculateCostsByYear(4500)
+    it("should calculate files", async () => {
+      return await calculationService.calculateCostsByYear(4500)
         .then((value) => expect(value).toEqual(mocks.mockCalculateCost));
     });
 
     it("should process all files", async () => {
-      return await costService.processAllFiles()
+      return await fileService.processAllFiles()
         .then((value) => expect(value).toEqual(["calculationToProcess.jsonl", "file2.jsonl"]));
     });
 
-    it("should list all calculation", async () => {
-      return await costService.listAllCalculation()
+    it("should list all calculations", async () => {
+      return await calculationService.listAllCalculation()
         .then((value) => expect(value).toEqual(mocks.listAllCalculation));
     });
   });
@@ -65,37 +66,37 @@ describe("service costs", () => {
     it("should gives exception by format file", async () => {
       const fileModel = mocks.uploadFileToProcess;
       fileModel.name = "file.pdf";
-      return await costService.uploadFile([fileModel])
+      return await fileService.uploadFile([fileModel])
         .catch((reason) => expect(reason.name).toEqual("Invalid Format. JSONL only allowed!"));
     });
 
-    it("should not calculate costs per year", async () => {
-      return await costService.calculateCostsByYear(4500)
+    it("should not calculate files per year", async () => {
+      return await calculationService.calculateCostsByYear(4500)
         .catch((reason) => expect(reason.name).toEqual("Error"));
     });
 
     it("should not delete file", async () => {
-      return await costService.deleteFilesById("test.jsonl")
+      return await fileService.deleteFilesById("test.jsonl")
         .catch((reason) => expect(reason.name).toEqual("No files found to delete!"));
     });
 
     it("should not delete empty list", async () => {
-      return await costService.deleteCalculations([])
+      return await calculationService.deleteCalculations([])
         .catch((reason) => expect(reason.name).toEqual("Empty id list to delete!"));
     });
 
     it("should not delete many", async () => {
-      return await costService.deleteCalculations(["1", "2"])
+      return await calculationService.deleteCalculations(["1", "2"])
         .catch((reason) => expect(reason.name).toEqual("Error"));
     });
 
     it("should not process all file", async () => {
-      return await costService.processAllFiles()
+      return await fileService.processAllFiles()
         .catch((reason) => expect(reason.name).toEqual("Error"));
     });
 
     it("should not list all files to process", async () => {
-      return await costService.listAllFilesToProcess()
+      return await fileService.listAllFilesToProcess()
         .catch((reason) => expect(reason.name).toEqual("Cannot list all files to process"));
     });
   });
@@ -164,7 +165,8 @@ const initMocksDefault = () => {
   jest.mock("../src/components/amazon/amazonS3.service");
   jest.mock("fs");
   jest.mock("aws-sdk");
-  jest.mock("../src/components/costs/costs.service");
+  jest.mock("../src/components/files/file.service");
+  jest.mock("../src/components/calculations/calculation.service");
   jest.mock("../src/components/amazon/amazonS3.service");
   jest.mock("../src/components/products/product.service");
   jest.mock("../src/components/amazon/amazonS3.service");

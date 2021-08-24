@@ -31,7 +31,8 @@ app.get(process.env.ROOT_PATH, (req, res) => {
     res.json({message: 'This is a microservice about tariff comparison!'})
 })
 
-require('./app/src/components/costs/costs.route')(app);
+require('./app/src/components/files/file.route')(app);
+require('./app/src/components/calculations/calculation.route')(app);
 require('./app/src/components/products/product.route')(app);
 
 
