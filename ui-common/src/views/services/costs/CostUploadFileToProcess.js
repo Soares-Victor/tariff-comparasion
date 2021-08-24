@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import {MUTATION_UPLOAD_FILE} from "../../../queries";
 import {useMutation} from "@apollo/client";
 
-function CostUploadFileToProcess(props) {
+function CostUploadFileToProcess() {
     const [file, setFile] = useState(false);
     const [upload] = useMutation(MUTATION_UPLOAD_FILE);
 
@@ -37,7 +37,7 @@ function CostUploadFileToProcess(props) {
 
         }
         await upload({variables: {fileProcessModel: files}})
-            .then(value => notify(value.data.uploadFileToProcess, "success"))
+            .then(() => notify("Uploaded!", "success"))
             .catch(reason => notify(reason.message, "danger"));
     }
 

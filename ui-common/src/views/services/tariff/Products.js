@@ -23,7 +23,7 @@ import {
 } from "../../../queries";
 import NotificationAlert from "react-notification-alert";
 
-function Products(props) {
+function Products() {
 
     const listAllProducts = useQuery(QUERY_LIST_ALL_PRODUCT);
     const [update] = useMutation(MUTATION_UPDATE_PRODUCT);
@@ -64,14 +64,14 @@ function Products(props) {
         if (!id) {
             save({variables: {productModel: product}})
                 .then(value => {
-                    notify(value.data.createOneProduct, "success");
+                    notify(`Product Created: ${value.data.createOneProduct._id}`, "success");
                 })
                 .catch(reason => notify(reason.message, "danger"));
         }
         else {
             update({variables: {id: id, productModel: product}})
                 .then(value => {
-                    notify(value.data.updateOneProduct, "success")
+                    notify(`Product Updated: ${value.data.updateOneProduct._id}`, "success")
                 })
                 .catch(reason => notify(reason.message, "danger"));
         }
@@ -80,7 +80,7 @@ function Products(props) {
     const deleteOne = (id) => {
         if (window.confirm("Do you want to delete the product id: \n" + id + "\n?")){
             deleteProduct({variables: {id: id}})
-                .then(value => notify(value.data.deleteOneProduct, "success"))
+                .then(value => notify(`Product Deleted: ${value.data.deleteOneProduct._id}`, "success"))
                 .catch(reason => notify(reason.message, "danger"));
         }
     }

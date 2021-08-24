@@ -73,7 +73,7 @@ function UserProfile() {
 
     function saveAccount() {
         saveAccountMutation({variables: {accountModel: getAccount()}})
-            .then(value => notify(value.data.saveAccount, "success"))
+            .then(() => notify("Saved!", "success"))
             .catch(reason => notify(reason.message, "danger"))
     }
 

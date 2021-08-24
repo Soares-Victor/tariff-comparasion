@@ -25,9 +25,16 @@ var routes = [
   },
   {
     path: `/costs-calculate`,
-    name: "Costs Calculate",
+    name: "Calculation Costs",
     icon: "tim-icons icon-money-coins",
     component: CostCalculate,
+    layout: process.env.PUBLIC_URL,
+  },
+  {
+    path: `/listall-calculation`,
+    name: "Check All Calculations",
+    icon: "tim-icons icon-chart-bar-32",
+    component: CostListAllCalculation,
     layout: process.env.PUBLIC_URL,
   },
   {
@@ -42,13 +49,6 @@ var routes = [
     name: "Files to Process",
     icon: "tim-icons icon-single-copy-04",
     component: CostListAllFilesToProcess,
-    layout: process.env.PUBLIC_URL,
-  },
-  {
-    path: `/listall-calculation`,
-    name: "Check All Calculations",
-    icon: "tim-icons icon-chart-bar-32",
-    component: CostListAllCalculation,
     layout: process.env.PUBLIC_URL,
   },
   {

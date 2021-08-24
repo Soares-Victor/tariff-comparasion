@@ -15,7 +15,9 @@ export const QUERY_GET_LOGGED_USER = gql`
 
 export const MUTATION_SAVE_ACCOUNT = gql`
     mutation($accountModel: AccountInput) {
-        saveAccount(accountModel: $accountModel)
+        saveAccount(accountModel: $accountModel) {
+            _id, username, client, firstName, lastName
+        }
     }
 `;
 
@@ -57,48 +59,71 @@ export const QUERY_START_PROCESSING = gql`
 
 export const MUTATION_CREATE_PRODUCT = gql`
     mutation ($productModel: ProductInput) {
-        createOneProduct(productModel: $productModel)
+        createOneProduct(productModel: $productModel) {
+            _id
+        }
     }
 `;
 
 export const MUTATION_UPDATE_PRODUCT = gql`
     mutation ($id: String, $productModel: ProductInput) {
-        updateOneProduct(id: $id, productModel: $productModel)
+        updateOneProduct(id: $id, productModel: $productModel) {
+            _id
+        }
     }
 `;
 
 export const MUTATION_DELETE_PRODUCT = gql`
     mutation ($id: String) {
-        deleteOneProduct(id: $id)
+        deleteOneProduct(id: $id) {
+            _id
+        }
     }
 `;
 
 export const MUTATION_DELETE_FILE_TO_PROCESS = gql`
     mutation ($ids: [String]) {
-        deleteFilesToProcess(ids: $ids)
+        deleteFilesToProcess(ids: $ids) {
+            Deleted {
+                Key
+                VersionId
+            }
+        }
     }
 `;
 
 export const MUTATION_DELETE_CALCULATIONS = gql`
     mutation ($ids: [String]) {
-        deleteCalculations(ids: $ids)
+        deleteCalculations(ids: $ids) {
+            n
+            ok
+            deletedCount
+        }
     }
 `;
 
-export const MUTATION_CALCULATE_COSTS_YEAR = gql`
-    mutation ($calculateModel: CalculateInput) {
-        calculateCostYear(calculateModel: $calculateModel)
-        {kwhYear, products{
-            name, description, charger, totalYear {
-                baseCostsYear, kwhCostsYear, totalCosts
+export const QUERY_CALCULATE_COSTS_YEAR = gql`
+    query calculateCostYear ($kwhYear: String) {
+        calculateCostYear (kwhYear: $kwhYear) {
+            kwhYear
+            products {
+                name
+                description
+                charger
+                totalYear {
+                    baseCostsYear
+                    kwhCostsYear
+                    totalCosts
+                }
             }
-        }
         }
     }
 `;
 
 export const MUTATION_UPLOAD_FILE = gql`
     mutation ($fileProcessModel: [FileProcessInput]) {
-        uploadFileToProcess(fileProcessModel: $fileProcessModel)
+        uploadFileToProcess(fileProcessModel: $fileProcessModel) {
+            name
+        }
     }
 `;
