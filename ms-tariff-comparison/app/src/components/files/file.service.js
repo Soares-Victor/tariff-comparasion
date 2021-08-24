@@ -1,6 +1,7 @@
 require("dotenv").config();
 const Calculation = require("../calculations/calculation.model");
 const s3Service = require("../amazon/amazonS3.service");
+const calculationService = require("../calculations/calculation.service");
 const cron = require("node-cron");
 const InternalServerError = require("../../error/models/internalServerError");
 const BadRequestError = require("../../error/models/badRequestError");
@@ -56,7 +57,7 @@ exports.processAllFiles = async () => {
             fileData.Body.toString().split("\n")
               .forEach((l) => {
                 const line = JSON.parse(l);
-                this.calculateCostsByYear(line["kwhYear"])
+                calculationService.calculateCostsByYear(line["kwhYear"])
                   .then((cost) => {
                     const calculation = new Calculation({
                       dateProcessed: new Date().toISOString(),
