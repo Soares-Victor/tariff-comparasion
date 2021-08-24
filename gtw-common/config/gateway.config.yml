@@ -4,59 +4,60 @@ admin:
   port: 9876
   host: localhost
 apiEndpoints:
-  api-ms-tariff-comparison-product-create:
+  api-ms-tariff-comparison-products-create:
     host: '*'
-    paths: '/product/create'
+    paths: '/products'
     methods: [ 'POST' ]
-  api-ms-tariff-comparison-product-update:
+  api-ms-tariff-comparison-products-update:
     host: '*'
-    paths: '/product/update/id/*'
+    paths: '/products/*'
     methods: [ 'PUT' ]
-  api-ms-tariff-comparison-product-delete:
+  api-ms-tariff-comparison-products-delete:
     host: '*'
-    paths: '/product/delete/id/*'
+    paths: '/products/*'
     methods: [ 'DELETE' ]
-  api-ms-tariff-comparison-product-listall:
+  api-ms-tariff-comparison-products-listall:
     host: '*'
-    paths: '/product/listall'
+    paths: '/products'
     methods: [ 'GET' ]
 
-  api-ms-tariff-comparison-costs-listall:
+  api-ms-tariff-comparison-calculations-listall:
     host: '*'
-    paths: '/costs/calculation/listall'
+    paths: '/calculations'
     methods: [ 'GET' ]
-  api-ms-tariff-comparison-costs-startprocess:
+  api-ms-tariff-comparison-calculations-calculate:
     host: '*'
-    paths: '/costs/process/start'
+    paths: '/calculations/kwhyear/*'
     methods: [ 'GET' ]
-  api-ms-tariff-comparison-costs-calculate:
+  api-ms-tariff-comparison-calculations-calculate-delete:
     host: '*'
-    paths: '/costs/calculate'
-    methods: [ 'POST' ]
-  api-ms-tariff-comparison-costs-upload:
-    host: '*'
-    paths: '/costs/upload'
-    methods: [ 'POST' ]
-  api-ms-tariff-comparison-costs-file-toprocess-listall:
-    host: '*'
-    paths: '/costs/file/toprocess/listall'
-    methods: [ 'GET' ]
-  api-ms-tariff-comparison-costs-calculate-delete:
-    host: '*'
-    paths: '/costs/delete'
+    paths: '/calculations'
     methods: [ 'DELETE' ]
-  api-ms-tariff-comparison-costs-file-toprocess-delete:
+
+  api-ms-tariff-comparison-files-startprocess:
     host: '*'
-    paths: '/costs/file/toprocess/delete'
+    paths: '/files/process/starts'
+    methods: [ 'POST' ]
+  api-ms-tariff-comparison-files-upload:
+    host: '*'
+    paths: '/files'
+    methods: [ 'POST' ]
+  api-ms-tariff-comparison-files-listall:
+    host: '*'
+    paths: '/files'
+    methods: [ 'GET' ]
+  api-ms-tariff-comparison-files-delete:
+    host: '*'
+    paths: '/files'
     methods: [ 'DELETE' ]
 
   api-ms-user-get-account:
     host: '*'
-    paths: '/account/client/*/me/*'
+    paths: '/accounts/client/*/id/*'
     methods: [ 'GET' ]
   api-ms-user-create-account:
     host: '*'
-    paths: '/account'
+    paths: '/accounts'
     methods: [ 'POST' ]
 
 
@@ -79,17 +80,17 @@ policies:
 pipelines:
   ms-tariff-comparison-pipeline:
     apiEndpoints:
-      - api-ms-tariff-comparison-product-create
-      - api-ms-tariff-comparison-product-update
-      - api-ms-tariff-comparison-product-delete
-      - api-ms-tariff-comparison-product-listall
-      - api-ms-tariff-comparison-costs-listall
-      - api-ms-tariff-comparison-costs-startprocess
-      - api-ms-tariff-comparison-costs-calculate
-      - api-ms-tariff-comparison-costs-upload
-      - api-ms-tariff-comparison-costs-file-toprocess-listall
-      - api-ms-tariff-comparison-costs-calculate-delete
-      - api-ms-tariff-comparison-costs-file-toprocess-delete
+      - api-ms-tariff-comparison-products-create
+      - api-ms-tariff-comparison-products-update
+      - api-ms-tariff-comparison-products-delete
+      - api-ms-tariff-comparison-products-listall
+      - api-ms-tariff-comparison-calculations-listall
+      - api-ms-tariff-comparison-calculations-calculate
+      - api-ms-tariff-comparison-calculations-calculate-delete
+      - api-ms-tariff-comparison-files-startprocess
+      - api-ms-tariff-comparison-files-upload
+      - api-ms-tariff-comparison-files-listall
+      - api-ms-tariff-comparison-files-delete
     policies:
       - keycloak-protect:
         - action:
