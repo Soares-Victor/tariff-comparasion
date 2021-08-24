@@ -1,5 +1,5 @@
 type Mutation{
-    saveAccount(accountModel: AccountInput): String
+    saveAccount(accountModel: AccountInput): AccountModel
 }
 
 type Query{

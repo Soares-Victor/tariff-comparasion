@@ -20,26 +20,26 @@ export default class UserDatasource extends RESTDataSource {
     }
 
     async saveUserAccount(accountModel): Promise<any> {
-        return await this.post('/account', JSON.stringify(accountModel))
+        return await this.post('/accounts', JSON.stringify(accountModel))
             .then(value => {
                 log.info(value);
                 return value;
             })
             .catch(reason => {
                 log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
             });
     }
 
     async getLoggedUser(user, client): Promise<any> {
-        return await this.get(`/account/client/${client}/me/${user}`)
+        return await this.get(`/accounts/client/${client}/id/${user}`)
             .then(value => {
                 log.info(value);
                 return value;
             })
             .catch(reason => {
                 log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
             });
     }
 

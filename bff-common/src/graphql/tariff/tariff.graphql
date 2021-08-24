@@ -1,13 +1,12 @@
 type Mutation {
-    createOneProduct(productModel: ProductInput): String
-    updateOneProduct(id: String, productModel: ProductInput): String
-    deleteOneProduct(id: String): String
+    createOneProduct(productModel: ProductInput): Product
+    updateOneProduct(id: String, productModel: ProductInput): Product
+    deleteOneProduct(id: String): Product
 
-    calculateCostYear(calculateModel: CalculateInput): TotalCosts
-    uploadFileToProcess(fileProcessModel: [FileProcessInput]): String
+    uploadFileToProcess(fileProcessModel: [FileProcessInput]): [FileProcess]
 
-    deleteFilesToProcess(ids: [String]): String
-    deleteCalculations(ids: [String]): String
+    deleteFilesToProcess(ids: [String]): FileDeleted
+    deleteCalculations(ids: [String]): DeleteCalculation
 
 }
 
@@ -15,7 +14,8 @@ type Query {
     listAllProduct: [Product]
     listAllCalculationCost: [CalculationProcessed]
     listAllFilesToProcess: [String]
-    startProcessing: String
+    startProcessing: [String]
+    calculateCostYear(kwhYear: String): TotalCosts
 }
 
 type Product {
@@ -30,6 +30,26 @@ type Values {
     baseCost: Float
     kwhCost: Float
     maxConsumption: Float
+}
+
+type FileProcess {
+    name: String
+    base64: String
+}
+
+type FileDeleted {
+    Deleted: [Deleted]
+}
+
+type Deleted {
+    Key: String
+    VersionId: String
+}
+
+type DeleteCalculation {
+    n: Int
+    ok: Int
+    deletedCount: Int
 }
 
 input ProductInput {

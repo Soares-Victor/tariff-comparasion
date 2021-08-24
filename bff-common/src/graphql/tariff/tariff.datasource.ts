@@ -20,134 +20,134 @@ export default class TariffDatasource extends RESTDataSource {
     }
 
     async createProductData (productModel): Promise<any> {
-        return await this.post('/product/create', JSON.stringify(productModel))
+        return await this.post('/products', JSON.stringify(productModel))
             .then(value => {
                 log.info(value);
                 return value;
             })
             .catch(reason => {
                 log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
             });
     }
 
     async listAllProducts(): Promise<any> {
-        return await this.get('/product/listall')
+        return await this.get('/products')
             .then(value => {
                 log.info(value);
                 return value;
             })
             .catch(reason => {
                 log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
             });
     }
 
     async updateProduct(id, productModel): Promise<any> {
-        return await this.put(`/product/update/id/${id}`, JSON.stringify(productModel))
+        return await this.put(`/products/${id}`, JSON.stringify(productModel))
             .then(value => {
                 log.info(value);
                 return value;
             })
             .catch(reason => {
                 log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
             });
     }
 
     async deleteProduct(id): Promise<any> {
-        return await this.delete(`/product/delete/id/${id}`)
+        return await this.delete(`/products/${id}`)
             .then(value => {
                 log.info(value);
                 return value;
             })
             .catch(reason => {
                 log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
             });
     }
 
-    async calculateCostsYear(kwhyear): Promise<any> {
-        return await this.post('/costs/calculate', JSON.stringify(kwhyear))
+    async calculateCostsYear(kwhYear): Promise<any> {
+        return await this.get(`/calculations/kwhyear/${kwhYear}`)
             .then(value => {
                 log.info(value);
                 return value;
             })
             .catch(reason => {
                 log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
-            });
-    }
-
-    async uploadFileConsumption(fileModel): Promise<any> {
-        return await this.post('/costs/upload', JSON.stringify(fileModel))
-            .then(value => {
-                log.info(value);
-                return value;
-            })
-            .catch(reason => {
-                log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
-            });
-    }
-
-    async listAllCalculation(): Promise<any> {
-        return await this.get('/costs/calculation/listall')
-            .then(value => {
-                log.info(value);
-                return value;
-            })
-            .catch(reason => {
-                log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
-            });
-    }
-
-    async startProcess(): Promise<any> {
-        return await this.get('/costs/process/start')
-            .then(value => {
-                log.info(value);
-                return value;
-            })
-            .catch(reason => {
-                log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
-            });
-    }
-
-    async listAllFilesProcess(): Promise<any> {
-        return await this.get('/costs/file/toprocess/listall')
-            .then(value => {
-                log.info(value);
-                return value;
-            })
-            .catch(reason => {
-                log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
-            });
-    }
-
-    async deleteFilesProcess(files): Promise<any> {
-        return await this.delete('/costs/file/toprocess/delete', {}, {body: files})
-            .then(value => {
-                log.info(value);
-                return value;
-            })
-            .catch(reason => {
-                log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
             });
     }
 
     async deleteCalcs(ids): Promise<any> {
-        return await this.delete('/costs/delete', {}, {body: ids})
+        return await this.delete('/calculations', {}, {body: ids})
             .then(value => {
                 log.info(value);
                 return value;
             })
             .catch(reason => {
                 log.error(reason.extensions.response.body, reason);
-                throw new Error(reason.extensions.response.body);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
+            });
+    }
+
+    async listAllCalculation(): Promise<any> {
+        return await this.get('/calculations')
+            .then(value => {
+                log.info(value);
+                return value;
+            })
+            .catch(reason => {
+                log.error(reason.extensions.response.body, reason);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
+            });
+    }
+
+    async uploadFileConsumption(fileModel): Promise<any> {
+        return await this.post('/files', JSON.stringify(fileModel))
+            .then(value => {
+                log.info(value);
+                return value;
+            })
+            .catch(reason => {
+                log.error(reason.extensions.response.body, reason);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
+            });
+    }
+
+    async startProcess(): Promise<any> {
+        return await this.post('/files/process/starts')
+            .then(value => {
+                log.info(value);
+                return value;
+            })
+            .catch(reason => {
+                log.error(reason.extensions.response.body, reason);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
+            });
+    }
+
+    async listAllFilesProcess(): Promise<any> {
+        return await this.get('/files')
+            .then(value => {
+                log.info(value);
+                return value;
+            })
+            .catch(reason => {
+                log.error(reason.extensions.response.body, reason);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
+            });
+    }
+
+    async deleteFilesProcess(files): Promise<any> {
+        return await this.delete('/files', {}, {body: files})
+            .then(value => {
+                log.info(value);
+                return value;
+            })
+            .catch(reason => {
+                log.error(reason.extensions.response.body, reason);
+                throw new Error(reason.extensions.response.body.name || reason.extensions.response.body);
             });
     }
 
