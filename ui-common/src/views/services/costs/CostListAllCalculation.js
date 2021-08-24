@@ -25,7 +25,7 @@ function CostListAllCalculation() {
             if (elements[i]["checked"]) idsToDelete.push(elements[i].id)
         }
         mutationDeleteCalculations({variables:{ids: idsToDelete}})
-            .then(value => notify(value.data.deleteCalculations, "success"))
+            .then(() => notify("Calculations Deleted!", "success"))
             .catch(reason => notify(reason.message, "danger"));
     }
 
@@ -94,7 +94,10 @@ function CostListAllCalculation() {
                                 <Button
                                     className="btn-fill" color="primary"
                                     type="submit"
-                                    onClick={() => notify(startProcessing.data.query, "success")}>
+                                    onClick={() => {
+                                        let query = startProcessing.data.query;
+                                        notify(query.length > 0 ? "Processing Started!" : "No files to process", "success");
+                                    }}>
                                     Start Processing
                                 </Button>
                                 <Button onClick={deleteCalculations} className="btn-fill" color="danger" type="submit">

@@ -1,29 +1,16 @@
 import {withApollo} from "@apollo/client/react/hoc";
 import NotificationAlert from "react-notification-alert";
-import React, {useState} from "react";
+import React from "react";
 import {Button, Card, CardBody, CardHeader, CardTitle, Col, Form, FormGroup, Input, Row, Table} from "reactstrap";
-import {MUTATION_CALCULATE_COSTS_YEAR} from "../../../queries";
-import {useMutation} from "@apollo/client";
+import {QUERY_CALCULATE_COSTS_YEAR} from "../../../queries";
+import {useLazyQuery} from "@apollo/client";
 
-function CostCalculate(props) {
+function CostCalculate() {
 
     let kwhYearUsed = 0;
-    const [totalCosts, setTotalCosts] = useState(false);
-    const[calculateCost] = useMutation(MUTATION_CALCULATE_COSTS_YEAR)
+    const [calculateCost, {data}] = useLazyQuery(QUERY_CALCULATE_COSTS_YEAR)
 
     const notificationAlertRef = React.useRef(null);
-
-    const notify = (message, type) => {
-        notificationAlertRef.current.notificationAlert({
-            place: "tc",
-            message: (
-                <div><div>{message}</div></div>
-            ),
-            type: !type ? "info" : type,
-            icon: "tim-icons icon-bell-55",
-            autoDismiss: 7,
-        });
-    };
 
     return (
         <div className="content">
@@ -56,9 +43,7 @@ function CostCalculate(props) {
                                 type="submit"
                                 onClick={event => {
                                     event.preventDefault();
-                                    calculateCost({variables: {"calculateModel": {"kwhYear": parseFloat(kwhYearUsed.value)}}})
-                                        .then(data => setTotalCosts(data.data))
-                                        .catch(reason => notify(reason.message, "danger"))
+                                    calculateCost({variables: {"kwhYear": kwhYearUsed.value.toString()}});
                                 }}>
                                 Calculate
                             </Button>
@@ -85,17 +70,17 @@ function CostCalculate(props) {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {totalCosts &&
-                                totalCosts.calculateCostYear.products.map((value) =>
-                                    <tr key={value.name}>
-                                        <td key={value.name}>{value.name}</td>
-                                        <td key={value.description}>{value.description}</td>
-                                        <td key={value.charger}>{value.charger}</td>
-                                        <td key={value.totalYear.baseCostsYear}>{value.totalYear.baseCostsYear}</td>
-                                        <td key={value.totalYear.kwhCostsYear}>{value.totalYear.kwhCostsYear}</td>
-                                        <td key={value.totalYear.totalCosts}>{value.totalYear.totalCosts}</td>
-                                    </tr>
-                                )}
+                                {data &&
+                                    data.calculateCostYear.products.map((value) =>
+                                        <tr key={value.name}>
+                                            <td key={value.name}>{value.name}</td>
+                                            <td key={value.description}>{value.description}</td>
+                                            <td key={value.charger}>{value.charger}</td>
+                                            <td key={value.totalYear.baseCostsYear}>{value.totalYear.baseCostsYear}</td>
+                                            <td key={value.totalYear.kwhCostsYear}>{value.totalYear.kwhCostsYear}</td>
+                                            <td key={value.totalYear.totalCosts}>{value.totalYear.totalCosts}</td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </Table>
                         </CardBody>

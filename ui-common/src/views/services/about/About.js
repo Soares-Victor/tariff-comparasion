@@ -27,6 +27,7 @@ function About() {
                                 <li>Summary about comparison</li>
                                 <li>All Menus find by</li>
                                 <li>All stack deployed to cloud and CI/CD</li>
+                                <li>Monorepo</li>
                             </ul>
                             <h3>Version</h3>
                             <p>1.1.0-SNAPSHOT</p>

@@ -5,7 +5,7 @@ import React from "react";
 import {MUTATION_DELETE_FILE_TO_PROCESS, QUERY_LIST_ALL_FILES_TO_PROCESS} from "../../../queries";
 import {useMutation, useQuery} from "@apollo/client";
 
-function CostListAllFilesToProcess(props) {
+function CostListAllFilesToProcess() {
 
     const listAllFilesToProcess = useQuery(QUERY_LIST_ALL_FILES_TO_PROCESS);
     const [mutationDeleteFiles] = useMutation(MUTATION_DELETE_FILE_TO_PROCESS);
@@ -22,12 +22,12 @@ function CostListAllFilesToProcess(props) {
                 if (document.getElementById(ids[i])["checked"]) idsToProcess.push(ids[i]);
             }
             mutationDeleteFiles({variables: {ids: idsToProcess}})
-                .then(value => notify(value.data.deleteFilesToProcess, "success"))
+                .then(() => notify("Deleted!", "success"))
                 .catch(reason => notify(reason.message, "danger"));
         }
         else {
             mutationDeleteFiles({variables: {ids: [id]}})
-                .then(value => notify(value.data.deleteFilesToProcess, "success"))
+                .then(() => notify("Deleted!", "success"))
                 .catch(reason => notify(reason.message, "danger"));
         }
     }

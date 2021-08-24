@@ -1,3 +1,47 @@
+exports.deleteCalculations = {
+  "n": 1,
+  "ok": 1,
+  "deletedCount": 2
+}
+exports.deleteProduct = {
+  "values": {
+    "baseCost": 5,
+    "kwhCost": 0.22,
+    "maxConsumption": null
+  },
+  "_id": "61168e77a87945762e687de6",
+  "tariffName": "Basic Month 2000",
+  "description": "Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)",
+  "month": true,
+  "__v": 0
+}
+exports.updateProduct = {
+  "values": {
+    "baseCost": 5,
+    "kwhCost": 0.22,
+    "maxConsumption": null
+  },
+  "_id": "61168e9ce2824776e3691982",
+  "tariffName": "Basic Month 2000",
+  "description": "Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)",
+  "month": true,
+  "__v": 0
+};
+exports.deleteProductNotFound = {
+  "name": "61168e77a87945762e687ded product not found!",
+  "statusCode": 404,
+  "isOperational": true
+}
+exports.updateProductError = {
+  "tariffName": "Basic Month 2000",
+  "description": "Basic month tariff. (baseCost * 12 + kwhCost * consumptionKwh)",
+  "month": true,
+  "values": {
+    "baseCost": 5,
+    "kwhCost": 0.22,
+    "maxConsumption": null
+  }
+}
 exports.mockCalculateCost = {
   "kwhYear": 4500,
   "products": [
@@ -79,16 +123,26 @@ exports.listAllCalculation = [
   },
 ];
 exports.listAllFileNames = ["calculationToProcess.jsonl", "file2.jsonl"];
-exports.deleteFileToProcess = {};
+exports.deleteFileToProcess = {
+  "Deleted": [
+    {
+      "Key": "calculationToProcess.jsonl",
+      "VersionId": "None"
+    }
+  ],
+  "Errors": []
+};
 exports.createNewProduct = {
+  "_id": "612420fa482e452b77349086",
   "tariffName": "Packaged Annual",
   "description": "Packaged Annual tariff. (kwhused - maxConsumption = exceeded * kwhCost)",
   "month": false,
   "values": {
     "baseCost": 800,
-    "kwhCost": 0.30,
-    "maxConsumption": 4000,
+    "kwhCost": 0.3,
+    "maxConsumption": 4000
   },
+  "__v": 0
 };
 exports.productSave = {};
 exports.uploadFileToProcess = {

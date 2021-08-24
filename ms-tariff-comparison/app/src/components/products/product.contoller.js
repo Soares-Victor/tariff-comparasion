@@ -5,11 +5,11 @@ exports.createProduct = async (req, res) => {
   return await service.createProduct(req.body)
     .then((value) => {
       logger.info(value);
-      res.send(value);
+      res.status(201).send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
 
@@ -20,8 +20,8 @@ exports.findAllProduct = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
 
@@ -32,8 +32,8 @@ exports.deleteById = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason.message);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };
 
@@ -44,7 +44,7 @@ exports.updateById = async (req, res) => {
       res.send(value);
     })
     .catch((reason) => {
-      logger.error(reason);
-      res.status(500).send(reason.message);
+      logger.error(reason.name);
+      res.status(reason.statusCode || 500).send(reason);
     });
 };

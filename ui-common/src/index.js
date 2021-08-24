@@ -54,6 +54,10 @@ keycloak.init({ onLoad: initKeycloak.onLoad }).then((auth)=> {
         window.location.reload();
     } else {
         localStorage.setItem('token', keycloak.token);
+        localStorage.setItem('realm', keycloak.realm);
+        keycloak.loadUserInfo().then(value => {
+            localStorage.setItem('user', value["preferred_username"]);
+        });
         clientApollo = connectBff();
     }
 

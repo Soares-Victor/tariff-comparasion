@@ -1,0 +1,55 @@
+type Mutation{
+    saveAccount(accountModel: AccountInput): AccountModel
+}
+
+type Query{
+    getLoggedAccount(client:String!, user:String!): AccountModel
+}
+
+type AccountModel {
+    _id: String
+    username: String
+    client: String
+    firstName: String
+    lastName: String
+    email: String
+    phone: String
+    photoBase64: String
+    photoId: String
+    aboutMe: String
+    linkedinLink: String
+    facebookLink: String
+    address: AddressModel
+}
+
+type AddressModel {
+    street: String
+    city: String
+    number: String
+    zipCode: String
+    country: String
+}
+
+input AccountInput {
+    username: String
+    client: String
+    firstName: String
+    lastName: String
+    email: String
+    phone: String
+    photoBase64: String
+    aboutMe: String
+    linkedinLink: String
+    facebookLink: String
+    address: AddressInput
+}
+
+input AddressInput {
+    street: String
+    city: String
+    number: String
+    zipCode: String
+    country: String
+}
+
+

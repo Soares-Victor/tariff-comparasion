@@ -14,6 +14,9 @@ export default {
         listAllFilesToProcess: async(root, args, { injector }) => {
             return await injector.get(TariffDatasource).listAllFilesProcess();
         },
+        calculateCostYear: async(root, args, { injector }) => {
+            return await injector.get(TariffDatasource).calculateCostsYear(args.kwhYear);
+        },
     },
     Mutation: {
         createOneProduct: async(root, args, { injector }) => {
@@ -24,9 +27,6 @@ export default {
         },
         deleteOneProduct: async(root, args, { injector }) => {
             return await injector.get(TariffDatasource).deleteProduct(args.id);
-        },
-        calculateCostYear: async(root, args, { injector }) => {
-            return await injector.get(TariffDatasource).calculateCostsYear(args.calculateModel);
         },
         uploadFileToProcess: async(root, args, { injector }) => {
             return await injector.get(TariffDatasource).uploadFileConsumption(args.fileProcessModel);
