@@ -91,7 +91,7 @@ function Admin(props) {
         <React.Fragment>
           <div className="wrapper">
             <Sidebar
-                routes={routes.filter(function(e) { return e.visible !== false })}
+                routes={routes.filter(function(e) { return e.visible })}
               logo={{
                 innerLink: `${process.env.PUBLIC_URL}/dashboard`,
                 text: "UI Common",

@@ -18,11 +18,11 @@ function About() {
                                 <li>New dashboard of calculations</li>
                                 <li>Upload calculations when starts the stack</li>
                                 <li>Microservice - Log all requests</li>
+                                <li>Edit information of current user</li>
                             </ul>
                             <h2>Coming soon</h2>
                             <ul>
                                 <li>Chat</li>
-                                <li>Edit information of current user</li>
                                 <li>Save user preference settings</li>
                                 <li>Summary about comparison</li>
                                 <li>All Menus find by</li>
