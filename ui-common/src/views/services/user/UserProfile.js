@@ -46,7 +46,7 @@ function UserProfile() {
 
     function getAccount() {
         let address = {};
-        let addressToSave = data.data.getLoggedAccount.address;
+        let addressToSave = data?.data?.getLoggedAccount?.address || address;
         if (addressToSave || addressCity || addressCountry || addressNumber || addressStreet || addressZipCode) {
             address = {
                 city: addressCity ? addressCity : ((addressToSave && addressToSave.city) ? addressToSave.city : ""),
@@ -57,16 +57,16 @@ function UserProfile() {
             }
         }
         return {
-            client: data.data.getLoggedAccount.client || localStorage.getItem('realm'),
-            username: data.data.getLoggedAccount.user || localStorage.getItem('user'),
-            email: email || data.data.getLoggedAccount.email,
-            firstName: firstName || data.data.getLoggedAccount.firstName,
-            lastName: lastName || data.data.getLoggedAccount.lastName,
-            phone: phone || data.data.getLoggedAccount.phone,
-            aboutMe: aboutMe || data.data.getLoggedAccount.aboutMe,
-            linkedinLink: linkedinLink || data.data.getLoggedAccount.linkedinLink,
-            facebookLink: facebookLink || data.data.getLoggedAccount.facebookLink,
-            photoBase64: photoUserBase64 || "",
+            client: localStorage.getItem('realm'),
+            username: localStorage.getItem('user'),
+            email: email || data?.data?.getLoggedAccount?.email,
+            firstName: firstName || data?.data?.getLoggedAccount?.firstName,
+            lastName: lastName || data?.data?.getLoggedAccount?.lastName,
+            phone: phone || data?.data?.getLoggedAccount?.phone,
+            aboutMe: aboutMe || data?.data?.getLoggedAccount?.aboutMe,
+            linkedinLink: linkedinLink || data?.data?.getLoggedAccount?.linkedinLink,
+            facebookLink: facebookLink || data?.data?.getLoggedAccount?.facebookLink,
+            photoBase64: photoUserBase64,
             address: address
         };
     }
@@ -90,7 +90,7 @@ function UserProfile() {
         })
     }
 
-    if (data.loading || data.error || !data.data.getLoggedAccount) return <></>;
+    // if (data.loading || data.error || !data.data.getLoggedAccount) return <></>;
     return (
         <div className="content">
             <div className="react-notification-alert-container">
@@ -102,6 +102,7 @@ function UserProfile() {
                         <CardHeader>
                             <h5 className="title">Edit Profile</h5>
                         </CardHeader>
+                        {(!data.loading || !data.error) &&
                         <CardBody>
                             <Form>
                                 <Row>
@@ -112,7 +113,7 @@ function UserProfile() {
                                                 disabled
                                                 placeholder="Company"
                                                 type="text"
-                                                value={data.data.getLoggedAccount.client || localStorage.getItem('realm')}
+                                                value={localStorage.getItem('realm')}
                                             />
                                         </FormGroup>
                                     </Col>
@@ -123,7 +124,7 @@ function UserProfile() {
                                                 disabled
                                                 placeholder="Username"
                                                 type="text"
-                                                value={data.data.getLoggedAccount.username || localStorage.getItem('user')}
+                                                value={localStorage.getItem('user')}
                                             />
                                         </FormGroup>
                                     </Col>
@@ -135,7 +136,7 @@ function UserProfile() {
                                             <Input placeholder="mike@email.com"
                                                    type="email"
                                                    onChange={event => setEmail(event.target.value)}
-                                                   defaultValue={data.data.getLoggedAccount.email || ""}/>
+                                                   defaultValue={data?.data?.getLoggedAccount?.email}/>
                                         </FormGroup>
                                     </Col>
                                     <Col className="pl-md-1" md="3">
@@ -146,7 +147,7 @@ function UserProfile() {
                                             <Input placeholder="+55 11945284622"
                                                    type="text"
                                                    onChange={event => setPhone(event.target.value)}
-                                                   defaultValue={data.data.getLoggedAccount.phone || ""}/>
+                                                   defaultValue={data?.data?.getLoggedAccount?.phone}/>
                                         </FormGroup>
                                     </Col>
                                 </Row>
@@ -158,7 +159,7 @@ function UserProfile() {
                                                 placeholder="John"
                                                 type="text"
                                                 onChange={event => setFirstName(event.target.value)}
-                                                defaultValue={data.data.getLoggedAccount.firstName || ""}
+                                                defaultValue={data?.data?.getLoggedAccount?.firstName || ""}
                                             />
                                         </FormGroup>
                                     </Col>
@@ -169,7 +170,7 @@ function UserProfile() {
                                                 placeholder="Kudrow"
                                                 type="text"
                                                 onChange={event => setLastName(event.target.value)}
-                                                defaultValue={data.data.getLoggedAccount.lastName || ""}
+                                                defaultValue={data?.data?.getLoggedAccount?.lastName || ""}
                                             />
                                         </FormGroup>
                                     </Col>
@@ -182,8 +183,7 @@ function UserProfile() {
                                                 placeholder="Home Address"
                                                 type="text"
                                                 onChange={event => setAddressStreet(event.target.value)}
-                                                defaultValue={(data.data.getLoggedAccount.address && data.data.getLoggedAccount.address.street)
-                                                    ? data.data.getLoggedAccount.address.street : ""}
+                                                defaultValue={data?.data?.getLoggedAccount?.address?.street}
                                             />
                                         </FormGroup>
                                     </Col>
@@ -194,8 +194,7 @@ function UserProfile() {
                                                 placeholder="Number"
                                                 type="text"
                                                 onChange={event => setAddressNumber(event.target.value)}
-                                                defaultValue={(data.data.getLoggedAccount.address && data.data.getLoggedAccount.address.number)
-                                                    ? data.data.getLoggedAccount.address.number : ""}
+                                                defaultValue={data?.data?.getLoggedAccount?.address?.number}
                                             />
                                         </FormGroup>
                                     </Col>
@@ -208,8 +207,7 @@ function UserProfile() {
                                                 placeholder="City"
                                                 type="text"
                                                 onChange={event => setAddressCity(event.target.value)}
-                                                defaultValue={(data.data.getLoggedAccount.address && data.data.getLoggedAccount.address.city)
-                                                    ? data.data.getLoggedAccount.address.city : ""}
+                                                defaultValue={data?.data?.getLoggedAccount?.address?.city}
                                             />
                                         </FormGroup>
                                     </Col>
@@ -220,8 +218,7 @@ function UserProfile() {
                                                 placeholder="Country"
                                                 type="text"
                                                 onChange={event => setAddressCountry(event.target.value)}
-                                                defaultValue={(data.data.getLoggedAccount.address && data.data.getLoggedAccount.address.country)
-                                                    ? data.data.getLoggedAccount.address.country : ""}
+                                                defaultValue={data?.data?.getLoggedAccount?.address?.country}
                                             />
                                         </FormGroup>
                                     </Col>
@@ -232,8 +229,7 @@ function UserProfile() {
                                                 placeholder="ZIP Code"
                                                 type="text"
                                                 onChange={event => setAddressZipCode(event.target.value)}
-                                                defaultValue={(data.data.getLoggedAccount.address && data.data.getLoggedAccount.address.zipCode)
-                                                    ? data.data.getLoggedAccount.address.zipCode : ""}
+                                                defaultValue={data?.data?.getLoggedAccount?.address?.zipCode}
                                             />
                                         </FormGroup>
                                     </Col>
@@ -247,7 +243,7 @@ function UserProfile() {
                                                 rows="4"
                                                 type="text"
                                                 onChange={event => setLinkedinLink(event.target.value)}
-                                                defaultValue={data.data.getLoggedAccount.linkedinLink || ""}
+                                                defaultValue={data?.data?.getLoggedAccount?.linkedinLink}
                                             />
                                         </FormGroup>
                                     </Col>
@@ -259,13 +255,13 @@ function UserProfile() {
                                                 rows="4"
                                                 type="text"
                                                 onChange={event => setFacebookLink(event.target.value)}
-                                                defaultValue={data.data.getLoggedAccount.facebookLink || ""}
+                                                defaultValue={data?.data?.getLoggedAccount?.facebookLink}
                                             />
                                         </FormGroup>
                                     </Col>
                                 </Row>
                             </Form>
-                        </CardBody>
+                        </CardBody>}
                         <CardFooter>
                             {isSomeFieldChanged() &&
                                 <Button
@@ -280,15 +276,17 @@ function UserProfile() {
                         </CardFooter>
                     </Card>
                 </Col>
+
+                {(!data.loading || !data.error) &&
                 <Col md="4">
                     <Card className="card-user">
                         <CardBody>
-                            <CardText />
+                            <CardText/>
                             <div className="author">
-                                <div className="block block-one" />
-                                <div className="block block-two" />
-                                <div className="block block-three" />
-                                <div className="block block-four" />
+                                <div className="block block-one"/>
+                                <div className="block block-two"/>
+                                <div className="block block-three"/>
+                                <div className="block block-four"/>
                                 <Button className="btn-icon btn-simple" onClick={() => {
                                     document.getElementById("img-input").click();
                                 }}>
@@ -300,25 +298,27 @@ function UserProfile() {
                                         .then(fBase64 => {
                                             setPhotoUserBase64(fBase64.toString().substring(fBase64.toString().indexOf(",") + 1));
                                         })
-                                        .catch(reason => {notify(reason.message, "danger")});
+                                        .catch(reason => {
+                                            notify(reason.message, "danger")
+                                        });
                                 }} style={{display: "none"}} type="file"/>
                                 <img
                                     alt="..."
                                     className="avatar"
                                     src={photoUserBase64 ? `data:image/png;base64,${photoUserBase64}` :
-                                        (data.data.getLoggedAccount.photoBase64 ?
-                                        `data:image/png;base64,${data.data.getLoggedAccount.photoBase64}` :
-                                        require("assets/img/anime3.png").default)}
+                                        (data?.data?.getLoggedAccount?.photoBase64 ?
+                                        `data:image/png;base64,${data?.data?.getLoggedAccount?.photoBase64}` :
+                                        require("assets/img/default-avatar.png").default)}
                                     onLoad={() => {
-                                        if (photoUserBase64 && photoUserBase64 !== data.data.getLoggedAccount.photoBase64) {
+                                        if (photoUserBase64 && photoUserBase64 !== data?.data?.getLoggedAccount?.photoBase64) {
                                             window.location.reload();
                                             saveAccount();
                                         }
                                     }}
                                 />
                                 <h5 className="title">
-                                    {(data.data.getLoggedAccount.firstName || firstName)
-                                        .concat(" ").concat(data.data.getLoggedAccount.lastName || lastName)}</h5>
+                                    {(data?.data?.getLoggedAccount?.firstName || firstName)
+                                        .concat(" ").concat(data?.data?.getLoggedAccount?.lastName || lastName)}</h5>
                             </div>
                             <FormGroup>
                                 <label>About Me</label>
@@ -328,26 +328,28 @@ function UserProfile() {
                                     rows="4"
                                     type="textarea"
                                     onChange={event => setAboutMe(event.target.value)}
-                                    defaultValue={data.data.getLoggedAccount.aboutMe || ""}
+                                    defaultValue={data?.data?.getLoggedAccount?.aboutMe || ""}
                                 />
                             </FormGroup>
                         </CardBody>
                         <CardFooter>
                             <div className="button-container">
-                                {data.data.getLoggedAccount.linkedinLink &&
-                                    <Button className="btn-icon btn-round" color="linkedin" onClick={() => window.open(data.data.getLoggedAccount.linkedinLink, '_blank')}>
-                                        <i className="fab fa-linkedin" />
-                                    </Button>
+                                {data?.data?.getLoggedAccount?.linkedinLink &&
+                                <Button className="btn-icon btn-round" color="linkedin"
+                                        onClick={() => window.open(data.data.getLoggedAccount.linkedinLink, '_blank')}>
+                                    <i className="fab fa-linkedin"/>
+                                </Button>
                                 }
-                                {data.data.getLoggedAccount.facebookLink &&
-                                    <Button className="btn-icon btn-round" color="facebook" onClick={() => window.open(data.data.getLoggedAccount.facebookLink, '_blank')}>
-                                        <i className="fab fa-facebook" />
-                                    </Button>
+                                {data?.data?.getLoggedAccount?.facebookLink &&
+                                <Button className="btn-icon btn-round" color="facebook"
+                                        onClick={() => window.open(data.data.getLoggedAccount.facebookLink, '_blank')}>
+                                    <i className="fab fa-facebook"/>
+                                </Button>
                                 }
                             </div>
                         </CardFooter>
                     </Card>
-                </Col>
+                </Col>}
             </Row>
 
         </div>
