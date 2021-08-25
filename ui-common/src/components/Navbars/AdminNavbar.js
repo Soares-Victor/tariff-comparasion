@@ -22,6 +22,7 @@ import {
   NavbarToggler,
   ModalHeader,
 } from "reactstrap";
+import {Link} from "react-router-dom";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
@@ -145,7 +146,9 @@ function AdminNavbar(props) {
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Profile</DropdownItem>
+                    <Link to={`${process.env.PUBLIC_URL}/user-profile`}>
+                      <DropdownItem className="nav-item">Profile</DropdownItem>
+                    </Link>
                   </NavLink>
                   <NavLink tag="li">
                     <DropdownItem className="nav-item">Settings</DropdownItem>
