@@ -12,7 +12,7 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import logo from "assets/img/react-logo.png";
+import logo from "assets/img/logo-menu.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 var ps;
