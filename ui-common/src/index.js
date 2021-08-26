@@ -47,17 +47,15 @@ const initKeycloak = {
 };
 
 let keycloak = Keycloak(initKeycloak);
+window._keycloak = keycloak;
 
 keycloak.init({ onLoad: initKeycloak.onLoad }).then((auth)=> {
     let clientApollo;
-    if (!auth) {
-        window.location.reload();
-    } else {
+    if (!auth) window.location.reload();
+    else {
         localStorage.setItem('token', keycloak.token);
         localStorage.setItem('realm', keycloak.realm);
-        keycloak.loadUserInfo().then(value => {
-            localStorage.setItem('user', value["preferred_username"]);
-        });
+        keycloak.loadUserInfo().then(value => localStorage.setItem('user', value["preferred_username"]));
         clientApollo = connectBff();
     }
 
