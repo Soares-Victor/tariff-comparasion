@@ -15,6 +15,7 @@ var routes = [
     icon: "tim-icons icon-chart-pie-36",
     component: Dashboard,
     layout: process.env.PUBLIC_URL,
+    visible: true,
   },
   {
     path: `/products`,
@@ -22,6 +23,7 @@ var routes = [
     icon: "tim-icons icon-app",
     component: Products,
     layout: process.env.PUBLIC_URL,
+    visible: true
   },
   {
     path: `/costs-calculate`,
@@ -29,6 +31,7 @@ var routes = [
     icon: "tim-icons icon-money-coins",
     component: CostCalculate,
     layout: process.env.PUBLIC_URL,
+    visible: true
   },
   {
     path: `/listall-calculation`,
@@ -36,6 +39,7 @@ var routes = [
     icon: "tim-icons icon-chart-bar-32",
     component: CostListAllCalculation,
     layout: process.env.PUBLIC_URL,
+    visible: true
   },
   {
     path: `/upload-file-toprocess`,
@@ -43,6 +47,7 @@ var routes = [
     icon: "tim-icons icon-cloud-upload-94",
     component: CostUploadFileToProcess,
     layout: process.env.PUBLIC_URL,
+    visible: true
   },
   {
     path: `/listall-file-toprocess`,
@@ -50,6 +55,7 @@ var routes = [
     icon: "tim-icons icon-single-copy-04",
     component: CostListAllFilesToProcess,
     layout: process.env.PUBLIC_URL,
+    visible: true
   },
   {
     path: `/user-profile`,
@@ -57,6 +63,7 @@ var routes = [
     icon: "tim-icons icon-single-02",
     component: UserProfile,
     layout: process.env.PUBLIC_URL,
+    visible: false
   },
   {
     path: `/about`,
@@ -64,6 +71,7 @@ var routes = [
     icon: "tim-icons icon-paper",
     component: About,
     layout: process.env.PUBLIC_URL,
+    visible: true
   },
 ];
 export default routes;

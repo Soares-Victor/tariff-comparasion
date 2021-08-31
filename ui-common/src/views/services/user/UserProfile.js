@@ -90,7 +90,6 @@ function UserProfile() {
         })
     }
 
-    // if (data.loading || data.error || !data.data.getLoggedAccount) return <></>;
     return (
         <div className="content">
             <div className="react-notification-alert-container">

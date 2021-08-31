@@ -12,7 +12,7 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import logo from "assets/img/react-logo.png";
+import logo from "assets/img/logo-menu.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 var ps;
@@ -91,7 +91,7 @@ function Admin(props) {
         <React.Fragment>
           <div className="wrapper">
             <Sidebar
-              routes={routes}
+                routes={routes.filter(function(e) { return e.visible })}
               logo={{
                 innerLink: `${process.env.PUBLIC_URL}/dashboard`,
                 text: "UI Common",

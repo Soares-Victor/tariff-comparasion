@@ -22,11 +22,16 @@ import {
   NavbarToggler,
   ModalHeader,
 } from "reactstrap";
+import {Link} from "react-router-dom";
+import {useQuery} from "@apollo/client";
+import {QUERY_GET_LOGGED_USER} from "../../queries";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
+  const data = useQuery(QUERY_GET_LOGGED_USER,
+      {variables: {client: localStorage.getItem('realm'), user: localStorage.getItem('user')}});
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
     // Specify how to clean up after this effect:
@@ -137,7 +142,10 @@ function AdminNavbar(props) {
                   <div className="photo">
                     <img
                       alt="..."
-                      src={require("assets/img/anime3.png").default}
+                      src={data?.data?.getLoggedAccount?.photoBase64 ?
+                          `data:image/png;base64,${data?.data?.getLoggedAccount?.photoBase64}` :
+                          require("assets/img/default-avatar.png").default
+                      }
                     />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
@@ -145,14 +153,18 @@ function AdminNavbar(props) {
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Profile</DropdownItem>
+                    <Link to={`${process.env.PUBLIC_URL}/user-profile`}>
+                      <DropdownItem className="nav-item">Profile</DropdownItem>
+                    </Link>
                   </NavLink>
                   <NavLink tag="li">
                     <DropdownItem className="nav-item">Settings</DropdownItem>
                   </NavLink>
                   <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                    <DropdownItem className="nav-item">
+                      <a href='#' onClick={() => window._keycloak.logout()}>Log out</a>
+                    </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>

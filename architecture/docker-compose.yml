@@ -35,18 +35,18 @@ services:
       - ./keycloak/realm_common.json:/tmp/my_realm.json
     environment:
       KEYCLOAK_IMPORT: '/tmp/my_realm.json'
-      JAVA_OPTS_APPEND: "-Dkeycloak.profile.feature.upload_scripts=enabled"
+      JAVA_OPTS_APPEND: "-Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.profile.feature.declarative_user_profile=enabled"
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
     ports:
       - 8080:8080
 
     #EXPORT A COMPLETE REALM
-#    docker exec -it <CONTAINER ID> /opt/jboss/keycloak/bin/standalone.sh \
-#    -Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export \
-#    -Dkeycloak.migration.provider=singleFile \
-#    -Dkeycloak.migration.realmName=Common \
-#    -Dkeycloak.migration.usersExportStrategy=REALM_FILE \
-#    -Dkeycloak.migration.file=/tmp/realm_common.json
+  #  docker exec -it <CONTAINER ID> /opt/jboss/keycloak/bin/standalone.sh \
+  #  -Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export \
+  #  -Dkeycloak.migration.provider=singleFile \
+  #  -Dkeycloak.migration.realmName=Common \
+  #  -Dkeycloak.migration.usersExportStrategy=REALM_FILE \
+  #  -Dkeycloak.migration.file=/tmp/realm_common.json
     #COPY FROM CONTAINER TO LOCALHOST
-    #docker cp <CONTAINER ID>:/tmp/realm_common.json .
+    # docker cp <CONTAINER ID>:/tmp/realm_common.json .
