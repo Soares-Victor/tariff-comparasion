@@ -1,7 +1,7 @@
 const Account = require("./account.model");
 const awsService = require("../amazon/amazonS3.service");
-const InternalServerError = require("../../error/models/internalServerError");
-const BadRequestError = require("../../error/models/badRequestError");
+const InternalServerError = require("error/models/internalServerError");
+const BadRequestError = require("error/models/badRequestError");
 
 exports.getAccount = async (username, client) => {
   return await Account.findOne({username: username.toLowerCase(), client: client.toLowerCase()})

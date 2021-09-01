@@ -1,0 +1,19 @@
+{
+  "name": "ms-user",
+  "version": "0.0.1-SNAPSHOT",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "lint": "eslint --fix ./app",
+    "build": "npm run lint",
+    "test": "jest --forceExit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "error": "^1.0.0",
+    "logger": "^1.0.0"
+  }
+}

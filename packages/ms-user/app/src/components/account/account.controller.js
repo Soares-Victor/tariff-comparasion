@@ -1,4 +1,4 @@
-const logger = require("../../logger/logger");
+const logger = require("logger");
 const service = require("./account.service");
 
 exports.saveAccount = async (req, res) => {

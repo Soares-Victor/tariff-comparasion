@@ -5,7 +5,7 @@ const dbConfig = require('./config/database.config')
 const mongoose = require('mongoose');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./config/swagger.json');
-const logger = require('./app/src/logger/logger')
+const logger = require('logger/')
 
 mongoose.Promise = global.Promise
 
