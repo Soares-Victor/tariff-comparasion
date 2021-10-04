@@ -2,32 +2,32 @@ version: '3.1'
 
 services:
 
-  mongodb:
-    image: mongo
-    container_name: "mongodb"
-    restart: always
-    ports:
-      - "27017:27017"
+  # mongodb:
+  #   image: mongo
+  #   container_name: "mongodb"
+  #   restart: always
+  #   ports:
+  #     - "27017:27017"
 
-  mongo-seed:
-    build: ./mongo-seed
-    links:
-      - mongodb
+  # mongo-seed:
+  #   build: ./mongo-seed
+  #   links:
+  #     - mongodb
 
-  localstack:
-    container_name: "localstack_main"
-    image: localstack/localstack
-    network_mode: bridge
-    ports:
-      - "4566-4583:4566-4583"
-    environment:
-      - SERVICES=s3
-      - AWS_DEFAULT_REGION=us-east-1
-      - EDGE_PORT=4566
-      - DEBUG=1
-    volumes:
-      - "${TEMPDIR:-/tmp/localstack}:/tmp/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+  # localstack:
+  #   container_name: "localstack_main"
+  #   image: localstack/localstack
+  #   network_mode: bridge
+  #   ports:
+  #     - "4566-4583:4566-4583"
+  #   environment:
+  #     - SERVICES=s3
+  #     - AWS_DEFAULT_REGION=us-east-1
+  #     - EDGE_PORT=4566
+  #     - DEBUG=1
+  #   volumes:
+  #     - "${TEMPDIR:-/tmp/localstack}:/tmp/localstack"
+  #     - "/var/run/docker.sock:/var/run/docker.sock"
 
   keycloak:
     image: jboss/keycloak
